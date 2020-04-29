@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TUTOR │ STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/account.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/footable.standalone.css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/footable.standalone.min.css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+  <script src="/javascript/footable.js"></script>
+  <script src="/javascript/footable.min.js"></script>
+
+  <!-- Funciones -->
+  <script src="/javascript/page-tutor.js"></script>
+
+</head>
+<body>
+  <nav class="transparent" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= name %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right redusco-text"><i class="material-icons">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a id="account" class="redusco-text" href="/tutor-account/dataTutor" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i></a></li>
+        <li><a href="/logout" id="logout" class="redusco-text" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i></a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a id="account" class="redusco-text" href="/tutor-account/dataTutor" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i>Cambiar contraseña</a></li>
+    <li><a class="redusco-text" href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+  </ul>  
+
+  <main>
+    <div class="row">
+      <div class="col s12 no-padding">
+        <ul id="tabs" class="tabs">
+          <li class="tab col s3"><a class="active" href="#test1">Cursos asignados</a></li>
+          <li class="tab col s3"><a href="#test2">Correo</a></li>
+        </ul>
+      </div>
+
+      <div id="test1" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l9 no-padding-right"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-body no-padding">
+                  <table class="table striped" data-paging="true" data-sorting="true" data-filtering="true">
+                    <thead> 
+                       <tr>
+                        <th data-breakpoints="xs">Código</th> 
+                        <th>Nombre del curso</th> 
+                        <th data-breakpoints="xs">Tipo</th> 
+                        <th data-breakpoints="xs" data-type="number"># Estudiantes</th> 
+                        <th>Ingresar</th> 
+                      </tr>
+                    </thead>
+                    <% for(var i=0; i<courses.length; i++) {%>
+                    <tr>
+                      <td><%=courses[i].code_course%></td>
+                      <td><%=courses[i].name_course%></td>
+                      <td><%=courses[i].type%></td>
+                      <td><%=courses[i].num_students%></td>
+                      <th><a href="/tutor-account/info-curso/<%=courses[i]._id%>"><i class="material-icons redusco-text">skip_next</i></a></th>
+                    </tr>
+                    <% } %>  
+                  </table> 
+                </div>               
+              </li>
+            </ul>
+          </div>
+          <div class="col s12 m12 l3"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">today</i>
+                Próximas clases
+                </div>
+                <div class="collapsible-body center padding">
+                  <table class="table striped" data-paging="true" data-sorting="true">
+                    <thead> 
+                       <tr>
+                        <th data-breakpoints="xs">Nombre del curso</th> 
+                        <th>Fecha</th> 
+                        <th data-breakpoints="lg">Hora</th> 
+                        <th data-breakpoints="lg">Nombre de la clase</th>
+                        <th>Ingresar a la sala</th>
+                      </tr>
+                    </thead>
+                    <% for(var i=0; i<classes_today.length; i++) {%>
+                    <tr>
+                      <% if(classes_today[i].date == date_today[0]) {%>
+                        <td> 📌 <b><%=classes_today[i].name_course%></b></td>
+                        <td><b><%=classes_today[i].date%></b></td>
+                        <td><%=classes_today[i].time%></td>
+                        <td><%=classes_today[i].class_name%></td>
+                        <td class=""><a href="/tutor-account/empezar-curso/<%=classes_today[i]._id%>"><i class="material-icons green-text card-create-course">skip_next</i><a></td>
+                      <% } else {%>
+                        <td><%=classes_today[i].name_course%></td>
+                        <td><%=classes_today[i].date%></td>
+                        <td><%=classes_today[i].time%></td>
+                        <td><%=classes_today[i].class_name%></td>
+                      <% } %>  
+                    </tr>
+                    <% } %>  
+                  </table> 
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="test2" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l9 no-padding-right"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">email</i>Mensajes recibidos
+                </div>
+                <div class="collapsible-body no-padding">
+                  <table class="table striped" data-filtering="true" data-paging="true">
+                    <thead> 
+                      <tr>
+                        <th>
+                          <p style="margin-top: 0px !important; margin-bottom: 0px !important">
+                          <label>
+                            <input type="checkbox" class="filled-in" id="all_msg1" onclick="click_check(this.id)"  value="none" />
+                            <span title="Seleccionar todos"></span>
+                          </label> 
+                          </p>
+                        </th> 
+                        <th data-breakpoints="xs">Curso</th> 
+                        <th>Asunto</th> 
+                        <th data-breakpoints="xs lg">Remitente</th>
+                        <th>Fecha</th> 
+                        <th>Hora</th> 
+                        <th></th> 
+                      </tr>
+                    </thead>
+                    <% for(var i=mailsRecived.length-1; i>=0; i--) {%>
+                    <% if(mailsRecived[i].seen == 'negative') {%>
+
+                    <tr class="tr1_<%=i%>" id="<%=mailsRecived[i]._id%>" style="cursor: pointer;background-color: #a39f9f">
+                      <td>                
+                        <label>
+                          <input type="checkbox" class="filled-in all_msg11" id="tr1_<%=mailsRecived[i]._id%>" onclick="check_tr(this.id)" name="zero1"/>
+                          <span title="Seleccionar"></span>
+                        </label>
+                      </td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].name_course%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].subject%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].created_by_name%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].fullDate%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].fullClock%></td>
+                     <td class="del_mail" value="tr1_<%=i%>"><a><i class="material-icons left-align redusco-text">delete</i></a></td>
+                    </tr>
+
+                    <% }else {%>
+
+                    <tr class="tr1_<%=i%>" id="<%=mailsRecived[i]._id%>" style="cursor: pointer;">
+                      <td>                
+                        <label>
+                          <input type="checkbox" class="filled-in all_msg11" id="tr1_<%=mailsRecived[i]._id%>" onclick="check_tr(this.id)" name="zero1"/>
+                          <span title="Seleccionar"></span>
+                        </label>
+                      </td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].name_course%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].subject%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].created_by_name%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].fullDate%></td>
+                      <td class="view_mail" value="tr1_<%=i%>"><%=mailsRecived[i].fullClock%></td>
+                     <td class="del_mail" value="tr1_<%=i%>"><a><i class="material-icons left-align redusco-text">delete</i></a></td>
+                    </tr> 
+                    <% } %> 
+                    <% } %> 
+                  </table> 
+                  <button id="delete_tr1" onclick="delete_tr(this.id)" class="btn redusco left-align">Eliminar</button> 
+                </div>
+              </li>
+            </ul>
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">drafts</i>Mensajes enviados
+                </div>
+                <div class="collapsible-body no-padding">
+                  <table class="table striped" data-filtering="true" data-paging="true">
+                    <thead> 
+                       <tr>
+                        <th>
+                          <label>
+                            <input type="checkbox" class="filled-in" id="all_msg2" onclick="click_check(this.id)" value="none"/>
+                            <span title="Seleccionar todos"></span>
+                          </label>                        
+                        </th> 
+                        <th data-breakpoints="xs">Curso</th> 
+                        <th>Asunto</th> 
+                        <th data-breakpoints="xs">Destinatario</th>
+                        <th>Fecha</th> 
+                        <th>Hora</th> 
+                        <th></th> 
+                      </tr>
+                    </thead>
+                    <% for(var i=mailsSent.length-1; i>=0; i--) {%>
+                    <tr id="<%=mailsSent[i]._id%>" style="cursor: pointer;" class="tr2_<%=i%>">
+                     <td>                
+                      <label>
+                        <input type="checkbox" class="filled-in all_msg12" id="tr2_<%=mailsSent[i]._id%>" onclick="check_tr(this.id)" name="zero2" />
+                        <span title="Seleccionar"></span>
+                      </label>
+                     </td>
+                     <td class="view_mail" value="tr2_<%=i%>"><%=mailsSent[i].name_course%></td>
+                     <td class="view_mail" value="tr2_<%=i%>"><%=mailsSent[i].subject%></td>
+                     <td class="view_mail" value="tr2_<%=i%>"><%=mailsSent[i].replay_to_by_name%></td>
+                     <td class="view_mail" value="tr2_<%=i%>"><%=mailsSent[i].fullDate%></td>
+                     <td class="view_mail" value="tr2_<%=i%>"><%=mailsSent[i].fullClock%></td>
+                     <td class="del_mail" value="tr2_<%=i%>"><a><i class="material-icons left-align redusco-text">delete</i></a></td>
+                    </tr>
+                    <% } %>  
+                  </table> 
+                  <button id="delete_tr2" onclick="delete_tr(this.id)" class="btn redusco left-align">Eliminar</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col s12 m12 l3"> 
+            <div class="card">
+              <div class="card-action redusco yellowusco-text">
+                <span class="card-title">Mensaje</span>
+              </div>
+              <div class="card-content">
+                <form>
+                  <select id="select1">
+                    <option value="" disabled selected>Curso:</option>
+                    <% for(var i=0; i<courses.length; i++) {%>
+                      <option class="select_course" value="<%=courses[i]._id%>"><%=courses[i].name_course%></option>
+                    <% } %>  
+                  </select>
+
+                  <div id="box_students"> 
+                    <select multiple id="multiple-selection" required>
+                      <option value="" id="select2" disabled selected>Para:</option>
+                    </select>
+                  </div>
+                  <div class="right">
+                  <label>
+                    <input type="checkbox" class="filled-in" id="all_people" value="none"/>
+                    <span title="Seleccionar todos"></span>
+                  </label>
+                  </div>
+                  <input id="subject_mail" placeholder="Asunto" type="text" required>
+                  <textarea id="textarea1" class="materialize-textarea center" required placeholder="Escribe tu mensaje"></textarea>
+                  <br>
+                  <button class="right transparent" id="send-email"><i class="small material-icons redusco-text card-create-course">send</i></button><br><br>
+                </form>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- The Modal-->
+    <div id="myModal1" class="myModal">
+      <div id="modal-content1" class="modal-content">
+
+      </div>
+    </div>  
+  </main>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/strein.css" type="text/css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+
+  <!-- Funciones -->
+  <script src="/javascript/course-student-exponent.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> 
+    
+
+</head>
+<body>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+  
+  <nav class="transparent" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text text-darken-4"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= course.name_course %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
+        <li><a id="account" class="redusco-text" href="/student-account/dataStudent" title="Mi cuenta"><i class="material-icons left-align">account_circle</i></a></li>
+        <li><a id="" class="redusco-text" href="/student-account"><i class="material-icons left-align">markunread</i></a></li>
+        <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown2' title="Mis cursos"><i class="material-icons left-align">school</i></a></li>
+        <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+        <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+  
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a href="/" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i>Inicio</a></li>
+    <li><a id="account" class="redusco-text" href="/student-account/dataStudent" title="Mi cuenta"><i class="material-icons left-align">account_circle</i>Mi Cuenta</a></li>
+    <li><a id="" class="redusco-text" href="/student-account">Correo<i class="material-icons left-align">markunread</i></a></li>
+    <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown1' title="Mis cursos"><i class="material-icons left-align">school</i>Cursos</a></li>
+    <li><a href="/logout" id="logout" class="redusco-text" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+    <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i>Atrás</a></li>
+  </ul> 
+
+  <main>
+    <div id="loading">
+        <p style="margin-top: 12%" class="text_loading">El profesor ha dejado la sala</p>
+        <p style="margin-top: 13%" class="text_loading2">Reconectando...</p>
+        <img id="loading-image" src="../../images/Preloader_4.gif" alt="Loading..." />
+    </div>
+    <input type="hidden" value="<%=course._id%>" id="id_course" />
+    <input type="hidden" value="<%= video._id%>" id="id_class" />
+    <input type="hidden" id="studentMicOn" value="false">
+
+    <div class="row no-margin-bottom">
+      <div class="col s12 m12 l2 no-padding">
+        <div class="row no-margin border-right">
+          <div class="col s12 no-padding">
+            <ul id="tabs" class="tabs">
+              <li class="tab col s12"><a class="active" href="#test2"><%= video.class_name %></a></li>
+            </ul>
+          </div>
+          
+          <div id="test2" class="col s12 no-padding">
+            <div class="row no-margin">
+              <div class="col s12 m12 l12 no-padding"> 
+                <ul class="collapsible no-margin">   
+                  <li class="active">
+                    <div class="collapsible-body no-padding no-margin">
+                      <div id="div_chat" style="overflow-y: auto;">
+                      </div>
+                      <div style="position: relative;">
+                        <input placeholder="  Chat" type="text" style="width: 80%; position: relative;" class="redusco white-text no-margin" id="input_text2">
+                        <button id="hand" class="white" value="" style="padding: 15px; height: 2rem;z-index: 999;position: absolute;top: 2%; cursor:pointer;right: 2% "></button> 
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col s12 m12 l10 no-padding">
+        <div class="row no-margin" style="position: relative;">
+          <div class="col s2 m2 l1 no-padding height-1" id="web-cam">
+            <video id="remoteVideo" autoplay="true" muted="" playsinline="" loop="loop" preload="true" class="video" controls="">
+            </video>
+            <audio autoplay="" id="remoteAudio"></audio>
+            <audio autoplay="" id="localAudio" muted></audio>
+          </div>
+          <div class="col s2 m2 l1 no-padding height-1" id="web-cam1">
+            <video id="remoteVideo2" autoplay="true" muted="" playsinline="" loop="loop" preload="true" class="video" controls="">
+            </video>
+          </div>
+          <div class="col s2 m2 l1 no-padding height-1"  id="web-cam3">
+            <button id="stop"></button>
+          </div>
+          <div class="col s2 m2 l1 no-padding height-1"  id="web-cam5">
+            <button id="stop-audio"></button>
+          </div>
+          <div class="col s12 m12 l12 no-padding" id="c2"> 
+            <video autoplay="" id="remoteCanvas" width="1000" playsinline="" loop="loop" preload="true"></video>
+            <audio id="remoteAudio" autoplay=""></audio>          </div>
+          <div class="col s12 m12 l2 no-padding height-1 yellowusco" style="position: absolute; bottom: 0; border-top-left-radius: 20px 20px;border-top-right-radius: 20px 20px; border-bottom-right-radius: 1px 1px;border-bottom-left-radius: 1px 1px;"> 
+            <div class="center" id="num">
+              <a type="button" name="" class="atras btn transparent redusco-text" id="atras"><i class="material-icons redusco-text">arrow_back</i></a>
+              <a type="button" name="" class="adelante btn transparent redusco-text" id="adelante"><i class="material-icons redusco-text">arrow_forward</i></a>
+            </div> 
+          </div>
+        </div>
+        <div class="row height no-margin border-top-yellowusco" style="position: relative;">
+          <div class="col s12 m12 l12 no-padding height" style="overflow-y: auto;"> 
+              <% for(var i=0; i<nameFiles.length; i++) {%>
+                <div id="div<%=i%>" name="<%= nameFiles[i].dinamic_name %>" value="" src="" class="containerCourse" >
+                    <div class="overlayCourse" id="overlay<%=i%>">
+                        <div  id="imadiv<%=i%>" class="textCourse imageCourse" style="width: 120px; word-wrap: break-word;">
+                            <%= nameFiles[i].dinamic_name %>
+                        </div>
+                    </div>
+                </div>
+              <% } %>
+              <div class="Main_container_files" type="hidden">
+              </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- The Modal -->
+  <div id="myModal" class="myModal">
+    <div id="container-modal" class="modal-content">
+      <img id="" src="../../images/Preloader_4.gif" alt="Loading..." />
+      <h5>El profesor no se encuentra en la sala </h5>
+    </div>
+  </div>
+  <div id="myModal2" class="myModal">
+    <div id="container-modal" class="modal-content">
+      <p style="text-align: center;">Se recomienda hacer la transmisión en un lugar cerrado y sin ruido </p>
+      <p style="text-align: center;">  Igualmente se aconseja implementar una diadema</p>
+      <p style="text-align: center;">Por favor aceptar el acceso al micrófono y a la cámara</p>  
+      <button id="btnClass" class="btn waves-effect waves-light redusco yellowusco-text">Aceptar</button>
+      </div>
+  </div>
+
+  </body>
+</html>

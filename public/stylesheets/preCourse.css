@@ -1,0 +1,65 @@
+.timepicker-digital-display {
+    background-color: #8d191d;
+}
+
+.timepicker-canvas line {
+    stroke: #8d191d;
+}
+
+.timepicker-canvas-bg {
+    fill: #8d191d;
+}
+
+.timepicker-canvas-bearing {
+    fill: #8d191d;
+}
+
+.timepicker-close {
+    color: #8d191d;
+}
+
+.datepicker-date-display {
+    background-color: #8d191d;
+}
+
+.datepicker-cancel, .datepicker-clear, .datepicker-done {
+    color: #8d191d;
+}
+
+.datepicker-table td.is-selected {
+    background-color: #8d191d;
+    color: #fff;
+}
+
+.datepicker-table td.is-today {
+    color: #4E6470;
+}
+
+.modal{
+	margin-top: 8%;
+}
+
+.margin-left1{
+  margin-left: 69.5%;
+}
+
+@media screen and (max-width: 600px) {
+
+  nav .brand-logo {
+      font-size: 10px;
+  }
+
+  .margin-left1{
+    margin-left: 10%;
+  }
+
+
+}
+
+@media screen and (max-width: 780px) {
+
+  nav .brand-logo {
+      font-size: 10px;
+  }
+
+}

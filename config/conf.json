@@ -1,0 +1,36 @@
+{
+    "plugins": [
+    	"plugins/markdown",
+    	"plugins/summarize"
+    ],
+    "recurseDepth": 10,
+    "source": {
+        "include": [
+        	"app.js", 
+        	"routes/courseForm.js", 
+            "routes/fileForm.js", 
+            "routes/index.js", 
+            "routes/mailForm.js", 
+            "routes/personaForm.js", 
+            "routes/videoForm.js", 
+        	"controles/crud_course.js",
+            "controles/crud_file.js",
+            "controles/crud_mail.js",
+            "controles/crud_person.js",
+            "controles/crud_video.js",
+            "controles/pages_and_session.js"
+        ],
+        "exclude": [ ],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "sourceType": "module",
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}

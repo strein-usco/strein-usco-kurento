@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CURSO │ STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/preCourse.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/footable.standalone.css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/footable.standalone.min.css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+  <script src="/javascript/footable.js"></script>
+  <script src="/javascript/footable.min.js"></script>
+
+  <!-- Funciones -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascript/pre-course-student.js"></script>
+  <script src="/javascript/calendar.js"></script>
+  <script src="/siofu/client.js"></script>
+  <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+  
+  <nav class="transparent" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text text-darken-4"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= name %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="student-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
+        <li><a id="account" class="redusco-text" href="/student-account/dataStudent" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i></a></li>
+        <li><a id="" class="redusco-text" href="/student-account##email"><i class="material-icons left-align">markunread</i></a></li>
+        <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown2' title="Mis cursos"><i class="material-icons left-align">school</i></a></li>
+        <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+        <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+  
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a href="/student-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i>Inicio</a></li>
+    <li><a id="account" class="redusco-text" href="/student-account/dataStudent" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i>Cambiar contraseña</a></li>
+    <li><a id="" class="redusco-text" href="/student-account">Correo<i class="material-icons left-align">markunread</i></a></li>
+    <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown1' title="Mis cursos"><i class="material-icons left-align">school</i>Cursos</a></li>
+    <li><a href="/logout" id="logout" class="redusco-text" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+    <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i>Atrás</a></li>
+  </ul> 
+
+  <main>
+  <input type="hidden" value="<%=idcourse%>" id="id_CourStudent"/>
+    <div class="row">
+      <div class="col s12 no-padding">
+        <ul id="tabs" class="tabs">
+          <li class="tab col s3 disabled videoClase"><a href="#test4" id="test_4">Video Clases</a></li>
+          <li class="tab col s3"><a class="active" id="test_1" href="#test1">Clases</a></li>
+          <li class="tab col s3"><a href="#test2" id="test_2">Archivos</a></li>
+        </ul>
+      </div>
+
+      <div id="test1" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l9 no-padding-right"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-body no-padding">
+                  <table class="table table1 striped"  data-paging="true" data-sorting="true" data-filtering="true">
+                    <thead> 
+                      <tr>
+                        <th data-breakpoints="xs">Nombre</th> 
+                        <th>Fecha</th>
+                        <th>Hora</th> 
+                        <th data-breakpoints="xs">Tipo</th>
+                        <th>Reproducir / Ingresar</th>
+                      </tr>
+                    </thead>
+                    <% for(var i=videos.length-1; i>=0; i--) {%>
+                    <tr id="tr_1<%=videos[i]._id%>">
+                      <td><%=videos[i].class_name%></td>
+                      <td><%=videos[i].date%></td>
+                      <td><%=videos[i].time%></td>
+                      <td><%=videos[i].typeOfStream%></td>
+                       <% if(videos[i].schedule == "true") {%>
+                          <td class="schedule grayusco-text" value="<%=videos[i]._id%>" >programada</td>
+                       <% } else {%>
+                          <td><a class="card-create-course" id="<%=videos[i]._id%>" onclick="move_to_tap4(this.id)"><i class="material-icons redusco-text">video_library</i></a></td>
+                       <% } %>
+                    </tr>
+                    <% } %>  
+                  </table>
+                </div>               
+              </li>
+            </ul>
+          </div>
+          <div class="col s12 m12 l3"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">today</i>Calendario
+                </div>
+                <div class="collapsible-body no-padding">
+                  <!--https://code.tutsplus.com/es/tutorials/how-to-build-a-beautiful-calendar-widget--net-12538-->
+                  <div id="cal"> 
+                    <div class="header"> 
+                      <span class="left button" id="prev"> &lang; </span> 
+                      <span class="left hook"></span> 
+                      <span class="month-year" id="label"> June 20&0 </span> 
+                      <span class="right hook"></span> 
+                      <span class="right button" id="next"> &rang; </span>
+                    </div> 
+                    <table id="days"> 
+                      <td>Dom</td> 
+                      <td>Lun</td> 
+                      <td>Mar</td> 
+                      <td>Mie</td> 
+                      <td>Jue</td> 
+                      <td>Vie</td> 
+                      <td>Sab</td>
+                    </table> 
+                    <div id="cal-frame"> 
+                      <table class="curr"> 
+                        <tbody> 
+                            <tr><td class="nil"></td><td class="nil"></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr> 
+                            <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td class="today">11</td><td>12</td></tr> 
+                            <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr> 
+                            <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr> 
+                            <tr><td>27</td><td>28</td><td>29</td><td>30</td><td class="nil"></td><td class="nil"></td><td class="nil"></td></tr> 
+                        </tbody> 
+                      </table>
+                    </div> 
+                  </div>
+                </div>
+              </li>
+            </ul>  
+          </div>
+        </div>
+      </div>
+
+      <div id="test2" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l10 offset-l1"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header padding"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">folder</i>Archivos<!--<a type="button" onclick="requestUploadFile()" class="btn waves-effect waves-light margin-left redusco yellowusco-text">CARGAR ARCHIVO NUEVO</a>-->
+                </div>
+                <div class="collapsible-body no-padding">                  
+                  <table class="table table1 striped"  data-paging="true" data-filtering="true"> 
+                    <thead> 
+                      <tr>
+                        <th data-breakpoints="xs"></th> 
+                        <th style="padding-left: 10px">Nombre del Archivo</th> 
+                        <!--<th data-breakpoints="xs">Publicado por</th> -->
+                        <th>Descargar</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <% for(var i=nameFiles.length-1; i>=0; i--) {%>
+                      <tr id="Img-div<%=i%>">
+                        <td><img style="width: 70px; height: 70px; background-color: white" id="imadiv<%=i%>" src="/images/imagen.png" alt="Red dot"/></td>
+                        <td><a style="color: black"><%=nameFiles[i].dinamic_name%> (<%=nameFiles[i].state%>)</a><br></td>
+                        <!--<% if (nameFiles[i].owner_id == id_user) {%>
+                          <td><%=nameFiles[i].owner_name%></td>
+                          <td id="div<%=i%>" name="<%=nameFiles[i].dinamic_name%>" onclick="download_file(this.id)"><i class="material-icons">cloud_download</i></td>        
+                          <td><div type="button" id="div<%=i%>" name="<%=nameFiles[i].dinamic_name%>" onclick="delete_file(this.id)"><i class="small material-icons redusco-text">delete</i></div>
+                          </td>
+                        <% }else {%>
+                          <td><%=nameFiles[i].owner_name%></td>-->
+                        <% if(nameFiles[i].dinamic_name == "Ejemplo.pdf") {%>
+                          <td></td>
+                        <% } else {%>
+                          <td id="div<%=i%>" title="Descargar" name="<%=nameFiles[i].dinamic_name%>" onclick="download_file(this.id)"><i class="material-icons card-create-course">cloud_download</i></td>
+                        <% } %>
+                     
+                      <%}%>                      
+                      <%}%>
+                    </tr>
+                  </table>
+                </div>                 
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="test4" class="col s12">
+        <div class="row">
+          <div class="col s12 m6 l6"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div id=div_video class="collapsible-body no-padding" style="position: fixed; width: 48%;">
+                  <video class="responsive-video" id="videoPlayer" controls><source src="" type="video/webm"></video>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col s12 m6 l6"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-body no-padding" id="table_video">
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+    <!-- The Modal-->
+    <div id="myModal4" class="myModal">
+      <div id="modal-content4" class="modal-content">
+        <video class="responsive-video" controls>
+          <source src="" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <script>
+      var cal = CALENDAR(); 
+      cal.init();
+    </script>
+
+  </main>
+</body>
+</html>
+
+

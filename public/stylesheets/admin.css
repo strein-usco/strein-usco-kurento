@@ -1,0 +1,147 @@
+#body{
+  position: relative;
+  top: 0;
+  transition: background-color .3s, opacity .2s, visibility 0s;
+  z-index: 10;
+}
+
+#body .nav-background {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.2;
+}
+
+#body .nav-background img {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  max-width: 100%;
+  filter: grayscale(100%);
+  transition: opacity .7s;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+nav.navbar {
+    z-index: 10;
+    transition: box-shadow .3s, background-color .3s;
+    padding: 0 20px;
+}
+
+nav .nav-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.sidenav {
+  width: 100px;
+}
+
+ul.sidenav.sidenav-fixed li.logo{
+    text-align: center;
+}
+
+#sidenav-left a.style{
+    text-align: center;
+    margin: 15px 20px 40px 15px;
+    font-size: 16px;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+#sidenav-left li.name {
+    text-align: center;
+    margin: -10px 20px 40px 15px;
+    font-size: 16px;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+#sidenav-close{
+	color: transparent;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+   background-color:#8d191d; 
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+  background-color: #4E6470;
+}
+
+.padding{
+  padding: 0% 23% !important;
+}
+
+#reg_button{
+  color: #D8CEA3 !important;
+  padding: 10px;
+}
+
+@media only screen and (min-width: 993px){
+
+  #body.has-fixed-sidenav {
+    padding-left: 100px;
+  }
+
+  .has-fixed-sidenav .navbar-fixed nav.navbar {
+    width: calc(100% - 100px);
+    left: 100px;
+  }
+
+  #sidenav-left:{
+    	transform: translateX(0%);
+    }	
+
+  .sidenav.sidenav-fixed.right-aligned {
+	    right: auto;
+	    left: 0;
+	}
+}
+
+@media only screen and (max-width: 800px){
+   #sidenav-close{
+    color: black ;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  #sidenav-left:{
+  	transform: translateX(-150%);
+  }	
+
+  nav .brand-logo {
+      font-size: 2em;
+  }	
+
+  #body .nav-background img {
+    height: 100%;
+  }
+
+  .sidenav {
+    width: 200px;
+  }
+
+  .padding{
+    padding: 0px 32% !important;
+  }
+}
+
+@media screen and (max-width: 780px) {
+
+  nav .brand-logo {
+      font-size: 2em;
+  }
+
+}
+
+
+

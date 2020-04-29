@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CARGAR ARCHIVOS │ STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/loading.css" type="text/css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+  <script src="/javascript/include.js"></script>
+
+  <!-- Funciones -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascript/upload-file.js"></script>
+  <script src="/siofu/client.js"></script>
+
+</head>
+
+<body class="codrops-top">
+
+  <nav class="transparent top-nav" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text text-darken-4" value="<%= course.name_course %>"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= course.name_course %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right redusco-text"><i class="material-icons">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/tutor-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
+        <li><a id="" class="redusco-text" href="/tutor-account##email"><i class="material-icons left-align">markunread</i></a></li>
+        <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+        <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a href="/tutor-account" class="redusco-text"><i class="material-icons">account_balance</i>Inicio</a></li>
+    <li><a id="" class="redusco-text" href="/tutor-account##email">Correo<i class="material-icons left-align">markunread</i></a></li>
+    <li><a href="/logout" id="logout" class="redusco-text"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+    <li><a href = "javascript:history.back(1)" class="redusco-text"><i class="tiny material-icons">arrow_back</i>Atrás</a></li>
+  </ul>
+
+   <main>
+    <div id="loading">
+      <img id="loading-image" src="/images/Preloader_3.gif" alt="Loading..." />
+    </div>
+    <div class="row">
+      <div class="s12 m12 l12">
+        <section class="banner">
+          <div class="inner" id="inner4">
+          <div class="card">
+            <div class="card-action redusco yellowusco-text">
+              <span class="card-title">Cargar archivo</span>
+            </div>
+            <div class="card-content">
+              <form name="frmAgregar" id="frmAgregar" class="main center">
+                <input type="hidden" value="<%= course._id %>" id="idCourse2" name="idCourse2" />
+
+                <input type="hidden" value="<%= course.name_course %>" id="idCourse1" name="idCourse1" />
+                <output id="imagenO"></output>
+                <img id="imagenNueva" src="/images/imagen1.png" width="50" height="50" ><br>
+                <label for="fileImagen" id="load">Cargar imagen</label><br><br>
+                <input type="file" class="filestyle" data-input="false" id="upload_input" name="upload_input" data-buttonText="Seleccione la imagen"><br>
+                <h5>Seleccione si quiere que el archivo sea público o privado</h5></br>
+                <div id="sel"> 
+                <select name="carlist" id="carlist" form="stateform">
+                    <option value="" disabled>Tipo de Archivo</option>
+                    <option value="public">Público</option>
+                    <option value="private">Privado</option>
+                </select>
+                </div> 
+                <br>
+                <input type="button" class="btn waves-effect waves-light redusco yellowusco-text" id="btnAgregar" name="btnAgregar" value="Agregar">
+              </form>
+            </div>
+          </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+  </main>
+  </body>
+</html>
+
+
+

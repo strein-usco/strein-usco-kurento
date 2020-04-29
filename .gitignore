@@ -40,6 +40,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+**/bower_components
+UploadedFiles/
 
 # TypeScript v1 declaration files
 typings/

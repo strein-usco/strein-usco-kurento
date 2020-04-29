@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/strein.css" type="text/css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+
+  <!-- Funciones -->
+  <script src="/javascript/page-course.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.11/fabric.min.js"></script>
+  <script src="/siofu/client.js"></script>  
+  
+</head>
+
+<body>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="/tutor-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<course.length; i++) {%>
+    <li><a href="/tutor-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= course[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+
+  <nav class="transparent" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text text-darken-4" value="<%= course.name_course %>"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= name %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/tutor-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
+        <li><a id="account" class="redusco-text" href="/tutor-account/dataTutor" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i></a></li>
+        <li><a id="" class="redusco-text" href="/tutor-account##email" title="Correo"><i class="material-icons left-align">markunread</i></a></li>
+        <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown2' title="Mis cursos"><i class="material-icons left-align">school</i></a></li>
+        <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+        <li><a href="javascript:history.back(1)" class="redusco-text" id="back" title="Atrás"><i class="tiny material-icons">arrow_back</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/tutor-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<course.length; i++) {%>
+    <li><a href="/tutor-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= course[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a href="/" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i>Inicio</a></li>
+    <li><a id="account" class="redusco-text" href="/tutor-account/dataTutor" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i>Cambiar contraseña</a></li>
+    <li><a id="" class="redusco-text" href="/tutor-account">Correo<i class="material-icons left-align">markunread</i></a></li>
+    <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown1' title="Mis cursos"><i class="material-icons left-align">school</i>Cursos</a></li>
+    <li><a href="/logout" id="logout" class="redusco-text" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+    <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i>Atrás</a></li>
+  </ul> 
+
+  <main>
+    <input type="hidden" value="<%=id_tutor%>" id="id_tutor" />
+    <input type="hidden" value="<%=course%>" id="id_CourProf" />
+    <input type="hidden" value="<%=id_class%>" id="id_class" />
+    <input type="hidden" value="<%=name_video%>" id="name_video" />
+    <input type="hidden" value="<%= shareScreen %>" id="share-screen"/>
+
+    <div class="row no-margin-bottom">
+      <div class="col s12 m12 l2 no-padding border-right">
+        <div class="row no-margin">
+          <div class="col s12 no-padding">
+            <ul id="tabs" class="tabs">
+              <li class="tab col s6"><a href="#test1">Estudiantes</a></li>
+              <li class="tab col s6"><a class="active" href="#test2" id="chat">Chat</a></li>
+            </ul>
+          </div>
+          <div id="test1" class="col s12 no-padding">
+            <div class="row no-padding no-margin">
+              <div class="col s12 m12 l12 no-padding no-margin"> 
+                <ul class="collapsible no-margin">   
+                  <li class="active">
+                    <div class="collapsible-body no-padding no-margin" id="list" style="overflow-y: auto;">
+                      <table id="user_online" class="striped">
+                        <% for(var i=0; i<students.length; i++) {%>
+                           <tr id="tr<%=[i]%>">
+                              <td id="status_tr<%=[i]%>" class=""><img id="img_status_tr<%=[i]%>" src="/images/circle2.png"></td>
+                              <td style="padding-left: 20px"><%= students[i].name_student %></td>
+                              <!--<td><img name="<%=[i]%>" class="muted"  id="mic<%=students[i].id_student%>" src=""></td>-->
+                              <td><img name="<%=[i]%>" class="muted"  id="vid<%=students[i].id_student%>" src=""><i class="small material-icons"></i></td>
+                          </tr>
+                        <% } %>    
+                      </table>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="test2" class="col s12 no-padding">
+            <div class="row no-margin">
+              <div class="col s12 m12 l12 no-padding"> 
+                <ul class="collapsible no-margin">   
+                  <li class="active">
+                    <div class="collapsible-body no-padding no-margin">
+                      <div id="div_chat" style="overflow-y: auto;">
+                      </div>
+                      <div>
+                        <input style="width: 100%;" class="redusco white-text no-margin" placeholder="  Chat" type="text" id="input_text2">
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col s12 m12 l10 no-padding">
+        <div class="row no-margin" style="position: relative;">
+          <div class="col s2 m2 l1 no-padding" id="web-cam">
+            <video id="localVideo1" class="video" autoplay="true" muted="" preload="true">
+            </video>
+            <div class="col s2 m2 l1 no-padding web-audio2"  id="web-cam2">
+              <button id="stop-video1"></button><button id="stop-audio1"></button>
+            </div>
+          </div>
+
+          <div class="col s2 m2 l1 no-padding" id="web-cam4">
+            <video id="localVideo2" class="video" autoplay="true">
+            </video> 
+          </div>
+        
+          <div class="col s2 m2 l1 no-padding"  id="web-cam1">
+            <video id="localVideo3" class="video" autoplay="true">
+            </video> 
+            <div class="col s2 m2 l1 no-padding web-audio8"  id="web-cam8">
+              <button id="stop-video2"></button>
+            </div>
+          </div>
+         
+          <div class="col s12 m12 l12 no-padding" id="c2"> 
+            <canvas id="c1" class="padding"></canvas>
+          </div>
+          <div class="col s12 m12 l2 no-padding margin-left height-1 yellowusco" style="position: absolute; bottom: 0; border-top-left-radius: 20px 20px;border-top-right-radius: 20px 20px; border-bottom-right-radius: 1px 1px;border-bottom-left-radius: 1px 1px;"> 
+            <div class="center" id="num">
+              <a type="button" name="" class="atras btn transparent redusco-text" id="atras"><i class="material-icons redusco-text">arrow_back</i></a>
+              <a type="button" name="" class="adelante btn transparent redusco-text" id="adelante"><i class="material-icons redusco-text">arrow_forward</i></a>
+              <input style="width: 10%; margin-left: 5%" type="" name="" value="" id="getNewPage">/<a class="redusco-text" id="number_page" style="margin-left: 2px"></a>
+              <input type="hidden" name="" value="" id="current">
+              <input type="hidden" name="" value="" id="currentGrup">
+            </div> 
+          </div>
+        </div>
+        <div class="row height no-margin border-top-yellowusco" style="position: relative;">
+          <div class="col s12 m12 l10 no-padding height" style="overflow-y: auto;"> 
+            <% for(var i=0; i<nameFiles.length; i++) {%>
+                <div style="" id="div<%=i%>" name="<%= nameFiles[i].dinamic_name %>" value="" src="" class="containerCourse">
+                    <input type="hidden" name="" value="<%=i%>" id="Group_overlay<%=i%>">
+                    <div class="overlayCourse" id="overlay<%=i%>">
+                        <div  id="imadiv<%=i%>" class="textCourse imageCourse" style="width: 120px; word-wrap: break-word;">
+                            <%= nameFiles[i].dinamic_name %>
+                        </div>
+                    </div>
+                </div>
+              <% } %>
+              <div class="Main_container_files" type="hidden">
+              </div> 
+          </div>
+          <div class="col s12 m12 l2 no-padding no-margin height"> 
+            <div class="col s6 m6 l6 no-padding no-margin height"> 
+              <div class="fixed-action direction-top">
+                <button id="record" title="Grabando" class="btn-floating pulse btn-large redusco" name="Start Recording"><i class="large material-icons">video_call</i></button>                     
+              </div>
+            </div>
+            <div class="col s6 m6 l6 no-padding no-margin height"> 
+              <div class="fixed-action-btn direction-top">
+                <a class="btn-floating btn-large grayusco" title="Opciones de Tablero">
+                  <i class="large material-icons">mode_edit</i>
+                </a>
+                <ul>
+                  <div class="seccion tablero">
+                    <div id="drawing-mode-options">
+                      <input class="btn-floating" type="button" id="selecting-mode" title="Seleccionar">
+                      <input class="btn-floating" type="button" id="eraser-mode" title="Borrador">
+                      <input class="btn-floating" type="button" id="drawing-mode" title="Lápiz">
+                      <input class="btn-floating" type="button" id="textbox" title="Texto"> 
+                      <input type="color" class="btn-floating" value="#005E7A" id="drawing-color" title="Color de lápiz"> 
+                      <select class="btn-floating" id="drawing-mode-selector" title="Tipo de lápiz">
+                          <option></option>
+                          <option>Pencil</option>
+                          <option>Circle</option>
+                          <option>Spray</option>
+                          <option>Pattern</option>
+                      </select>
+                      <span class="info" id="rang">30</span><input type="range" value="10" min="1" max="50" id="drawing-line-width" class="btn-floating" title="Grosor de lápiz">
+                      <input type="button" title="Ajustar" id="fitImage" name="disable" value="" class="btn-floating" />                                   
+                    </div>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+ 
+  </body>
+</html>

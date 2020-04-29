@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ADMIN │ STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/admin.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/footable.standalone.css" rel="stylesheet" media="screen"/> 
+  <link href="/stylesheets/footable.standalone.min.css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+  <script src="/javascript/footable.js"></script>
+  <script src="/javascript/footable.min.js"></script>
+  <script src="/javascript/page-admin-user.js"></script>
+
+  <!-- Funciones -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/siofu/client.js"></script>
+  <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+</head>
+<body id="body" class="has-fixed-sidenav">
+  <header> 
+    <div class="navbar-fixed">
+      <nav class="navbar white">
+        <div class="nav-wrapper">
+          <a title="" class="brand-logo redusco-text text-darken-4"><%= admin %></a>
+          <a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a id="account" class="redusco-text" href="/admin-account/data-admin" title="Modificar Cuenta"><i class="material-icons left-align">vpn_key</i></a></li>
+            <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+          </ul> 
+          <a data-target="sidenav-left" class="sidenav-trigger left"><i class="material-icons redusco-text">menu</i></a>
+        </div>
+      </nav>
+    </div>    
+  </header>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a id="account" class="redusco-text" href="/admin-account/data-admin" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i>Cambiar contraseña</a></li>
+    <li><a class="redusco-text" href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+  </ul>  
+  
+  <ul id="sidenav-left" class="sidenav sidenav-fixed lighten">
+    <div class="nav-background">
+      <img src="/images/page3.jpg" alt="cityscape">
+    </div>
+    <li><a href="#" class="right-align sidenav-close" id="sidenav-close">X</a></li>
+    <li class="logo"><img class="center" src="/images/icono1.gif"></a></li>
+    <li class="name white-text"><span>STREIN</span></li>
+    <li class="style card-create-course"><a title="Lista de Usuarios" href="/admin-account" class="btn grayusco padding" id="stud"><i class="material-icons white-text">face</i></a></li>
+    <li class="style card-create-course"><a title="Agregar Usuario" href="/admin-account/register" class="btn grayusco padding"><i class="material-icons white-text">add_box</i></a></li>
+    <li class="style card-create-course" id="enterClass"><a href="/admin-account/course-accounts" class="btn grayusco padding" id="strein" title="Cursos"><i class="material-icons white-text">local_library</i></a></li>
+  </ul>
+
+  <main>
+    <div class="row">
+      <div class="col s12 no-padding">
+        <ul id="tabs" class="tabs">
+          <li class="tab col s3"><a class="active" href="#test1">usuarios (tutor)</a></li>
+          <li class="tab col s3"><a href="#test2">usuarios (estudiante)</a></li>
+          <li class="tab col s3 disabled editar3"><a href="#test3">Editar usuario</a></li>
+        </ul>
+      </div>
+
+      <div id="test1" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l12"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-body no-padding">
+                  <table class="table striped" data-sorting="true" data-filtering="true">
+                    <thead> 
+                       <tr>
+                        <th data-breakpoints="xs">ID</th> 
+                        <th>NOMBRE</th> 
+                        <th data-breakpoints="xs">TIPO</th> 
+                        <th data-type="number" data-breakpoints="xs">CÓDIGO</th> 
+                        <th data-breakpoints="xs">CORREO</th>
+                        <th data-breakpoints="xs">EDITAR</th>
+                        <th>ELIMINAR</th>
+                      </tr>
+                    </thead>
+                    <% for(var i=0; i<tutor.length; i++) {%>
+                    <tr id="tr1_<%=tutor[i]._id%>">
+                      <td><%=tutor[i]._id%></td>
+                      <td id="nam1_<%=tutor[i]._id%>"><%=tutor[i].nombres%></td>
+                      <td><%=tutor[i].tipo%></td>
+                      <td><%=tutor[i].cedula%></td>
+                      <td><%=tutor[i].correo%></td>
+                      <td><a id="edi1<%=tutor[i]._id%>" onclick="edit_user(this.id)"><i class="material-icons redusco-text card-create-course">create</i></a></td>
+                      <td><a id="del1_<%=tutor[i]._id%>" onclick="delete_user(this.id)"><i class="material-icons redusco-text card-create-course">delete_forever</i></a></td>
+                    </tr>
+                    <% } %>  
+                  </table>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="test2" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l12"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-body no-padding">
+                  <table class="table striped" data-sorting="true" data-filtering="true">
+                    <thead> 
+                       <tr>
+                        <th data-breakpoints="xs">ID</th> 
+                        <th>NOMBRE</th> 
+                        <th data-breakpoints="xs">TIPO</th> 
+                        <th data-type="number" data-breakpoints="xs">CÓDIGO</th> 
+                        <th data-breakpoints="xs">CORREO</th>
+                        <th data-breakpoints="xs">EDITAR</th>
+                        <th>ELIMINAR</th>
+                      </tr>
+                    </thead>
+                    <% for(var i=0; i<student.length; i++) {%>
+                    <tr id="tr1_<%=student[i]._id%>">
+                      <td><%=student[i]._id%></td>
+                      <td id="nam1_<%=student[i]._id%>"><%=student[i].nombres%></td>
+                      <td><%=student[i].tipo%></td>
+                      <td><%=student[i].cedula%></td>
+                      <td><%=student[i].correo%></td>
+                      <td><a id="edi2<%=student[i]._id%>" onclick="edit_user(this.id)"><i class="material-icons redusco-text card-create-course">create</i></a></td>
+                      <td><a id="del2_<%=student[i]._id%>" onclick="delete_user(this.id)"><i class="material-icons redusco-text card-create-course">delete_forever</i></a></td>
+                    </tr>
+                    <% } %>  
+                  </table>
+                </div>
+              </li>
+            </ul>
+          </div> 
+        </div>
+      </div>
+
+      <div id="test3" class="col s12">
+        <div class="row">
+          <div class="col s12 m12 l6 no-padding-right"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Información básica
+                </div>
+                <div class="collapsible-body">
+                  <form id="update_course" action="/control/persona/editar" method="POST">
+                    <div id="basicInfo">
+                      <div class="box"> 
+                        <i class="small material-icons img">fingerprint</i>
+                        <input class="box text-center" type="text" class="form-control" name="_id" id="_id2" placeholder="XXXXXXXXXXXXXXXXX" disabled="true">
+                        <input type="hidden" class="form-control" name="_id" id="_id22">
+                      </div>
+                      <div class="box"> 
+                        <i class="small material-icons img">assignment_ind</i>
+                        <input class="box text-center" type="text" class="form-control" name="nombres" id="nombres2"  placeholder="Nombres" required>
+                      </div>
+                      <div class="box"> 
+                        <i class="small material-icons img">recent_actors</i>
+                        <input class="box text-center" type="number" class="form-control" name="cedula" id="cedula2"  placeholder="Código" required disabled="true">
+                      </div>
+                      <div class="box"> 
+                        <i class="small material-icons img">contact_mail</i>
+                        <input class="box text-center" type="email" class="form-control" name="correo" id="correo2"  placeholder="Correo" required>
+                      </div>
+                      <div class="box"> 
+                        <i class="small material-icons img">title</i>
+                          <select name="tipo" id="select_tipo2" required>
+                            <option value="none" disabled selected>Tipo de Cuenta</option>
+                            <option value="tutor">Tutor</option>
+                            <option value="estudiante">Estudiante</option>
+                            <option value="admin">Administrador</option>
+                          </select>
+                      </div>
+                      <div class="box"> 
+                        <i class="small material-icons img">verified_user</i>
+                          <select name="estado" id="select_estado2" required>
+                            <option value="none" disabled selected>Estado</option>
+                            <option value="active">Activo</option>
+                            <option value="false">Inactivo</option>
+                          </select>
+                      </div>
+                      <br>
+                      <input type="submit" class="btn yellowusco redusco-text" style="margin-right: 5px">
+                      <button id="cancel_register" class="btn redusco yellowusco-text">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col s12 m12 l6"> 
+            <ul class="collapsible">   
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">local_library</i>Cursos asociados
+                </div>
+                <div class="collapsible-body" id="courses_info">
+                  No hay cursos asociados
+                </div> 
+              </li>
+            </ul>       
+          </div>
+        </div>
+      </div>
+
+    </div>     
+  </main>
+</body>
+</html>
+

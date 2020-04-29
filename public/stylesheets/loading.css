@@ -1,0 +1,144 @@
+input[type="button"] {
+  color: #D8CEA3;
+}
+
+#btnAgregar{
+  outline: none;
+  padding: 10% 5%;
+}
+
+.waves-effect input[type="button"]{
+ width: 110%;
+}
+
+#sel{
+  width: 50%; 
+  margin-left: 25%;
+}
+
+#inner4{
+  width: 40%;
+  margin-top: -5%;
+}
+
+@media only screen and (max-width: 600px){
+
+  #inner4{
+    width: 100%;
+    height: 90%;
+  }
+
+  nav .brand-logo {
+      font-size: 13px;
+  }
+
+  #sel{
+    margin: 10% 0%;
+    margin-left: 26%;
+
+  }
+
+} 
+
+@media screen and (max-width: 780px) {
+
+  nav .brand-logo {
+      font-size: 13px;
+  }
+
+}
+
+.js .animate-box {
+  opacity: 0; }
+
+.containerCourse {
+ 
+  background-color: #26a69a; 
+  float: left;
+  padding: 2%;
+  position: relative;
+  width: 7%;
+  height: 10px;
+  margin: 5% 50% 15% 5%;
+}
+
+.imageCourse {
+  display: block;
+  width: 120px;
+  height: 1px;
+  background-color: white;
+}
+
+.overlayCourse {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 120px;
+  height: 100px;
+  transition: .5s;
+}
+
+.textCourse {
+  position: absolute;
+  width: 100%; 
+  text-align: right;
+  color: black;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.Main_container_files{
+  visibility: hidden;
+}
+
+#loading {
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   display: block;
+   opacity: 0.95;
+   background-color: #b6ceea;
+   z-index: 99;
+   text-align: center;
+   visibility: hidden;
+}
+
+#loading-image {
+  position: fixed; /* or absolute */
+  top: 40%;
+  left: 45%;
+  z-index: 100;
+}
+
+.text_loading{
+  position: fixed; /* or absolute */
+  top: 40%;
+  left: 50%;
+  z-index: 100;
+}
+
+.text_loading2{
+  position: fixed; /* or absolute */
+  top: 45%;
+  left: 50%;
+  z-index: 100;
+}
+.start_class{
+  background-color: #3eb76c;
+  color: white;
+
+}
+.finish_class{
+ background-color: #c6c6c6;
+ color: white;
+}
+.pause_class{
+ background-color: #c6c6c6;
+ color: white;
+}
+

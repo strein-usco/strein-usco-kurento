@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controles/crud_mail.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controles/crud_mail.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
+ * Módulo que corresponde a las funcionalidades para el manejo de correos en el servidor,
+ * de igual modo, se trabajarán con funciones básicas en base de datos (CRUD).
+ * @module Controller3
+ * @see module:routes/mailForm
+ * @requires module:routes/mailForm
+ */
+
+let express = require('express');
+let path = require('path');
+let session = require('express-session');
+var FormData = require('form-data');
+var http = require('http');
+var rimraf = require('rimraf');
+let router = express.Router();
+
+let VideoClasses = require('./../models/videoclass'),
+mongoose = require('./../config/conexion'),
+Persona = require('./../models/persona'),
+Correos = require('./../models/correos'),
+Course = require('./../models/courses'),
+Joined = require('./../models/joined'),
+File = require('./../models/files');
+
+var fs = require('fs'),
+PDFImage = require("pdf-image").PDFImage;
+var toPdf = require("office-to-pdf");
+
+/** 
+ * FUNCIÓN PARA PROFESORES -
+ * Guarda mensajes en la base de datos
+ * @class tutor_email
+ * @param req {Object} Solicitud con parametros (body y session)
+ * @param req.body {Object} Conjunto de datos transmitidos (The JSON payload)
+ * @param req.body.id_course {Object} Id del curso
+ * @param req.body.subject {strin} Asunto del correo
+ * @param req.body.textarea1 {string} Mensaje del correo
+ * @param req.body.eachStudent_by_name {Object} Objeto con los id y los nombres del los estudiantes
+ * @param req.session.user {Object} Información de session del usuario que envia la solicitud
+ * @param req.session.user._id {string} Id del usuario que envia la solicitud
+ * @param req.session.user.nombres {string} Nombre del usuario que envia la solicitud
+ * @param res {Object} La respuesta en un objeto tipo JSON
+ * @param res.status  {number} Estado de la respuesta (200 - OK)
+ * @param res.send  {Object} Respuesta con archivos tipo pdf pertenecientes al curso
+*/
+exports.tutor_email= (req, res) =>{
+	var NewString=[], NewString2=[],splitValue, replay_to_by_name, replay_to_by_id, i, name_course; 
+	
+	Course.findById(req.body.id_course,(err, course) =>{
+		if(course) {
+			name_course = course.name_course;
+			replay_to_by_name = JSON.parse(req.body.eachStudent_by_name);
+			for (i = 0;i &lt; replay_to_by_name.length; i++) {
+				splitValue = replay_to_by_name[i].student.split("/");
+				NewString.push(splitValue[0]); //replay_to_by_id
+				NewString2.push(splitValue[1]); //replay_to_by_name
+
+				saveInfoMail(req.body.subject,req.body.id_course,name_course,req.session.user.nombres,req.session.user._id,req.body.textarea1, splitValue[1], splitValue[0], "negative");
+			}
+		replay_to_by_name = NewString2;
+		replay_to_by_id = NewString;
+		
+		saveInfoMail2(req.body.subject,req.body.id_course,name_course,req.session.user.nombres, req.session.user._id,req.body.textarea1, replay_to_by_name, replay_to_by_id, "original");
+		res.status(200).send("exito");
+		}
+	});
+}
+
+/** 
+ * FUNCIÓN PARA ESTUDIANTES -
+ * Guarda mensajes en la base de datos
+ * @class emailStudent
+ * @param {Object} req - Solicitud con parametros (body y session)
+ * @param req.body {Object} Conjunto de datos transmitidos (The JSON payload)
+ * @param req.body.id_course {Object} Id del curso
+ * @param req.body.subject {strin} Asunto del correo
+ * @param req.body.textarea1 {string} Mensaje del correo
+ * @param req.session.user {Object} Información de session del usuario que envia la solicitud
+ * @param req.session.user._id {string} Id del usuario que envia la solicitud
+ * @param req.session.user.nombres {string} Nombre del usuario que envia la solicitud
+ * @param res {Object} La respuesta en un objeto tipo JSON
+ * @param res.status  {number} Estado de la respuesta (406 - Not Acceptable), devuleve este estado si el curso no existe en la base de datos
+ * @param res.send  {} Si el curso no existe en la base de datos envia un "false" y redirecciona si es lo contrario 
+*/
+exports.emailStudent = function(req,res){
+	Course.findById(req.body.id_course, (err, course)=>{
+		if(course){
+			saveInfoMail(req.body.subject,req.body.id_course,course.name_course,req.session.user.nombres, req.session.user._id,req.body.textarea1,course.name_tutor, course.id_tutor, "original");
+			saveInfoMail(req.body.subject,req.body.id_course,course.name_course,req.session.user.nombres, req.session.user._id,req.body.textarea1,course.name_tutor, course.id_tutor, "negative");	
+			res.redirect("/student-account");
+		}else{
+			res.status(406).send(false);
+		}
+	});
+}
+
+/** 
+ * Función para visualización de un mensaje en específico
+ * @class getSpecificMail
+ * @param {Object} req - Solicitud con parametros (body)
+ * @param req.body {Object} Conjunto de datos transmitidos (The JSON payload)
+ * @param req.body.id_message {Object} Id del correo 
+ * @param res {Object} La respuesta en un objeto tipo JSON
+ * @param res.status  {number} Estado de la respuesta (200 - OK o 406 Not Acceptable)
+ * @param res.send {(string|Object)} Si el curso no existe en la base de datos envia un "false" y envia la informacion de correo si es lo contrario
+*/
+exports.getSpecificMail = (req, res) =>{
+	var contentHTML, result, newMail = "";
+	Correos.findById(req.body.id_message, (err, correo)=>{
+		if(correo){
+			contentHTML = '&lt;div class="row"> &lt;div class="col s12 m12"> &lt;div class="card"> &lt;div class="card-image"> &lt;img src="/images/sample-1.jpeg"> &lt;span class="card-title">&lt;p> ' + getFullDate() + ' &lt;/p>&lt;/span> &lt;button id="reply' + correo._id + '" class="btn-floating halfway-fab waves-effect waves-light yellowusco" onclick="replyMessage(this.id)">&lt;i class="material-icons left">create&lt;/i>&lt;/button> &lt;/div> &lt;div class="card-content greenuscob"> &lt;b> ASUNTO: "' + correo.subject + '"&lt;/b>&lt;br> &lt;b>enviado por: ' + correo.created_by_name + ' &lt;/b> &lt;div style="overflow:auto;height: 160px;">&lt;p>'+ correo.textarea1 +'&lt;/p>&lt;/div>&lt;button id="msg' + correo._id + '" class="btn-floating waves-effect waves-light redusco delete" onclick="delete_message(this.id)">&lt;i class="material-icons left">delete&lt;/i>&lt;/button> &lt;/div> &lt;/div> &lt;/div> &lt;/div>';
+		    if(correo.seen == "negative"){
+        		newMail = "1";
+        	}
+	        if(correo.seen == "negative"){
+	        	newMail = "1";
+	        }
+	        result = {
+				contentHTML:contentHTML,
+				newMail: newMail
+			}
+			res.status(200).send(result);
+			Correos.findByIdAndUpdate(req.body.id_message, {$set:{seen:"positive"}},{new:true},(error,model) => {
+				if (err) throw err;
+			});
+   		}else{res.status(406).send(false);}
+	});
+}
+
+/** 
+ * Función para eliminar un mensaje en la base de datos
+ * @class deleteMessage
+ * @param {Object} req - Solicitud con parametros (body)
+ * @param req.body {Object} Conjunto de datos transmitidos (The JSON payload)
+ * @param req.body.id_message {Object} Id del correo 
+ * @param res {Object} La respuesta en un objeto tipo JSON
+ * @param res.status  {number} Estado de la respuesta (200 - OK)
+ * @param res.send {string} Aviso: "mensaje eliminado"
+*/
+exports.deleteMessage = (req, res) => {
+    Correos.deleteOne({ _id: req.body.id_message }, function(err) {
+        if (err) return handleError(err);
+    });
+    res.status(200).send("mensaje eliminado");
+}
+
+function getFullDate (){
+	var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+	var d = new Date();
+	var date = d.getDate();
+	var month = months[d.getMonth()];
+	var year = d.getFullYear();
+	if(Number(date) &lt; 10 ){
+		date = "0" + date;
+	}
+
+ 	var fullDate = date + "/" + month + "/" + year;
+	return fullDate;
+}
+
+function getFullTime(){
+	var d = new Date();
+	var horas = d.getHours();
+	var minutos = d.getMinutes();
+	var segundos = d.getSeconds();
+	if(Number(segundos) &lt; 10 ){
+		segundos = "0" + segundos;
+	}
+	if(Number(minutos) &lt; 10 ){
+		minutos = "0" + minutos;
+	}
+	if(Number(horas) &lt; 10 ){
+		horas = "0" + horas;
+	}
+	var fullClock = horas + ":" + minutos + ":" + segundos;
+	return fullClock;
+}
+
+/*function originalDate (fullDate, fullClock){
+	var date, hora, minuto;
+	var d = new Date();
+	var hours = d.getHours(); //numero de hora actual
+	var minutes = d.getMinutes();//número de minuto actual
+	if(fullDate == getFullDate()){
+		hora = Number(hours) - Number(fullClock.slice(0,2));
+		if(hora > 5){
+			date = fullClock;
+		}else if(hora > 1){
+			date = "Hace " + hora + " horas";
+		}else if(hora == 1){
+			date = "Hace 1 hora";
+		}else{
+			minuto = Number(minutes) - Number(fullClock.slice(3,5));
+			date = "Hace " + minuto + " min";
+		}
+	}else{
+		date = fullDate;
+	}
+	return date;
+}*/
+
+function saveInfoMail(subject, id_course, name_course, myname, myID, textarea1, replay_to_by_name, replay_to_by_id, kindOfSeen){
+	let mail = new Correos({
+		subject: subject,
+		id_course: id_course,
+		name_course: name_course,
+		created_by_name: myname,
+		created_by_id: myID,
+		textarea1: textarea1,
+		replay_to_by_name: replay_to_by_name,
+		replay_to_by_id: replay_to_by_id,
+		seen: kindOfSeen,
+		fullDate: getFullDate(),
+		fullClock: getFullTime()
+
+	});
+	mail.save();
+}
+
+function saveInfoMail2(subject, id_course, name_course, myname, myID, textarea1, replay_to_by_name, replay_to_by_id, kindOfSeen){
+	let mail = new Correos({
+		subject: subject,
+		id_course: id_course,
+		name_course: name_course,
+		created_by_name: myname,
+		created_by_id: myID,
+		textarea1: textarea1,
+		replay_to_by_name: replay_to_by_name[0],
+		replay_to_by_id: replay_to_by_id[0],
+		seen: kindOfSeen,
+		fullDate: getFullDate(),
+		fullClock: getFullTime()
+
+	});
+	mail.save();
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-Controller.html">Controller</a></li><li><a href="module-Controller2.html">Controller2</a></li><li><a href="module-Controller3.html">Controller3</a></li><li><a href="module-Controller4.html">Controller4</a></li><li><a href="module-Controller5.html">Controller5</a></li><li><a href="module-Controller6.html">Controller6</a></li><li><a href="module-routes_courseForm.html">routes/courseForm</a></li><li><a href="module-routes_fileForm.html">routes/fileForm</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_mailForm.html">routes/mailForm</a></li><li><a href="module-routes_personaForm.html">routes/personaForm</a></li><li><a href="module-routes_videoForm.html">routes/videoForm</a></li></ul><h3>Classes</h3><ul><li><a href="module-Controller2-create_join.html">create_join</a></li><li><a href="module-Controller2-delete_course.html">delete_course</a></li><li><a href="module-Controller2-delete_join.html">delete_join</a></li><li><a href="module-Controller2-get_course_info.html">get_course_info</a></li><li><a href="module-Controller2-get_joins_info.html">get_joins_info</a></li><li><a href="module-Controller2-new_course.html">new_course</a></li><li><a href="module-Controller2-saveChanges.html">saveChanges</a></li><li><a href="module-Controller2-unlink_user.html">unlink_user</a></li><li><a href="module-Controller2-update_course.html">update_course</a></li><li><a href="module-Controller3-deleteMessage.html">deleteMessage</a></li><li><a href="module-Controller3-emailStudent.html">emailStudent</a></li><li><a href="module-Controller3-getSpecificMail.html">getSpecificMail</a></li><li><a href="module-Controller3-tutor_email.html">tutor_email</a></li><li><a href="module-Controller4-del_info_video.html">del_info_video</a></li><li><a href="module-Controller4-getDisplayClasses.html">getDisplayClasses</a></li><li><a href="module-Controller4-num_videos.html">num_videos</a></li><li><a href="module-Controller4-pushClassName.html">pushClassName</a></li><li><a href="module-Controller4-pushVideo.html">pushVideo</a></li><li><a href="module-Controller4-tutor_left_class.html">tutor_left_class</a></li><li><a href="module-Controller4-video.html">video</a></li><li><a href="module-Controller5-delete_file.html">delete_file</a></li><li><a href="module-Controller5-get_files.html">get_files</a></li><li><a href="module-Controller5-getAllfiles.html">getAllfiles</a></li><li><a href="module-Controller5-getFileTutor.html">getFileTutor</a></li><li><a href="module-Controller5-getPDF.html">getPDF</a></li><li><a href="module-Controller5-save_file.html">save_file</a></li><li><a href="module-Controller6-changeContra.html">changeContra</a></li><li><a href="module-Controller6-delete_user.html">delete_user</a></li><li><a href="module-Controller6-editmail.html">editmail</a></li><li><a href="module-Controller6-editUser.html">editUser</a></li><li><a href="module-Controller6-InfoUser.html">InfoUser</a></li><li><a href="module-Controller6-register.html">register</a></li><li><a href="module-Controller-dataUser.html">dataUser</a></li><li><a href="module-Controller-getAccount.html">getAccount</a></li><li><a href="module-Controller-getAdmin_CourseAcount.html">getAdmin_CourseAcount</a></li><li><a href="module-Controller-getAdmin_register.html">getAdmin_register</a></li><li><a href="module-Controller-getAdmin_UsuarioAcount.html">getAdmin_UsuarioAcount</a></li><li><a href="module-Controller-getAdminAcount.html">getAdminAcount</a></li><li><a href="module-Controller-getCourseInfo.html">getCourseInfo</a></li><li><a href="module-Controller-getStart.html">getStart</a></li><li><a href="module-Controller-getStartCourseTutor.html">getStartCourseTutor</a></li><li><a href="module-Controller-getStudentAcount.html">getStudentAcount</a></li><li><a href="module-Controller-getStudentAcountInfo.html">getStudentAcountInfo</a></li><li><a href="module-Controller-getStudents.html">getStudents</a></li><li><a href="module-Controller-getTutorAcount.html">getTutorAcount</a></li><li><a href="module-Controller-getUploadFile.html">getUploadFile</a></li><li><a href="module-Controller-joinCourseStudent.html">joinCourseStudent</a></li><li><a href="module-Controller-Log_in.html">Log_in</a></li><li><a href="module-Controller-log_out.html">log_out</a></li><li><a href="module-Controller-logueo.html">logueo</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Nov 28 2019 02:17:10 GMT-0500 (GMT-05:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

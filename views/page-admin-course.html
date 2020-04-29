@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>CURSOS │ STREIN</title>
+
+	<!-- icon-->
+	<link rel="shortcut icon" href="/images/icono.gif">
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+	<link href="/stylesheets/admin.css" type="text/css" rel="stylesheet" media="screen"/>
+	<link href="/stylesheets/footable.standalone.css" rel="stylesheet" media="screen"/> 
+	<link href="/stylesheets/footable.standalone.min.css" rel="stylesheet" media="screen"/>
+
+	<!--  Scripts-->
+	<script src="/javascript/lib/jquery.3.3.1.js"></script>
+	<script src="/javascript/lib/materialize.js"></script>
+	<script src="/javascript/lib/init.js"></script>
+	<script src="/javascript/footable.js"></script>
+	<script src="/javascript/footable.min.js"></script>
+
+	<!-- Funciones -->
+	<script src="/javascript/page-admin-course.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/siofu/client.js"></script>
+	<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+</head>
+
+<body id="body" class="has-fixed-sidenav">
+	<header> 
+		<div class="navbar-fixed">
+			<nav class="navbar white">
+				<div class="nav-wrapper">
+					<a title="" class="brand-logo redusco-text text-darken-4"><%= admin %></a>
+					<a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a id="account" class="redusco-text" href="/admin-account/data-admin" title="Modificar Cuenta"><i class="material-icons left-align">vpn_key</i></a></li>
+						<li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+					</ul> 
+					<a data-target="sidenav-left" class="sidenav-trigger left"><i class="material-icons redusco-text">menu</i></a>
+				</div>
+			</nav>
+		</div>    
+	</header>
+
+	<ul class="sidenav" id="mobile-demo">
+		<li><a href="#" class="right-align sidenav-close">X</a></li>
+		<li><a id="account" class="redusco-text" href="/admin-account/data-admin" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i>Modificar cuenta</a></li>
+		<li><a class="redusco-text" href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+	</ul>  
+
+	<ul id="sidenav-left" class="sidenav sidenav-fixed lighten">
+		<div class="nav-background">
+			<img src="/images/page3.jpg" alt="cityscape">
+		</div>
+		<li><a href="#" class="right-align sidenav-close" id="sidenav-close">X</a></li>
+		<li class="logo"><img class="center" src="/images/icono1.gif"></a></li>
+		<li class="name white-text"><span>STREIN</span></li>
+		<li class="style card-create-course"><a title="Lista de Usuarios" href="/admin-account" class="btn grayusco padding" id="stud"><i class="material-icons white-text">face</i></a></li>
+		<li class="style card-create-course"><a title="Agregar Usuario" href="/admin-account/register" class="btn grayusco padding"><i class="material-icons white-text">add_box</i></a></li>
+		<li class="style card-create-course" id="enterClass"><a href="/admin-account/course-accounts" class="btn grayusco padding" id="strein" title="Cursos"><i class="material-icons white-text">local_library</i></a></li>
+	</ul>
+
+	<main>
+		<div class="row">
+			<div class="col s12 no-padding">
+				<ul id="tabs" class="tabs">
+					<li class="tab col s3"><a class="active" href="#test1">Cursos existentes</a></li>
+					<li class="tab col s3"><a id="test_4" href="#test4">Editar Curso</a></li>
+					<li class="tab col s3 disabled"><a id="test_2" href="#test2">Asignación de curso</a></li>
+				</ul>
+			</div>
+
+			<div id="test1" class="col s12">
+				<div class="row">
+					<div class="col s12 m12 l9 no-padding-right"> 
+						<ul class="collapsible">   
+							<li class="active">
+								<div class="collapsible-body no-padding">
+									<table class="table striped" data-sorting="true" data-paging="true" data-filtering="true">
+										<thead> 
+											<tr>
+												<th data-breakpoints="xs sm md lg" title="Id de base de datos">Id BD</th>
+												<th data-breakpoints="xs" title="Código del curso">Código</th>
+												<th>Nombre</th> 
+												<th data-breakpoints="xs sm md">Tipo de curso</th> 
+												<th data-breakpoints="xs sm md lg">Creado por</th> 
+												<th data-breakpoints="xs sm md lg">Asignación</th>
+												<th data-breakpoints="xs">Designado a</th>
+												<th data-breakpoints="xs"># Est</th>
+												<th>Editar</th>
+												<th>Eliminar</th>
+											</tr>
+										</thead>
+										<% for(var i=0; i<course.length; i++) {%>
+										<tr>
+											<td id="__id<%=i%>"><%=course[i]._id%></td>
+											<td id="code<%=i%>"><%=course[i].code_course%></td>
+											<td id="name<%=i%>"><%=course[i].name_course%></td>
+											<td id="type<%=i%>"><%=course[i].type%></td>
+											<td id="crea<%=i%>"><%=course[i].created_by_name%></td>
+											<td id="assi<%=i%>"><%=course[i].assigned%></td>
+											<td id="assi<%=i%>"><%=course[i].name_tutor%></td>
+											<td><%=course[i].num_students%></td>
+											<td><a id="edit<%=i%>" onclick="edit_course(this.id)" ><i class="material-icons redusco-text">create</i></a></td>
+											<td><a id="delt<%=i%>"onclick="delete_course(this.id)"><i class="material-icons redusco-text">delete_forever</i></a></td>
+										</tr>
+										<% } %>  
+									</table>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col s12 m12 l3"> 
+						<ul class="collapsible">   
+							<li class="active">
+								<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">local_library</i>Crear curso
+								</div>
+								<div class="collapsible-body">
+									<form action="/control/new_course" method="POST">
+										<input type="hidden" id="_id" name="_id" value=""/>
+										<div class="box"> 
+											<input class="box text-center" type="text" class="form-control" name="name_course" id="name_course"  placeholder="Nombre del curso" required>
+										</div>
+										<div class="box"> 
+											<input class="box text-center" type="number" class="form-control" name="code_course" id="code_course"  placeholder="Código del curso" required>
+										</div>
+										<div class="box"> 
+											<div class="input-field col s12">
+												<select name="type" id="mySelect" required>
+													<option value="" disabled selected>Tipo de Curso</option>
+													<option value="Institucional">Institucional</option>
+													<option value="Ciencias-Básicas">Ciencias-Básicas</option>
+													<option value="Básica-Ingeniería">Básica-Ingeniería</option>
+													<option value="Aplicada-Ingeniería">Aplicada-Ingeniería</option>
+												</select>
+											</div>
+										</div>
+										<div class="center">
+											<button type="submit" class="btn waves-effect waves-light redusco yellowusco-text">Aceptar</button>
+										</div>
+									</form>
+								</div> 
+							</li>
+						</ul>  
+						<ul class="collapsible">   
+							<li class="active">
+								<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i><i class="material-icons redusco-text">book</i>Cursos sin asignar
+								</div>
+								<div class="collapsible-body no-padding">
+									<table class="table striped" data-sorting="true" data-filtering="true" data-paging="true">
+										<thead> 
+											<tr>
+												<th>Nombre</th>
+												<th>Editar</th>
+											</tr>
+										</thead>
+										<% for(var i=0; i<course2.length; i++) {%>
+										<tr>
+											<td><%=course2[i].name_course%></td>
+											<td><a id="cou<%=course2[i]._id%>" class="edit-course" onclick="edit_course2(this.id)"><i class="material-icons redusco-text">create</i></a></td>
+										</tr>
+										<% } %>  
+									</table>
+								</div> 
+							</li>
+						</ul>            
+					</div>
+				</div>
+			</div>
+
+			<div id="test2" class="col s12 m12">
+				<div class="row">
+					<div class="col s12 m12 l8 offset-l2">                 
+						<input type="hidden" id="id_tutor" name="" value=""/>
+						<input type="hidden" id="students" name="students" value=""/>
+						<div id="FirstPart">
+							<ul class="collapsible">   
+								<li class="active">
+									<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Seleccione un curso para asociar
+									</div>
+									<div class="collapsible-body no-padding">
+										<table class="table striped" data-sorting="true" data-filtering="true" data-paging="true">
+											<thead> 
+												<tr>
+													<th value="none"></th>
+													<th data-breakpoints="xs">ID</th> 
+													<th>NOMBRE</th> 
+													<th data-breakpoints="xs">TIPO</th> 
+													<th data-breakpoints="xs">CREADOR POR</th> 
+												</tr>
+											</thead>
+											<% for(var i=0; i<course2.length; i++) {%>
+											<tr>
+												<th>    
+													<p style="margin-top: 0px !important; margin-bottom: 0px !important">
+														<label>
+															<input type="checkbox" class="check3" id="check3<%=course2[i]._id%>" name="<%=course2[i].name_course%>" onclick="select_one_course(this.id, this.name)" required/>
+															<span></span>
+														</label>
+													</p>
+												</th>
+												<td><%=course2[i]._id%></td>
+												<td><%=course2[i].name_course%></td>
+												<td id="type-<%=course2[i]._id%>"><%=course2[i].type%></td>
+												<td><%=course2[i].created_by_name%></td>
+											</tr>
+											<% } %>  
+										</table>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div id="secondPart">
+						<form id="update_course">
+							<div class="col s12 m12 l4 no-padding-right">            
+							<div id="basicInfo">
+								<ul class="collapsible">   
+									<li class="active">
+										<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Información básica
+										</div>
+										<div class="collapsible-body">
+											<div class="box"> 
+												<i class="small material-icons img">fingerprint</i>
+												<input class="box text-center" type="text" class="form-control" name="_id" id="_id2" disabled="true">
+											</div>
+											<div class="box"> 
+												<i class="small material-icons img">import_contacts</i>
+												<input class="box text-center" type="text" class="form-control" name="name_course" id="name_course2" disabled>
+											</div>
+											<div class="box"> 
+												<i class="small material-icons img">import_contacts</i>
+												<input class="box text-center" type="text" class="form-control" name="code_course" id="code_course2" disabled>
+											</div>
+											<div class="box"> 
+												<i class="small material-icons img">title</i>
+												<input class="box text-center" type="text" class="form-control" id="type_course" disabled>
+											</div>
+										</div>
+									</li>
+								</ul>
+								<div class="right"> 
+								<input type="submit" class="btn yellowusco redusco-text" name="update_course" style="margin-right: 5px;">
+								<button id="cancel_course" class="btn redusco yellowusco-text">Cancelar</button>
+								</div>
+							</div>
+							</div>
+							
+							<div class="col s12 m12 l8">                 
+								<div id="infoTutor">
+									<ul class="collapsible">   
+										<li class="active">
+											<div class="collapsible-header" style="font-weight: bold"><i class="material-icons">arrow_drop_down</i>Tutor para asociar
+											</div>
+											<div class="collapsible-body no-padding">
+												<table class="table striped" data-sorting="true" data-filtering="true">
+													<thead> 
+														<tr>
+															<th></th>
+															<th>NOMBRE</th> 
+															<th data-breakpoints="xs">CORREO</th>
+														</tr>
+													</thead>
+													<% for(var i=0; i<tutor.length; i++) {%>
+													<tr>
+														<td>    
+															<p style="margin-top: 0px !important; margin-bottom: 0px !important">
+																<label>
+																	<input type="checkbox" class="check2" id="check<%=tutor[i]._id%>" onclick="select_one_tutor(this.id)" required/>
+																	<span></span>
+																</label>
+															</p>
+														</td>
+														<td id="name2<%=tutor[i]._id%>"><%=tutor[i].nombres%></td>
+														<td id="mail2<%=tutor[i]._id%>"><%=tutor[i].correo%></td>
+													</tr>
+													<% } %>  
+												</table>
+											</div>
+										</li>
+									</ul>
+								</div>
+					
+								<div id="studentsInfo">
+									<ul class="collapsible">   
+										<li class="active">
+											<div class="collapsible-header" style="font-weight: bold"><i class="material-icons">arrow_drop_down</i>Estudiantes a asociar
+											</div>
+											<div class="collapsible-body no-padding">
+												<table class="table striped" data-sorting="true" data-filtering="true">
+													<thead> 
+														<tr>
+															<th id="select-all" value="none">
+																TODOS
+															</th>
+															<th>NOMBRE</th> 
+															<th data-breakpoints="xs">CORREO</th>
+														</tr>
+													</thead>
+													<% for(var i=0; i<student.length; i++) {%>
+													<tr>
+														<td>    
+															<p style="margin-top: 0px !important; margin-bottom: 0px !important">
+																<label>
+																	<input type="checkbox" class="check" id="check<%=student[i]._id%>" onclick="select_one_student(this.id)"/>
+																	<span></span>
+																</label>
+															</p>
+														</td>
+														<td><%=student[i].nombres%></td>
+														<td><%=student[i].correo%></td>
+													</tr>
+													<% } %>  
+												</table>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		    <div id="test4" class="col s12">
+				<div class="row">
+					<div class="col s12 m12 l8 offset-l2">                 
+					<div id="FirstPart4">
+						<ul class="collapsible">   
+							<li class="active">
+								<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Seleccione un curso para editar
+								</div>
+								<div class="collapsible-body no-padding">
+									<table class="table striped" data-sorting="true" data-filtering="true" data-paging="true">
+										<thead> 
+											<tr>
+												<th value="none"></th>
+												<th data-breakpoints="xs">ID</th> 
+												<th>NOMBRE</th> 
+												<th data-breakpoints="xs">TIPO</th> 
+												<th data-breakpoints="xs">CREADOR POR</th> 
+											</tr>
+										</thead>
+										<% for(var i=0; i<course3.length; i++) {%>
+										<tr>
+											<th>    
+												<p style="margin-top: 0px !important; margin-bottom: 0px !important">
+													<label>
+														<input type="checkbox" class="check4" id="check4<%=course3[i]._id%>" onclick="select_one_course3(this.id)" required/>
+														<span></span>
+													</label>
+												</p>
+											</th>
+											<td><%=course3[i]._id%></td>
+											<td id="code4<%=course3[i]._id%>"><%=course3[i].name_course%></td>
+											<td id="name4<%=course3[i]._id%>"><%=course3[i].name_course%></td>
+											<td id="type4<%=course3[i]._id%>"><%=course3[i].type%></td>
+											<td><%=course3[i].created_by_name%></td>
+										</tr>
+										<% } %>  
+									</table>
+								</div>
+							</li>
+						</ul>
+					</div>
+				    </div>
+
+					<div id="secondPart4">
+						<form id="update_course4">
+							<div class="col s12 m12 l4 no-padding-right">
+								<div id="basicInfo2">
+									<ul class="collapsible">   
+										<li class="active">
+											<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Información básica
+											</div>
+											<div class="collapsible-body">
+												<input type="hidden" id="id_tutor" name="" value=""/>
+												<input type="hidden" id="students" name="students" value=""/>
+												<div class="box"> 
+													<i class="small material-icons img">fingerprint</i>
+													<input class="box text-center" type="text" class="form-control" name="name_course" id="_id4" placeholder="XXXXXXXXXXXXXXXXX" disabled="true">
+												</div>
+												<div class="box"> 
+													<i class="small material-icons img">import_contacts</i>
+													<input class="box text-center" type="text" class="form-control" name="name_course" id="name_course4"  placeholder="Nombre del curso" required>
+												</div>
+												<div class="box"> 
+													<i class="small material-icons img">import_contacts</i>
+													<input class="box text-center" type="number" class="form-control" name="code_course" id="code_course4"  placeholder="Código del curso" required>
+												</div>
+												<div class="box"> 
+													<div class="input-field col s12">
+														<select id="mySelect4" required>
+															<option value="" disabled selected>Tipo de Curso</option>
+															<option value="Institucional">Institucional</option>
+															<option value="Ciencias-Básicas">Ciencias-Básicas</option>
+															<option value="Básica-Ingeniería">Básica-Ingeniería</option>
+															<option value="Aplicada-Ingeniería">Aplicada-Ingeniería</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul> 
+									<div class="right">
+										<input type="submit" class="btn yellowusco redusco-text" name="update_course" style="margin-right: 5px;">
+										<button id="cancel_course" class="btn redusco yellowusco-text">Cancelar</button> 
+									</div>
+								</div>
+							</div>
+
+							<div class="col s12 m12 l8">                 
+								<div id="infoTutor">
+									<ul class="collapsible">   
+										<li class="active">
+											<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Tutor vinculado
+											</div>
+											<div class="collapsible-body">
+												<div class="box" id="tab4_tutor"> 
+													 
+												</div>
+												<br><br>
+												<a class="redusco-text" id="add_one_tutor" style="cursor: pointer;">+ Agregar otro tutor</a>
+											</div>
+										</li>
+									</ul>
+								</div>
+						
+								<div id="studentsInfo">
+									<ul class="collapsible">   
+										<li class="active">
+											<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Estudiantes vinculados
+											</div>
+											<div class="collapsible-body">    
+												<div class="box" id="tab4_students"> 
+
+												</div>
+												<a class="redusco-text" id="add_more_students" style="cursor: pointer;">+ Agregar más estudiantes</a>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>	
+
+			<!-- The Modal-->
+			<div id="myModal2" class="myModal">
+				<div class="modal-content">
+					<table class="table striped" data-sorting="true" data-filtering="true">
+						<thead> 
+							<tr>
+								<th></th>
+								<th>NOMBRE</th> 
+								<th data-breakpoints="xs">CORREO</th>
+							</tr>
+						</thead>
+						<% for(var i=0; i<tutor.length; i++) {%>
+						<tr class="tr_7">
+							<td>    
+								<p style="margin-top: 0px !important; margin-bottom: 0px !important">
+									<label>
+										<input type="checkbox" class="check7" id="check7<%=tutor[i]._id%>" onclick="select_one_tutor2(this.id)" requiered/>
+										<span></span>
+									</label>
+								</p>
+							</td>
+							<td id="name7<%=tutor[i]._id%>"><%=tutor[i].nombres%></td>
+							<td id="mail7<%=tutor[i]._id%>"><%=tutor[i].correo%></td>
+						</tr>
+						<% } %>  
+					</table>
+				</div>
+			</div>
+
+			<!-- The Modal-->
+			<div id="myModal3" class="myModal">
+				<div class="modal-content">
+					<table class="table striped" data-sorting="true" data-filtering="true">
+						<thead> 
+							<tr>
+								<th id="select-all" value="none">
+									TODOS
+								</th>
+								<th>NOMBRE</th> 
+								<th data-breakpoints="xs">CORREO</th>
+							</tr>
+						</thead>
+						<% for(var i=0; i<student.length; i++) {%>
+						<tr id="tr_8<%=student[i]._id%>" class="tr_8">
+							<th>    
+								<p style="margin-top: 0px !important; margin-bottom: 0px !important">
+									<label>
+										<input type="checkbox" class="check_6 check_6<%=student[i]._id%>" id="check8<%=student[i]._id%>" onclick="select_one_student2(this.id)" />
+										<span></span>
+									</label>
+								</p>
+							</th>
+							<td id="name8<%=student[i]._id%>"><%=student[i].nombres%></td>
+							<td><%=student[i].correo%></td>
+						</tr>
+						<% } %>  
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+

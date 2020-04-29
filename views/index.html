@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INICIO │ STREIN</title>
+
+    <!-- icon-->
+    <link rel="shortcut icon" href="/images/icono.gif">
+
+    <!-- CSS  estilo con materialize--> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+
+    <!--  Scripts-->
+    <script src="/javascript/lib/jquery.3.3.1.js"></script>
+    <script src="/javascript/lib/materialize.js"></script>
+    <script src="/javascript/lib/init.js"></script>
+
+    <style type="text/css">
+      .sidenav li {
+          line-height: 35px;
+      }
+    </style>
+
+  </head>
+  <body> 
+
+    <div class="row no-margin-bottom">
+      <div class="s12 m12 l12">
+        <section class="banner">
+          <ul id="slide-out" class="sidenav center">
+            <li><a href="#" class="right-align sidenav-close" id="sidenav-close">X</a></li><br>
+            <li><img class="center" src="/images/icono0.gif"></li><br>
+            <li><span>Director: Albeiro Cortés <br> Estudiantes: Marly Ruiz y Santiago Alarcón <br>Universidad Surcolombiana <br>Programa ingeniería Electrónica <br>Grupo de tratamiento de señales y telecomunicaciones - GTST</span></li><br><br>
+            <li><img class="center" src="/images/logo_usco.png"></li>  
+          </ul>
+          <a href="#" title="Información" data-target="slide-out" class="sidenav-trigger inner" id="menu"><i class="material-icons menu redusco-text">apps</i></a>
+          <div class="inner center" id="inner1">
+            <header>
+              <h1>STREIN</h1>
+              <p>Sistema de telconferencia educacional<br /> interectivo.</p>
+            </header>
+            <a href="/logueo" style="margin-right: 10px" class="btn button redusco yellowusco-text modal-trigger">INGRESAR</a>
+            <a href="#myModal" style="position: absolute;" title="Pasos para ingresar a la transmisión" class="yellowusco-text modal-trigger"><i class="material-icons small">report</i></a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <video width="100%" controls="" autoplay=""><source src="/images/transmisión.mp4" type=""></video>
+    </div>
+
+  </body>
+</html>
+
+

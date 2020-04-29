@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CUENTA │ STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/form.css" type="text/css" rel="stylesheet" media="screen"/>
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+
+  <!-- Funciones -->
+  <script src="/javascript/data_tutor.js"></script>
+
+</head>
+<body class="codrops-top">
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+
+  <nav class="transparent top-nav" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= per.nombres %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right redusco-text"><i class="material-icons">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/student-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
+        <li><a id="" class="redusco-text" href="/student-account##email"><i class="material-icons left-align">markunread</i></a></li>
+        <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown2' title="Mis cursos"><i class="material-icons left-align">school</i></a></li>
+        <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+        <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+   <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a href="/student-account" class="redusco-text"><i class="material-icons">account_balance</i>Inicio</a></li>
+    <li><a id="" class="redusco-text" href="/student-account##email">Correo<i class="material-icons left-align">markunread</i></a></li>
+    <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown1'><i class="material-icons left-align">school</i>Mis cursos</a></li>
+    <li><a href="/logout" id="logout" class="redusco-text"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+    <li><a href = "javascript:history.back(1)" class="redusco-text"><i class="tiny material-icons">arrow_back</i>Atrás</a></li>
+  </ul>
+
+   <main>
+    <div class="row">
+      <div class="s12 m12 l12">
+        <section class="banner">
+          <div class="inner" id="inner2">
+          <div class="card">
+            <div class="card-action redusco yellowusco-text">
+              <span class="card-title">Cambio de contraseña</span>
+            </div>
+            <div class="card-content">
+              <form id="table2">
+                <div class="box"> 
+                <i class="tiny material-icons img">lock_open</i>      
+                <a id='err_pas'></a>
+                <input class="box" type="password" name="contra_act" id="contra_act"  placeholder="Contraseña Actual " required/></div>
+                
+                <div class="box"> 
+                <i class="tiny material-icons img">lock</i>
+                <a id='err_pas2'></a>
+                <input class="box" type="password" name="contra" id="contra"  placeholder="Contraseña Nueva" required/></div>
+
+                <div class="box"> 
+                <i class="tiny material-icons img">lock_outline</i> 
+                <input class="box" type="password" name="contra2" id="contra2"  placeholder="Confirmar Contraseña Nueva" required/></div> 
+
+                <br><br>
+                <div class="form-fiel center-align">
+                  <button id="acept" type="submit" class="btn waves-effect waves-light redusco yellowusco-text">Aceptar</button>       
+                </div>
+              </form>
+            </div>
+          </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+  </main>
+  </body>
+</html>

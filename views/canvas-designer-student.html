@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STREIN</title>
+
+  <!-- icon-->
+  <link rel="shortcut icon" href="/images/icono.gif">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="/stylesheets/strein.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/emojionearea.min.css">
+
+  <!--script src="/javascript/lib/RTCMultiConnection.js"></script-->
+
+
+  <!--  Scripts-->
+  <script src="/javascript/lib/jquery.3.3.1.js"></script>
+  <script src="/javascript/lib/materialize.js"></script>
+  <script src="/javascript/lib/init.js"></script>
+  <!--script src="/node_modules/fbr/FileBufferReader.js"></script-->
+
+  <script src="/bower_components/webrtc-adapter/release/adapter.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/demo-console/index.js"></script>
+  <script src="/bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+
+  <script src="/bower_components/kurento-utils/js/kurento-utils.js"></script>
+
+  <!-- Funciones -->
+  <!--script src="/socket.io/socket.io.js"></script-->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> 
+  <!--script src="/javascript/lib/emojionearea.min.js"></script-->
+    
+</head>
+
+<body>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown2' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+  
+  <nav class="transparent" role="navigation">
+    <div class="nav-wrapper">
+      <a class="brand-logo redusco-text text-darken-4"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= course.name_course %></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/student-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
+        <li><a id="account" class="redusco-text" href="/student-account/dataStudent" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i></a></li>
+        <li><a id="" class="redusco-text" href="/student-account##email"><i class="material-icons left-align">markunread</i></a></li>
+        <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown2' title="Mis cursos"><i class="material-icons left-align">school</i></a></li>
+        <li><a href="/logout" id="logout" title="Cerrar sesión"><i class="material-icons left-align redusco-text">exit_to_app</i></a></li>
+        <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/student-account" class="grayusco-text">TODOS MIS CURSOS</a></li>
+    <% for(var i=0; i<courses.length; i++) {%>
+    <li><a href="/student-account/info-curso/<%= courses[i]._id  %>" class="grayusco-text"><%= courses[i].name_course  %></a></li>
+    <% } %>
+  </ul>
+  
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="right-align sidenav-close">X</a></li>
+    <li><a href="/" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i>Inicio</a></li>
+    <li><a id="account" class="redusco-text" href="/student-account/dataStudent" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i>Cambiar contraseña</a></li>
+    <li><a id="" class="redusco-text" href="/student-account">Correo<i class="material-icons left-align">markunread</i></a></li>
+    <li><a id="account" class=" dropdown-trigger redusco-text" data-target='dropdown1' title="Mis cursos"><i class="material-icons left-align">school</i>Cursos</a></li>
+    <li><a href="/logout" id="logout" class="redusco-text" title="Cerrar sesión"><i class="material-icons left-align">exit_to_app</i>Cerrar sesión</a></li>
+    <li><a href = "javascript:history.back(1)" class="redusco-text" title="Atrás"><i class="tiny material-icons">arrow_back</i>Atrás</a></li>
+  </ul> 
+
+  <main>
+    
+    <input type="hidden" value="<%=course._id%>" id="id_course" />
+    <input type="hidden" value="<%= video._id%>" id="id_class" />
+    <input type="hidden" id="studentMicOn" value="false">
+
+
+    <div class="row no-margin body">
+
+      <div class="col s3 m3 l2 no-padding border-right">
+        <div class="row no-margin chat">
+
+          <ul id="tabs" class="tabs">
+            <li class="tab col s3"  title="Estudiantes"><a href="#test1"><i class="material-icons">supervisor_account</i></a></li>
+            <li class="tab col s9" title="Chat"><a class="active" href="#test2" ><i class="material-icons">chat</i></a></li>
+          </ul>
+
+          <div id="test1" class="col s12 no-padding">
+            <div class="row no-padding no-margin">
+              <div class="col s12 m12 l12 no-padding no-margin"> 
+                <ul class="collapsible no-margin">   
+                  <li class="active">
+                    <div class="collapsible-body list no-padding no-margin">
+                      <table class="no-margin no-padding">
+                        <% for(var i=0; i<students.length; i++) {%>
+                          <tr id="tr<%=students[i].id_student%>">
+                            <td class=""><img id="status<%=students[i].name_student%>" class="status" src="/images/circle2.png"></td>
+                            <td class="word" title="<%= students[i].name_student %>"><%= students[i].name_student %></td>
+                          </tr>
+                        <% } %>    
+                      </table>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="test2" class="col s12 no-padding">
+            <div class="row no-margin">
+              <div class="col s12 m12 l12 no-padding"> 
+                <ul class="collapsible no-margin">   
+                  <li class="active">
+                    <div class="collapsible-body no-padding no-margin">
+
+                      <div id="conversation-panel">
+                        <% for(var i=0; i<messagesChat.length; i++) {%>
+                        <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 5px; padding: 5px; border-radius: 7px;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg%>:</b><br><%=messagesChat[i].userchatMessage%></div>
+                        <% } %>
+                        <div id="key-press">
+                            <span style="vertical-align: middle;"></span>
+                            <img src="https://www.webrtc-experiment.com/images/key-press.gif">
+                        </div>
+                      </div>
+
+                      <div id="sendmessage1">
+                        <textarea id="txt-chat-message" placeholder="Enviar mensaje"></textarea> 
+                      </div>
+                      <button id="hand" title="Inquietud" class="white" value=""></button>
+                      <!--img id="btn-attach-file" src="/images/adjuntar.png" title="Adjuntar archivo">
+                      <img id="btn-share-screen" src="/images/screen.png" title="Compartir pantalla"-->
+                      
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col s9 m9 l10 no-padding canvas">
+        <div class="row no-margin canvas" id="c3">
+
+          <video id="remoteVideo2" class="video1" autoplay="true" playsinline="" loop="loop" preload="true"></video>
+          <audio id="remoteAudio" autoplay=""></audio>            
+         
+          <div id="request_call" class="ventana_flotante">
+            <a class="btn-floating pulse" id="call"><i class="material-icons white black-text">videocam</i></a>
+            <p>El profesor está llamando</p>
+            <a class="btn-floating accept" title="Contestar"><i class="material-icons small white-text green dark">call</i></a>
+            <a class="btn-floating reject_call" title="Colgar"><i class="material-icons small white-text redusco">call_end</i></a>
+          </div>
+
+          <div class="row no-margin cam" id="element">
+            <video id="main-video" controls playsinline autoplay></video>
+            <audio autoplay="" id="localAudio" muted></audio>
+            <div id="in_call" class="col s2 m2 l1 no-padding">
+              <a href="#" id="hide" title="Ocultar videocam"><i class="material-icons black-text">visibility_off</i></a>
+              <button title="Stop video" class="set_video" id="stop-video"></button>
+              <button title="Stop audio" class="set_audio" id="stop-audio"></button>
+              <button title="Terminar videollamada" class="reject_call" id="hung_up"></button>
+            </div>
+            <div id="other-videos"></div>
+          </div>
+
+          <div class="no-margin no-padding file-tab">
+
+            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small grayusco-text">switch_camera</i></a>
+          
+          </div>
+
+    
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!--script src="/javascript/canvas-designer-student.js"></script-->
+  <!--script src="/javascript/canvas-kurento-student.js"></script-->
+   <!--script src="/javascript/canvas-designer-tutor.js"></script-->
+  <!--script src="/javascript/canvas-kurento-tutor.js"></script-->
+  <script src="/javascript/kurento-group-index2.js"></script>
+  <!--script src="/javascript/participants.js"></script-->
+
+
+  <div id="myModal" class="myModal">
+    <div id="container-modal" class="modal-content">
+      <img id="" src="../../images/Preloader_4.gif" alt="Loading..." />
+      <h5>El profesor no se encuentra en la sala </h5> <br>
+      <a href = "javascript:history.back(1)" class="redusco-text"><i class="tiny material-icons">arrow_back</i>Atrás</a>
+    </div>
+  </div>
+  <div id="myModal2" class="myModal">
+    <div id="container-modal" class="modal-content">
+      <p style="text-align: center;"> Se aconseja implementar una diadema</p>
+      <p style="text-align: center;">Por favor aceptar el acceso al micrófono y a la cámara</p><br>
+      <button id="btnClass" class="btn waves-effect waves-light redusco yellowusco-text">Aceptar</button>
+    </div>
+  </div>
+
+  </body>
+</html>
+
+
+
+
+
+   
