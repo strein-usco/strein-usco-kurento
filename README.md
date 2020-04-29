@@ -1,9 +1,9 @@
 # strein-usco-kurento
 Node Js project with Kurento Media Server - Many to Many 
 
-Intalling 
+## Intalling 
 npm i 
 
-Start
+# Start
 npm start -- --ws_uri=ws://<my IP>:8888/kurento 
   
