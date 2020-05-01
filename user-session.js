@@ -1,8 +1,9 @@
 /**
  * Created by eak on 9/14/15.
  */
-function UserSession(id, socket) {
+function UserSession(id, socket, name) {
     this.id = id;
+    this.name = name;
     this.socket = socket;
     this.outgoingMedia = null;
     this.incomingMedia = {};

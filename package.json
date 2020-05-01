@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www2",
+    "start": "node ./bin/www",
     "postinstall": "cd public && bower install"
   },
   "dependencies": {

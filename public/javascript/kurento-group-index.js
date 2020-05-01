@@ -54,13 +54,13 @@ socket.on("message", function (message) {
             //disableElements("register");
             console.log(message.data);
             break;
-        case "incomingCall":
+        /*case "incomingCall":
             incomingCall(message);
             break;
         case "callResponse":
             console.log(message);
             console.log(message.message);
-            break;
+            break;*/
         case "existingParticipants":
             console.log("existingParticipants : " + message.data);
             onExistingParticipants(message);
@@ -144,13 +144,13 @@ function joinRoom(name) {
         name: name,
     };
     sendMessage(data);
-
+    //startRecording();
 }
 
 /**
  * Invite other user to a conference call
  */
-function call() {
+/*function call() {
     // Not currently in a room
     //disableElements("call");
     var message = {
@@ -159,7 +159,7 @@ function call() {
         to : document.getElementById('otherUserName').value
     };
     sendMessage(message);
-}
+}*/
 
 /**
  * Tell room you're leaving and remove all video elements
@@ -185,7 +185,7 @@ function leaveRoom(){
  * Javascript Confirm to see if user accepts invite
  * @param message
  */
-function incomingCall(message) {
+/*function incomingCall(message) {
     var joinRoomMessage = message;
     if (confirm('User ' + message.from
             + ' is calling you. Do you accept the call?')) {
@@ -204,7 +204,7 @@ function incomingCall(message) {
         };
         sendMessage(response);
     }
-}
+}*/
 
 /**
  * Request video from all existing participants
@@ -278,7 +278,7 @@ function onExistingParticipants(message) {
     // get access to video from all the participants
     console.log(message.data);
     for (var i in message.data) {
-        receiveVideoFrom(message.data[i]);
+        receiveVideoFrom(message.data[i], message.data2[i]);
     }
 }
 
@@ -286,12 +286,12 @@ function onExistingParticipants(message) {
  * Add new participant locally and request video from new participant
  * @param sender
  */
-function receiveVideoFrom(sender) {
+function receiveVideoFrom(sender, sender_name) {
     console.log(sessionId + " receive video from " + sender);
     var participant = new Participant(sender);
     participants[sender] = participant;
 
-    var video = createVideoForParticipant(participant);
+    var video = createVideoForParticipant(participant, sender_name);
 
     // bind function so that calling 'this' in that function will receive the current instance
     var options = {
@@ -312,7 +312,7 @@ function receiveVideoFrom(sender) {
  * @param message
  */
 function onNewParticipant(message) {
-    receiveVideoFrom(message.new_user_id)
+    receiveVideoFrom(message.new_user_id, message.new_user_name)
 }
 
 /**
@@ -378,10 +378,11 @@ function stopRecording(){
  * @param participant
  * @returns {Element}
  */
-function createVideoForParticipant(participant) {
+function createVideoForParticipant(participant, sender_name) {
 
     var videoId = "video-" + participant.id;
     var video = document.createElement('video');
+    video.setAttribute('name', sender_name);
 
     video.autoplay = true;
     video.id = videoId;
