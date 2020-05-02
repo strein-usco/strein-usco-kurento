@@ -20,6 +20,7 @@
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="/javascript/lib/materialize.js"></script>
   <script src="/javascript/lib/init.js"></script>
+  <script src="/javascript/lib/kurento-utils.js"></script>
   <!--script src="/node_modules/fbr/FileBufferReader.js"></script>
   <script src="https://www.webrtc-experiment.com/screenshot.js"></script>
   <script src="https://www.webrtc-experiment.com/RecordRTC.js"></script-->
@@ -30,7 +31,7 @@
   <script src="/bower_components/demo-console/index.js"></script>
   <script src="/bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
 
-  <script src="/bower_components/kurento-utils/js/kurento-utils.js"></script>
+  <!--script src="/bower_components/kurento-utils/js/kurento-utils.js"></script-->
 
   <!-- Funciones -->
   <script src="/javascript/lib/init.js"></script>
@@ -173,7 +174,7 @@
             </video>
             <div class="col s2 m2 l1 no-padding"  id="web-cam2">
               <a href="#" id="hide" title="Ocultar videocam"><i class="material-icons black-text">visibility_off</i></a>
-              <button title="Stop video" id="stop-video1"></button><button title="Stop audio" id="stop-audio1"></button>
+              <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()">></button>
             </div>
             <video id="screen-viewer" playsinline autoplay muted="" preload="true" style="width: 100%"></video>
             <div id="other-videos"></div>

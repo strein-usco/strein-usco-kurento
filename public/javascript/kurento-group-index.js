@@ -1,6 +1,29 @@
 /**
  * Created by eak on 9/14/15.
  */
+
+
+ function controlStreamVideo(){
+    window.MediaStream.getVideoTracks()[0].enabled =
+    !(window.MediaStream.getVideoTracks()[0].enabled);
+
+    if(!window.MediaStream.getVideoTracks()[0].enabled){
+        document.getElementById('stop-video1').style.background = "url(/images/videocam_off.png) center no-repeat";
+    }else{
+        document.getElementById('stop-video1').style.background = "url(/images/videocam.png) center no-repeat";
+    }
+}
+
+function controlStreamAudio(){
+    window.MediaStream.getAudioTracks()[0].enabled =
+    !(window.MediaStream.getAudioTracks()[0].enabled);
+
+    if(!window.MediaStream.getAudioTracks()[0].enabled){
+        document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
+    }else{
+        document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
+    }
+}
 $(document).ready(function() {
 var socket = io.connect();
 var user_name;
@@ -476,6 +499,10 @@ function createVideoForParticipant(participant, sender_name) {
         document.getElementById('leaveRoom').disabled = false;
     }
 }*/
+
+
+
+
 
 $('#txt-chat-message').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
