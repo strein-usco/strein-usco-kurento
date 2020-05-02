@@ -3,6 +3,7 @@
  */
 $(document).ready(function() {
 var socket = io.connect();
+var user_name
 var localVideoCurrentId;
 var localVideo;
 var sessionId;
@@ -29,6 +30,7 @@ $.ajax({
             sessionid: room,
             userFullName: result.nombres
         }
+        user_name = result.nombres;
         joinRoom(result.nombres)
         //call()
         //window.params = params;
@@ -76,6 +78,10 @@ socket.on("message", function (message) {
         case "receiveVideoAnswer":
             console.log("receiveVideoAnswer from : " + message.sessionId);
             onReceiveVideoAnswer(message);
+            break;
+        case 'messageChatFrom':
+            //console.log("messageChatFrom");
+            messageChatFrom(message, socket.id);
             break;
         case "startRecording":
             console.log("Starting recording");
@@ -374,6 +380,50 @@ function stopRecording(){
     sendMessage(data);
 }
 
+var conversationPanel = document.getElementById('div_chat');
+//conversationPanel.scrollTop = conversationPanel.clientHeight;
+
+/**
+ * Reciveing messages from users in the same room 
+ */
+function messageChatFrom(message, socketId){
+    var div = document.createElement('div');
+    div.className = 'message';
+
+    if (message.sender != socketId) {
+        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br>' + message.text;
+        div.style.background = '#4E6470';
+        div.style.color = 'white';
+        div.style.width = '80%';
+        div.style.float = 'right';
+        div.style.margin = '5px';
+        div.style.padding = '5px';
+        div.style.borderRadius = '7px';
+
+        /*if (event.data.checkmark_id) {
+            connection.send({
+                checkmark: 'received',
+                checkmark_id: event.data.checkmark_id
+            });
+        }*/
+    } else {
+        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br>' + message.text;;
+        div.style.background = '#8d191d';
+        div.style.color = 'white';
+        div.style.width = '80%';
+        div.style.float = 'left';
+        div.style.margin = '5px';
+        div.style.padding = '5px';
+        div.style.borderRadius = '7px';
+    }
+
+    conversationPanel.appendChild(div);
+
+    //conversationPanel.scrollTop = conversationPanel.clientHeight;
+    //conversationPanel.scrollTop = conversationPanel.scrollHeight - conversationPanel.scrollTop;
+}
+
+
 /**
  * Create video DOM element
  * @param participant
@@ -427,6 +477,22 @@ function createVideoForParticipant(participant, sender_name) {
         document.getElementById('leaveRoom').disabled = false;
     }
 }*/
+
+$('#txt-chat-message').keypress(function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+        var message = {
+            id: 'messageChatFrom',
+            room: room,
+            sender: socket.id,
+            sender_name: user_name,
+            text : this.value,
+        };
+        sendMessage(message);
+        this.value = "";
+    }
+});
+
 
 /**
  * Created by eak on 9/15/15.

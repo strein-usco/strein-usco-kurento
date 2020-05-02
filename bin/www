@@ -155,6 +155,10 @@ io.on('connection', function (socket) {
                 console.log("Calling");
                 call(socket.id, message.to, message.from);
                 break;*/
+            case 'messageChatFrom':
+                //console.log("messageChatFrom");
+                messageChatFrom(message, socket);
+                break;
             case "startRecording":
                 console.log("Starting recording");
                 startRecord(socket);
@@ -363,7 +367,7 @@ function leaveRoom(sessionId, callback) {
         userSession.incomingMedia[i].release();
         delete userSession.incomingMedia[i];
     }
-
+    
     var data = {
         id: 'participantLeft',
         sessionId: userSession.id
@@ -371,7 +375,9 @@ function leaveRoom(sessionId, callback) {
     for (var i in usersInRoom) {
         var user = usersInRoom[i];
         // release viewer from this
-        user.incomingMedia[userSession.id].release();
+        if(user.incomingMedia[userSession.id]){
+          user.incomingMedia[userSession.id].release();         
+        }
         delete user.incomingMedia[userSession.id];
 
         // notify all user in the room
@@ -504,8 +510,8 @@ function getEndpointForUser(userSession, sender, callback) {
                     return callback(error);
                 }
                 console.log('user : ' + userSession.id + ' successfully created pipeline');
-                incomingMedia.setMaxVideoSendBandwidth(100);
-                incomingMedia.setMinVideoSendBandwidth(20);
+                //incomingMedia.setMaxVideoSendBandwidth(100);
+                //incomingMedia.setMinVideoSendBandwidth(20);
                 userSession.incomingMedia[sender.id] = incomingMedia;
 
                 // add ice candidate the get sent before endpoint is established
@@ -643,6 +649,28 @@ function stopRecord(socket) {
         user.sendMessage(data);
         console.log(user.id);
     }
+}
+
+
+function messageChatFrom(message, socket){
+  var userSession = userRegistry.getById(socket.id);
+    if (!userSession) {
+      return;
+  }
+
+  var room = rooms[userSession.roomName];
+
+  if(!room){
+      return;
+  }
+
+  var usersInRoom = room.participants;
+
+  // notify existing user
+  for (var i in usersInRoom) {
+      usersInRoom[i].sendMessage(message);
+  }
+            
 }
 
 /**
