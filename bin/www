@@ -205,7 +205,7 @@ function joinRoom(socket, roomName, name, callback) {
             callback(error)
         }
         join(socket, room, function (error, user) {
-            console.log('join success : ' + user.id);
+            //console.log('join success : ' + user.id);
         });
     });
 }
@@ -330,13 +330,14 @@ function join(socket, room, callback) {
             mediaProfile: 'MP4',
             uri: "file:///tmp/file"+userSession.id+ ".mp4"
         };
+        console.log(recorderParams.uri);
 
         room.pipeline.create('RecorderEndpoint', recorderParams, function(error, recorderEndpoint){
             userSession.outgoingMedia.recorderEndpoint = recorderEndpoint;
             outgoingMedia.connect(recorderEndpoint);
         });
 
-        callback(null, userSession);
+        callback(null, userSession.id);
     });
 }
 
@@ -361,10 +362,15 @@ function leaveRoom(sessionId, callback) {
     console.log('notify all user that ' + userSession.id + ' is leaving the room ' + room.name);
     var usersInRoom = room.participants;
     delete usersInRoom[userSession.id];
-    userSession.outgoingMedia.release();
+    if(userSession.outgoingMedia){
+     userSession.outgoingMedia.release();         
+    }
     // release incoming media for the leaving user
     for (var i in userSession.incomingMedia) {
-        userSession.incomingMedia[i].release();
+        if(userSession.outgoingMedia[i]){
+         userSession.outgoingMedia[i].release();         
+        }
+        //userSession.incomingMedia[i].release();
         delete userSession.incomingMedia[i];
     }
     
@@ -406,7 +412,7 @@ function stop(sessionId) {
  * @param to
  * @param from
  */
-function call(callerId, to, from) {
+/*function call(callerId, to, from) {
     if(to === from){
         return;
     }
@@ -441,7 +447,7 @@ function call(callerId, to, from) {
         message: rejectCause
     };
     caller.sendMessage(message);
-}
+}*/
 
 /**
  * Retrieve sdpOffer from other user, required for WebRTC calls
@@ -455,8 +461,11 @@ function receiveVideoFrom(socket, senderId, sdpOffer, callback) {
     var sender = userRegistry.getById(senderId);
 
     getEndpointForUser(userSession, sender, function (error, endpoint) {
-        if (error) {
+        if (error ) {
             callback(error);
+        }
+        if (!endpoint ) {
+            return 
         }
 
         endpoint.processOffer(sdpOffer, function (error, sdpAnswer) {
@@ -489,6 +498,10 @@ function receiveVideoFrom(socket, senderId, sdpOffer, callback) {
  */
 function getEndpointForUser(userSession, sender, callback) {
     // request for self media
+    console.log("-----------------1-1-1-1-1-------------------");
+    console.log(userSession);
+    console.log("------------------22222222-------------------")
+    console.log(sender);
     if (userSession.id === sender.id) {
         callback(null, userSession.outgoingMedia);
         return;

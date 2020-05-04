@@ -288,7 +288,8 @@ function WebRtcPeer(mode, options, callback) {
         }
     };
     setIceCandidateAccordingWebBrowser(iceCandidateFunction, pc);
-    pc.onaddstream = options.onaddstream;
+    //pc.onaddstream = options.onaddstream;
+    pc.ontrack = options.ontrack;
     pc.onnegotiationneeded = options.onnegotiationneeded;
     this.on('newListener', function (event, listener) {
         if (event === 'icecandidate' || event === 'candidategatheringdone') {

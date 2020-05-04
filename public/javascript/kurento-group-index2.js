@@ -19,27 +19,6 @@ var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
 
 var participants = {};
 
-$.ajax({
-    async: false,
-    type: "POST",
-    url: "/data-user",
-    success: function(result) {
-        params = {
-            open: true,
-            publicRoomIdentifier: "dashboard",
-            sessionid: room,
-            userFullName: result.nombres
-        }
-        user_name = result.nombres;
-        joinRoom(result.nombres)
-        //call()
-        //window.params = params;
-    },
-    error: function(error) {
-        console.log("error");
-    }
-});
-
 window.onbeforeunload = function () {
     socket.disconnect();
 };
@@ -47,6 +26,27 @@ window.onbeforeunload = function () {
 socket.on("id", function (id) {
     console.log("receive id : " + id);
     sessionId = id;
+    
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/data-user",
+        success: function(result) {
+            params = {
+                open: true,
+                publicRoomIdentifier: "dashboard",
+                sessionid: room,
+                userFullName: result.nombres
+            }
+            user_name = result.nombres;
+            joinRoom(result.nombres)
+            //call()
+            //window.params = params;
+        },
+        error: function(error) {
+            console.log("error");
+        }
+    });
 });
 
 // message handler

@@ -42,27 +42,6 @@ var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
 
 var participants = {};
 
-$.ajax({
-    async: false,
-    type: "POST",
-    url: "/data-user",
-    success: function(result) {
-        params = {
-            open: true,
-            publicRoomIdentifier: "dashboard",
-            sessionid: room,
-            userFullName: result.nombres
-        }
-        user_name = result.nombres;
-        //joinRoom(result.nombres)
-        joinRoom('tutor')
-        //window.params = params;
-    },
-    error: function(error) {
-        console.log("error");
-    }
-});
-
 window.onbeforeunload = function () {
     socket.disconnect();
 };
@@ -70,6 +49,27 @@ window.onbeforeunload = function () {
 socket.on("id", function (id) {
     console.log("receive id : " + id);
     sessionId = id;
+
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/data-user",
+        success: function(result) {
+            params = {
+                open: true,
+                publicRoomIdentifier: "dashboard",
+                sessionid: room,
+                userFullName: result.nombres
+            }
+            user_name = result.nombres;
+            //joinRoom(result.nombres)
+            joinRoom('tutor')
+            //window.params = params;
+        },
+        error: function(error) {
+            console.log("error");
+        }
+    });
 });
 
 // message handler
@@ -288,9 +288,9 @@ function onExistingParticipants(message) {
 
 
     localParticipant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-        if (error) {
+        /*if (error) {
             return console.error(error);
-        }
+        }*/
 
         // Set localVideo to new object if on IE/Safari
         localVideo = document.getElementById("main-video");
@@ -456,6 +456,7 @@ function createVideoForParticipant(participant, sender_name) {
     var videoId = "video-" + participant.id;
     var video = document.createElement('video');
     video.setAttribute('name', sender_name);
+    video.onmouseover = showCameraOptions
 
     video.autoplay = true;
     video.id = videoId;
@@ -500,8 +501,10 @@ function createVideoForParticipant(participant, sender_name) {
     }
 }*/
 
+function showCameraOptions(){
 
-
+    console.log("pasó por encima")
+}
 
 
 $('#txt-chat-message').keypress(function(event) {
