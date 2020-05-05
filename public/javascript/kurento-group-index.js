@@ -30,7 +30,7 @@ var user_name;
 var localVideoCurrentId;
 var localVideo;
 var sessionId;
-var id_course = $("#id_CourProf").attr("value");
+var id_course = document.getElementById("id_CourProf").getAttribute("value")
 //var name_video = document.getElementById('name_video').value;
 var str = document.URL
 var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
@@ -55,12 +55,6 @@ socket.on("id", function (id) {
         type: "POST",
         url: "/data-user",
         success: function(result) {
-            params = {
-                open: true,
-                publicRoomIdentifier: "dashboard",
-                sessionid: room,
-                userFullName: result.nombres
-            }
             user_name = result.nombres;
             //joinRoom(result.nombres)
             joinRoom('tutor')
@@ -281,6 +275,7 @@ function onExistingParticipants(message) {
 
     // bind function so that calling 'this' in that function will receive the current instance
     var options = {
+        localCanvas: false,
         localVideo: video,
         mediaConstraints: constraints,
         onicecandidate: localParticipant.onIceCandidate.bind(localParticipant)

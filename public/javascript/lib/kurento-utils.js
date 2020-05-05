@@ -158,7 +158,9 @@ function WebRtcPeer(mode, options, callback) {
     options = options || {};
     callback = (callback || noop).bind(this);
     var self = this;
+    var streamCanvas;
     var localVideo = options.localVideo;
+    var localCanvas = options.localCanvas;
     var remoteVideo = options.remoteVideo;
     var videoStream = options.videoStream;
     var audioStream = options.audioStream;
@@ -368,6 +370,7 @@ function WebRtcPeer(mode, options, callback) {
         if (remoteVideo) {
             remoteVideo.pause();
             var stream = pc.getRemoteStreams()[0];
+            console.log(pc.getRemoteStreams());
             remoteVideo.srcObject = stream;
             logger.debug('Remote stream:', stream);
             if (typeof AdapterJS !== 'undefined' && AdapterJS.webrtcDetectedBrowser === 'IE' && AdapterJS.webrtcDetectedVersion >= 9) {
@@ -488,13 +491,36 @@ function WebRtcPeer(mode, options, callback) {
             }
             if (typeof AdapterJS !== 'undefined' && AdapterJS.webrtcDetectedBrowser === 'IE' && AdapterJS.webrtcDetectedVersion >= 9) {
                 navigator.getUserMedia(constraints, function (stream) {
-                    window.MediaStream = videoStream = stream;
+                    if(localCanvas){
+                        // capura el flujo se está transmitiendo (recurso para ser visto)
+                        streamCanvas = document.getElementById("c1");
+                        if(adapter.browserDetails.browser === 'firefox'){
+                            stream = streamCanvas.mozCaptureStream();
+                        }else{
+                            stream = streamCanvas.captureStream();
+                        }
+                    }else{
+                        window.MediaStream = videoStream = stream;
+                        start(); 
+                    }
                     start();
                 }, callback);
             } else {
                 navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-                    window.MediaStream = videoStream = stream;
-                    start();
+                    if(localCanvas){
+                        // capura el flujo se está transmitiendo (recurso para ser visto)
+                        streamCanvas = document.getElementById("c1");
+                        if(adapter.browserDetails.browser === 'firefox'){
+                            stream = streamCanvas.mozCaptureStream();
+                        }else{
+                            stream = streamCanvas.captureStream();
+                        }
+                        window.MediaStream = videoStream = stream;
+                    }else{
+                        window.MediaStream = videoStream = stream;
+                        
+                    }
+                    start(); 
                 }).catch(callback);
             }
         }

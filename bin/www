@@ -124,7 +124,7 @@ io.on('connection', function (socket) {
         });
     });
 
-    socket.on('message', function (message) {
+    socket.on('message', async function (message) {
         console.log('Connection: ' + socket.id + ' receive message: ' + message.id);
 
         switch (message.id) {
@@ -136,7 +136,7 @@ io.on('connection', function (socket) {
 
                 break;*/
             case 'joinRoom':
-                register(socket, message.name, function(){});
+                await register(socket, message.name, function(){});
                 console.log('registering ' + socket.id);
                 console.log(socket.id + ' joinRoom : ' + message.roomName);
                 joinRoom(socket, message.roomName, message.name, function () {});
@@ -260,6 +260,7 @@ function join(socket, room, callback) {
     userSession.setRoomName(room.name);
 
     room.pipeline.create('WebRtcEndpoint', function (error, outgoingMedia) {
+        console.log("CREANDO UN WBERTC END POINT")
         if (error) {
             console.error('no participant in room');
             // no participants in room yet release pipeline
