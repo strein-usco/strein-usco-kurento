@@ -693,10 +693,10 @@ function messageChatFrom(message, socket){
 
 function muteUser(message, socket){
     var userSessionTutor = userRegistry.getById(socket.id);
-    if (!userSession) {
+    if (!userSessionTutor) {
       return;
     }
-    if (userSession.name = 'tutor') {
+    if (userSessionTutor.name != 'tutor') {
       return;
     }  
 
