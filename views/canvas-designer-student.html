@@ -172,11 +172,10 @@
           <div class="row no-margin cam" id="element">
             <video id="main-video" controls playsinline autoplay></video>
             <audio autoplay="" id="localAudio" muted></audio>
-            <div id="in_call" class="col s2 m2 l1 no-padding">
+
+            <div class="col s2 m2 l1 no-padding"  id="web-cam2">
               <a href="#" id="hide" title="Ocultar videocam"><i class="material-icons black-text">visibility_off</i></a>
-              <button title="Stop video" class="set_video" id="stop-video"></button>
-              <button title="Stop audio" class="set_audio" id="stop-audio"></button>
-              <button title="Terminar videollamada" class="reject_call" id="hung_up"></button>
+              <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()">></button>
             </div>
             <div id="other-videos"></div>
           </div>

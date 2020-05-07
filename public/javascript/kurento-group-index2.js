@@ -1,3 +1,25 @@
+function controlStreamVideo(){
+    window.MediaStream.getVideoTracks()[0].enabled =
+    !(window.MediaStream.getVideoTracks()[0].enabled);
+
+    if(!window.MediaStream.getVideoTracks()[0].enabled){
+        document.getElementById('stop-video1').style.background = "url(/images/videocam_off.png) center no-repeat";
+    }else{
+        document.getElementById('stop-video1').style.background = "url(/images/videocam.png) center no-repeat";
+    }
+}
+
+function controlStreamAudio(){
+    window.MediaStream.getAudioTracks()[0].enabled =
+    !(window.MediaStream.getAudioTracks()[0].enabled);
+
+    if(!window.MediaStream.getAudioTracks()[0].enabled){
+        document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
+    }else{
+        document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
+    }
+}
+
 /**
  * Created by eak on 9/14/15.
  */
@@ -82,6 +104,10 @@ socket.on("message", function (message) {
         case 'messageChatFrom':
             //console.log("messageChatFrom");
             messageChatFrom(message, socket.id);
+            break;
+        case 'muteUser':
+            //console.log("messageChatFrom");
+            muteUser();
             break;
         case "startRecording":
             console.log("Starting recording");
@@ -421,6 +447,11 @@ function messageChatFrom(message, socketId){
 
     //conversationPanel.scrollTop = conversationPanel.clientHeight;
     //conversationPanel.scrollTop = conversationPanel.scrollHeight - conversationPanel.scrollTop;
+}
+
+function muteUser(){
+    window.MediaStream.getAudioTracks()[0].enabled = true;
+    document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
 }
 
 

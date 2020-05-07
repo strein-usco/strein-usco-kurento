@@ -2,8 +2,7 @@
  * Created by eak on 9/14/15.
  */
 
-
- function controlStreamVideo(){
+function controlStreamVideo(){
     window.MediaStream.getVideoTracks()[0].enabled =
     !(window.MediaStream.getVideoTracks()[0].enabled);
 
@@ -24,7 +23,9 @@ function controlStreamAudio(){
         document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
     }
 }
+
 $(document).ready(function() {
+//$('#myModal31').css('visibility', 'visible');
 var socket = io.connect();
 var user_name;
 var localVideoCurrentId;
@@ -289,6 +290,8 @@ function onExistingParticipants(message) {
 
         // Set localVideo to new object if on IE/Safari
         localVideo = document.getElementById("main-video");
+            localVideo.style.width = '80px';
+
 
         // initial main video to local first
         localVideoCurrentId = sessionId;
@@ -447,17 +450,52 @@ function messageChatFrom(message, socketId){
  * @returns {Element}
  */
 function createVideoForParticipant(participant, sender_name) {
+    var new_div = document.createElement('div');
+    var new_divId = "divvideo-" + participant.id;
+    new_div.id = videoId;
+    new_div.style.width = '80px';
+    new_div.style.margin = '0px';
+    new_div.style.padding = '0px';
+
+    var over_video = document.createElement('div');
+    var over_videoId = "overvideo-" + participant.id;
+    over_video.id = over_videoId;
+    over_video.style.position = 'absolute';
+    over_video.style.float = 'left';
+    over_video.style.margin = '0px';
+    over_video.style.padding = '0px';
+    over_video.style.background = '#C3C3C3';
+    over_video.style.opacity = '0.6';
+    over_video.style.zIndex = '100';
+    over_video.style.wordWrap = 'break-word';
+    over_video.style.display = 'none';
+    over_video.style.cursor = 'pointer'
+    over_video.onmousedown = showCameraOptions;
+    over_video.onmouseout = hide_name_dive;
+
+    var p_name = document.createElement('p');
+    var node = document.createTextNode(sender_name);
+    p_name.style.fontSize = '12px';
+    p_name.appendChild(node);
+    over_video.appendChild(p_name);
 
     var videoId = "video-" + participant.id;
     var video = document.createElement('video');
     video.setAttribute('name', sender_name);
-    video.onmouseover = showCameraOptions
+    video.onmouseover = show_name_dive;
+    video.style.width = '80px';
+    video.style.margin = '0px';
+    video.style.padding = '0px';
+    video.style.zIndex = '0px';
+
 
     video.autoplay = true;
     video.id = videoId;
     video.poster = "img/webrtc.png";
-    document.getElementById("other-videos").appendChild(video);
-
+    new_div.appendChild(over_video);
+    new_div.appendChild(video);
+    document.getElementById("other-videos").appendChild(new_div);
+    //document.getElementById("other-videos").appendChild(video);
     // return video element
     return document.getElementById(videoId);
 }
@@ -496,9 +534,50 @@ function createVideoForParticipant(participant, sender_name) {
     }
 }*/
 
-function showCameraOptions(){
+function show_name_dive(){
+    //this.style.display = 'none'
+    //var new_divId = "divvideo-" + participant.id;
+    var over_video = document.getElementById('over'+this.id);
+    //over_video.setAttribute('width', this.offsetWidth + 'px')
+    //over_video.setAttribute('height', this.offsetHeight + 'px')
+    over_video.style.width = this.offsetWidth + 'px';
+    over_video.style.height = this.offsetHeight + 'px';
+    over_video.style.display = 'block';
 
+
+
+    document.getElementById("over" + this.id).style.display = 'block'
     console.log("pasó por encima")
+}
+
+function hide_name_dive(){
+    this.style.display = 'none';
+}
+
+function showCameraOptions(){
+    $('#myModal31').css('visibility', 'visible');
+    document.getElementById('p_name_user').innerHTML = document.getElementById(this.id.slice(4)).getAttribute('name');
+    document.getElementById('silent_user').setAttribute('name', this.id.slice(4));
+    document.getElementById('block_user').setAttribute('name', this.id.slice(4));
+}
+
+function muteUser(){
+    var msg = {
+        id: "muteUser",
+        userId: this.name  //id del usuario a silenciar
+    };
+    sendMessage(msg);
+}
+
+function blockUser(){
+    //block_user
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+ if (event.target == document.getElementById('myModal31')) {
+    $('#myModal31').css('visibility', 'hidden');
+  }
 }
 
 

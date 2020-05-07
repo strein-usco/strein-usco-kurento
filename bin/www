@@ -159,6 +159,10 @@ io.on('connection', function (socket) {
                 //console.log("messageChatFrom");
                 messageChatFrom(message, socket);
                 break;
+            case 'muteUser':
+                //console.log("messageChatFrom");
+                muteUser(message, socket);
+                break;
             case "startRecording":
                 console.log("Starting recording");
                 startRecord(socket);
@@ -685,6 +689,26 @@ function messageChatFrom(message, socket){
       usersInRoom[i].sendMessage(message);
   }
             
+}
+
+function muteUser(message, socket){
+    var userSessionTutor = userRegistry.getById(socket.id);
+    if (!userSession) {
+      return;
+    }
+    if (userSession.name = 'tutor') {
+      return;
+    }  
+
+    var userSession = userRegistry.getById(message.userId);
+    if (!userSession) {
+      return;
+    }
+
+    userSession.sendMessage({
+        id: 'muteUser'
+    });
+
 }
 
 /**
