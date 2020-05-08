@@ -28,7 +28,12 @@ window.onbeforeunload = function () {
 socket.on("id", function (id) {
     console.log("receive id : " + id);
     sessionId = id;
-	joinRoom('tutors-board')
+    var data = {
+        id: "register",
+        name: 'tutors-board'
+    };
+    sendMessage(data);
+	//joinRoom('tutors-board')
 });
 
 // message handler
@@ -48,6 +53,7 @@ socket.on("message", function (message) {
             break;
         case "startRecording":
             console.log("Starting recording");
+            joinRoom('tutors-board')
             break;
         case "stopRecording":
             console.log("Stopped recording");
@@ -93,7 +99,32 @@ function joinRoom(name) {
         roomName = document.getElementById('roomName').value;
     }
     document.getElementById('roomName').value = roomName;*/
+// capura el flujo se está transmitiendo (recurso para ser visto)
 
+    var localVideo3 =  document.getElementById('c1');
+    videoConstraint = false;
+    if(adapter.browserDetails.browser === 'firefox'){
+       (videoConstraint) ? stream2 = localCanvas.captureStream() : stream2 = localVideo3.mozCaptureStream();
+    }else{
+       (videoConstraint) ? stream2 = localCanvas.captureStream() : stream2 = localVideo3.captureStream();
+    }
+
+    //se toma le flujo de video
+    streamVideo2 = stream2.getVideoTracks()[0];
+    
+    //captura del flujo del audio
+    /*if(adapter.browserDetails.browser === 'firefox'){
+        stream3 = window.MediaStream.mozCaptureStream();
+    }else{
+        stream3 = window.MediaStream.captureStream();
+    }*/
+    // Se toma el flujo de audio
+    streamTrack2 = window.MediaStream1.getAudioTracks()[0];
+
+    //mix entre los flujos de video y audio
+    newStream2 = new MediaStream([streamVideo2, streamTrack2]);
+
+    document.getElementById('screen-viewer').srcObject = newStream2;
     var data = {
         id: "joinRoom",
         roomName: room,

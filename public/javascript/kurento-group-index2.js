@@ -1,8 +1,8 @@
 function controlStreamVideo(){
-    window.MediaStream.getVideoTracks()[0].enabled =
-    !(window.MediaStream.getVideoTracks()[0].enabled);
+    window.MediaStream1.getVideoTracks()[0].enabled =
+    !(window.MediaStream1.getVideoTracks()[0].enabled);
 
-    if(!window.MediaStream.getVideoTracks()[0].enabled){
+    if(!window.MediaStream1.getVideoTracks()[0].enabled){
         document.getElementById('stop-video1').style.background = "url(/images/videocam_off.png) center no-repeat";
     }else{
         document.getElementById('stop-video1').style.background = "url(/images/videocam.png) center no-repeat";
@@ -10,10 +10,10 @@ function controlStreamVideo(){
 }
 
 function controlStreamAudio(){
-    window.MediaStream.getAudioTracks()[0].enabled =
+    window.MediaStream1.getAudioTracks()[0].enabled =
     !(window.MediaStream.getAudioTracks()[0].enabled);
 
-    if(!window.MediaStream.getAudioTracks()[0].enabled){
+    if(!window.MediaStream1.getAudioTracks()[0].enabled){
         document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
     }else{
         document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
@@ -450,7 +450,7 @@ function messageChatFrom(message, socketId){
 }
 
 function muteUser(){
-    window.MediaStream.getAudioTracks()[0].enabled = true;
+    window.MediaStream1.getAudioTracks()[0].enabled = true;
     document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
 }
 

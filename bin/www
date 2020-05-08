@@ -128,13 +128,10 @@ io.on('connection', function (socket) {
         console.log('Connection: ' + socket.id + ' receive message: ' + message.id);
 
         switch (message.id) {
-            /*case 'register':
+            case 'register':
                 console.log('registering ' + socket.id);
-                register(socket, message.name, function(){
-
-                });
-
-                break;*/
+                register(socket, message.name, function(){});
+                break;
             case 'joinRoom':
                 await register(socket, message.name, function(){});
                 console.log('registering ' + socket.id);
@@ -187,14 +184,16 @@ io.on('connection', function (socket) {
  * @param callback
  */
 function register(socket, name, callback){
-    var userSession = new UserSession(socket.id, socket, name);
-    //userSession.name = name;
-    userRegistry.register(userSession);
-    /*userSession.sendMessage({
-        id: 'registered',
-        data: 'Successfully registered ' + socket.id
-    });*/
-    console.log(userRegistry);
+    if(!userRegistry.getById(socket.id)){
+        var userSession = new UserSession(socket.id, socket, name);
+        //userSession.name = name;
+        userRegistry.register(userSession);
+        /*userSession.sendMessage({
+            id: 'registered',
+            data: 'Successfully registered ' + socket.id
+        });*/
+        console.log(userRegistry);
+    }
 }
 
 /**
@@ -273,8 +272,8 @@ function join(socket, room, callback) {
             }
             return callback(error);
         }
-        outgoingMedia.setMaxVideoRecvBandwidth(100);
-        outgoingMedia.setMinVideoRecvBandwidth(20);
+        //outgoingMedia.setMaxVideoRecvBandwidth(100);
+        //outgoingMedia.setMinVideoRecvBandwidth(20);
         userSession.outgoingMedia = outgoingMedia;
 
         // add ice candidate the get sent before endpoint is established
@@ -331,15 +330,16 @@ function join(socket, room, callback) {
 
         //MP4 has working sound in VLC, not in windows media player,
         //default mediaProfile is .webm which does have sound but lacks IE support
-        var recorderParams = {
-            mediaProfile: 'MP4',
-            uri: "file:///tmp/file"+userSession.id+ ".mp4"
+        var recorderParams1 = {
+            mediaProfile: 'WEBM',
+            uri: "file://" + __basedir + "/UploadedFiles/" +userSession.id+ ".webm"
         };
-        console.log(recorderParams.uri);
+        console.log(recorderParams1.uri);
 
-        room.pipeline.create('RecorderEndpoint', recorderParams, function(error, recorderEndpoint){
+        room.pipeline.create('RecorderEndpoint', recorderParams1, function(error, recorderEndpoint){
             userSession.outgoingMedia.recorderEndpoint = recorderEndpoint;
             outgoingMedia.connect(recorderEndpoint);
+            userSession.outgoingMedia.recorderEndpoint.record();
         });
 
         callback(null, userSession.id);
@@ -607,7 +607,7 @@ function getKurentoClient(callback) {
  * Start recording room
  */
 function startRecord(socket) {
-    var userSession = userRegistry.getById(socket.id);
+    /*var userSession = userRegistry.getById(socket.id);
 
     if (!userSession) {
         return;
@@ -633,6 +633,13 @@ function startRecord(socket) {
         // notify all user in the room
         user.sendMessage(data);
         console.log(user.id);
+    }*/
+
+    var userSession = userRegistry.getByName('tutors-board');
+    if(userSession){
+        userSession.sendMessage({
+            id: 'startRecording'
+        });
     }
 }
 

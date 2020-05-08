@@ -368,6 +368,10 @@ function WebRtcPeer(mode, options, callback) {
     };
     function setRemoteVideo() {
         if (remoteVideo) {
+            if(remoteVideo.getAttribute('name') == 'tutors-board' && !document.getElementById('c1')){
+                remoteVideo.parentNode.removeChild(remoteVideo);
+                remoteVideo = document.getElementById('remoteVideo2');
+            }
             remoteVideo.pause();
             var stream = pc.getRemoteStreams()[0];
             console.log(pc.getRemoteStreams());
@@ -499,8 +503,9 @@ function WebRtcPeer(mode, options, callback) {
                         }else{
                             stream = streamCanvas.captureStream();
                         }
+                        window.MediaStream2 = videoStream = stream;
                     }else{
-                        window.MediaStream = videoStream = stream;
+                        window.MediaStream1 = videoStream = stream;
                         start(); 
                     }
                     start();
@@ -509,15 +514,16 @@ function WebRtcPeer(mode, options, callback) {
                 navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
                     if(localCanvas){
                         // capura el flujo se está transmitiendo (recurso para ser visto)
-                        streamCanvas = document.getElementById("c1");
+                        //streamCanvas = document.getElementById("c1");
+                        streamCanvas = document.getElementById("screen-viewer");
                         if(adapter.browserDetails.browser === 'firefox'){
                             stream = streamCanvas.mozCaptureStream();
                         }else{
                             stream = streamCanvas.captureStream();
                         }
-                        window.MediaStream = videoStream = stream;
+                        window.MediaStream2 = videoStream = stream;
                     }else{
-                        window.MediaStream = videoStream = stream;
+                        window.MediaStream1 = videoStream = stream;
                         
                     }
                     start(); 

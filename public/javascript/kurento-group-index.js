@@ -3,10 +3,10 @@
  */
 
 function controlStreamVideo(){
-    window.MediaStream.getVideoTracks()[0].enabled =
-    !(window.MediaStream.getVideoTracks()[0].enabled);
+    window.MediaStream1.getVideoTracks()[0].enabled =
+    !(window.MediaStream1.getVideoTracks()[0].enabled);
 
-    if(!window.MediaStream.getVideoTracks()[0].enabled){
+    if(!window.MediaStream1.getVideoTracks()[0].enabled){
         document.getElementById('stop-video1').style.background = "url(/images/videocam_off.png) center no-repeat";
     }else{
         document.getElementById('stop-video1').style.background = "url(/images/videocam.png) center no-repeat";
@@ -14,10 +14,10 @@ function controlStreamVideo(){
 }
 
 function controlStreamAudio(){
-    window.MediaStream.getAudioTracks()[0].enabled =
-    !(window.MediaStream.getAudioTracks()[0].enabled);
+    window.MediaStream1.getAudioTracks()[0].enabled =
+    !(window.MediaStream1.getAudioTracks()[0].enabled);
 
-    if(!window.MediaStream.getAudioTracks()[0].enabled){
+    if(!window.MediaStream1.getAudioTracks()[0].enabled){
         document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
     }else{
         document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
@@ -31,6 +31,7 @@ var user_name;
 var localVideoCurrentId;
 var localVideo;
 var sessionId;
+var localVideo1 =  document.getElementById('main-video');
 document.getElementById('mute_user').onclick = muteUser;
 document.getElementById('block_user').onclick = blockUser;
 var id_course = document.getElementById("id_CourProf").getAttribute("value");
@@ -44,6 +45,9 @@ var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
 
 
 var participants = {};
+localVideo1.onloadedmetadata = function(event){
+    startRecording();
+}
 
 window.onbeforeunload = function () {
     socket.disconnect();
@@ -386,6 +390,11 @@ function onReceiveVideoAnswer(message) {
  * Start recording video
  */
 function startRecording(){
+    /*var data = {
+        id: "startRecording"
+    };
+    sendMessage(data);*/
+    console.log("La cámara está encendida ! ------------------------------------------------------")
     var data = {
         id: "startRecording"
     };
@@ -598,7 +607,15 @@ $('#txt-chat-message').keypress(function(event) {
     }
 });
 
+document.querySelector('button#record').onclick = function() {
+    
 
+
+    /*var data = {
+        id: "startRecording"
+    };
+    sendMessage(data);*/
+}
 
 
 /**
