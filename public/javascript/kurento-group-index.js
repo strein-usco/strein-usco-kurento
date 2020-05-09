@@ -201,6 +201,7 @@ function joinRoom(name) {
         id: "joinRoom",
         roomName: room,
         name: name,
+        course: id_course
     };
     sendMessage(data);
     //startRecording();
@@ -638,13 +639,25 @@ $('#txt-chat-message').keypress(function(event) {
 });
 
 document.querySelector('button#record').onclick = function() {
-    
-
-
     /*var data = {
         id: "startRecording"
     };
     sendMessage(data);*/
+    stopRecording();
+    $.ajax({
+        type: "POST",
+        url: "/control4/tutor_left_class",
+        data: {
+            id_videoclass: room,
+        },
+        success: function(result) {
+            document.getElementById('back').click()
+            sessionUser = true;
+        },
+        error: function(error) {
+            console.log("error");
+        }
+    });
 }
 
 

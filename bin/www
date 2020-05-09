@@ -34,7 +34,7 @@ var UserSession = require('../user-session.js');
 // store global variables
 var userRegistry = new UserRegistry();
 var rooms = {};
-
+var recordsCounter = 0;
 
 var argv = minimist(process.argv.slice(2), {
   default: {
@@ -136,7 +136,7 @@ io.on('connection', function (socket) {
                 await register(socket, message.name, function(){});
                 console.log('registering ' + socket.id);
                 console.log(socket.id + ' joinRoom : ' + message.roomName);
-                joinRoom(socket, message.roomName, message.name, function () {});
+                joinRoom(socket, message.roomName, message.name, message.course, function () {});
                 break;
             case 'receiveVideoFrom':
                 console.log(socket.id + ' receiveVideoFrom : ' + message.sender);
@@ -202,8 +202,8 @@ function register(socket, name, callback){
  * @param roomName
  * @param callback
  */
-function joinRoom(socket, roomName, name, callback) {
-    getRoom(roomName, function (error, room) {
+function joinRoom(socket, roomName, name, course, callback) {
+    getRoom(roomName, course, function (error, room) {
         if (error) {
             callback(error)
         }
@@ -218,7 +218,7 @@ function joinRoom(socket, roomName, name, callback) {
  * @param roomName
  * @param callback
  */
-function getRoom(roomName, callback) {
+function getRoom(roomName, course, callback) {
 
     var room = rooms[roomName];
 
@@ -239,7 +239,8 @@ function getRoom(roomName, callback) {
                     name: roomName,
                     pipeline: pipeline,
                     participants: {},
-                    kurentoClient: kurentoClient
+                    kurentoClient: kurentoClient,
+                    course: course
                 };
                 rooms[roomName] = room;
                 callback(null, room);
@@ -332,8 +333,12 @@ function join(socket, room, callback) {
         //default mediaProfile is .webm which does have sound but lacks IE support
         var recorderParams1 = {
             mediaProfile: 'WEBM',
-            uri: "file://" + __basedir + "/UploadedFiles/" +userSession.id+ ".webm"
+            uri: "file://" + __basedir + "/UploadedFiles/" + room.course + "/" +room.name + "-" + recordsCounter + ".webm"
         };
+        if(room.name == 'tutors-board'){
+            recordsCounter++; 
+        }
+        
         console.log(recorderParams1.uri);
 
         room.pipeline.create('RecorderEndpoint', recorderParams1, function(error, recorderEndpoint){
@@ -515,7 +520,7 @@ function getEndpointForUser(userSession, sender, callback) {
     var incoming = userSession.incomingMedia[sender.id];
     if (incoming == null) {
         console.log('user : ' + userSession.id + ' create endpoint to receive video from : ' + sender.id);
-        getRoom(userSession.roomName, function (error, room) {
+        getRoom(userSession.roomName, null, function (error, room) {
             if (error) {
                 return callback(error);
             }
