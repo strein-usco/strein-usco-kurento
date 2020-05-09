@@ -368,15 +368,28 @@ function WebRtcPeer(mode, options, callback) {
     };
     function setRemoteVideo() {
         if (remoteVideo) {
+            //primera condición para estudiantes
             if(remoteVideo.getAttribute('name') == 'tutors-board' && !document.getElementById('c1')){
-                remoteVideo.parentNode.removeChild(remoteVideo);
+                remoteVideo_div = document.getElementById('div' + remoteVideo.id);
+                remoteVideo_div.parentNode.removeChild(remoteVideo_div);
+                //remoteVideo.parentNode.removeChild(remoteVideo);
                 remoteVideo = document.getElementById('remoteVideo2');
             }
-            remoteVideo.pause();
-            var stream = pc.getRemoteStreams()[0];
-            console.log(pc.getRemoteStreams());
-            remoteVideo.srcObject = stream;
-            logger.debug('Remote stream:', stream);
+            //segunda condición para tutor
+            if(remoteVideo.getAttribute('name') == 'tutors-board' && document.getElementById('c1')){
+                remoteVideo_div = document.getElementById('div' + remoteVideo.id);
+                remoteVideo_div.parentNode.removeChild(remoteVideo_div);
+                //remoteVideo.parentNode.removeChild(remoteVideo);
+                remoteVideo = document.getElementById('remoteVideo2');
+                document.getElementById('screen-viewer').onmuted = true;
+
+            }else{
+                remoteVideo.pause();
+                var stream = pc.getRemoteStreams()[0];
+                console.log(pc.getRemoteStreams());
+                remoteVideo.srcObject = stream;
+                logger.debug('Remote stream:', stream);
+            }
             if (typeof AdapterJS !== 'undefined' && AdapterJS.webrtcDetectedBrowser === 'IE' && AdapterJS.webrtcDetectedVersion >= 9) {
                 remoteVideo = attachMediaStream(remoteVideo, stream);
             } else {

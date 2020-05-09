@@ -463,7 +463,7 @@ function messageChatFrom(message, socketId){
 function createVideoForParticipant(participant, sender_name) {
     var new_div = document.createElement('div');
     var new_divId = "divvideo-" + participant.id;
-    new_div.id = videoId;
+    new_div.id = new_divId;
     new_div.style.width = '80px';
     new_div.style.margin = '0px';
     new_div.style.padding = '0px';
@@ -501,6 +501,7 @@ function createVideoForParticipant(participant, sender_name) {
 
 
     video.autoplay = true;
+    //video.onmuted = true;
     video.id = videoId;
     video.poster = "img/webrtc.png";
     new_div.appendChild(over_video);

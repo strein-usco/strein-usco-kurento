@@ -462,7 +462,7 @@ function muteUser(){
  */
 function createVideoForParticipant(participant, sender_name) {
 
-    var videoId = "video-" + participant.id;
+    /*var videoId = "video-" + participant.id;
     var video = document.createElement('video');
     video.setAttribute('name', sender_name);
 
@@ -472,42 +472,58 @@ function createVideoForParticipant(participant, sender_name) {
     document.getElementById("other-videos").appendChild(video);
 
     // return video element
-    return document.getElementById(videoId);
-}
+    return document.getElementById(videoId);*/
 
-/*function disableElements(functionName){
-    if(functionName === "register"){
-        document.getElementById('userName').disabled = true;
-        document.getElementById('register').disabled = true;
-        document.getElementById('joinRoom').disabled = false;
-        document.getElementById('roomName').disabled = false;
-        document.getElementById('sendInvite').disabled = false;
-        document.getElementById('otherUserName').disabled = false;
-    }
-    if(functionName === "joinRoom"){
-        document.getElementById('roomName').disabled = true;
-        document.getElementById('joinRoom').disabled = true;
-        document.getElementById('sendInvite').disabled = false;
-        document.getElementById('otherUserName').disabled = false;
-        document.getElementById('leaveRoom').disabled = false;
-        document.getElementById('startRecording').disabled = false;
-        document.getElementById('stopRecording').disabled = false;
-    }
-    if(functionName === "leaveRoom"){
-        document.getElementById('leaveRoom').disabled = true;
-        document.getElementById('roomName').disabled = false;
-        document.getElementById('joinRoom').disabled = false;
-        document.getElementById('sendInvite').disabled = false;
-        document.getElementById('otherUserName').disabled = false;
-        document.getElementById('startRecording').disabled = true;
-        document.getElementById('stopRecording').disabled = true;
-    }
-    if(functionName === "call"){
-        document.getElementById('roomName').disabled = true;
-        document.getElementById('joinRoom').disabled = true;
-        document.getElementById('leaveRoom').disabled = false;
-    }
-}*/
+
+    var new_div = document.createElement('div');
+    var new_divId = "divvideo-" + participant.id;
+    new_div.id = new_divId;
+    new_div.style.width = '80px';
+    new_div.style.margin = '0px';
+    new_div.style.padding = '0px';
+
+    var over_video = document.createElement('div');
+    var over_videoId = "overvideo-" + participant.id;
+    over_video.id = over_videoId;
+    over_video.style.position = 'absolute';
+    over_video.style.float = 'left';
+    over_video.style.margin = '0px';
+    over_video.style.padding = '0px';
+    over_video.style.background = '#C3C3C3';
+    over_video.style.opacity = '0.6';
+    over_video.style.zIndex = '100';
+    over_video.style.wordWrap = 'break-word';
+    over_video.style.display = 'none';
+    over_video.style.cursor = 'pointer'
+    over_video.onmouseout = hide_name_dive;
+
+    var p_name = document.createElement('p');
+    var node = document.createTextNode(sender_name);
+    p_name.style.fontSize = '12px';
+    p_name.appendChild(node);
+    over_video.appendChild(p_name);
+
+    var videoId = "video-" + participant.id;
+    var video = document.createElement('video');
+    video.setAttribute('name', sender_name);
+    video.onmouseover = show_name_dive;
+    video.style.width = '80px';
+    video.style.margin = '0px';
+    video.style.padding = '0px';
+    video.style.zIndex = '0px';
+
+
+    video.autoplay = true;
+    video.id = videoId;
+    video.poster = "img/webrtc.png";
+    new_div.appendChild(over_video);
+    new_div.appendChild(video);
+    document.getElementById("other-videos").appendChild(new_div);
+    //document.getElementById("other-videos").appendChild(video);
+    // return video element
+    return document.getElementById(videoId);
+
+}
 
 $('#txt-chat-message').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -523,6 +539,17 @@ $('#txt-chat-message').keypress(function(event) {
         this.value = "";
     }
 });
+
+function show_name_dive(){
+    var over_video = document.getElementById('over'+this.id);
+    over_video.style.width = this.offsetWidth + 'px';
+    over_video.style.height = this.offsetHeight + 'px';
+    over_video.style.display = 'block';
+}
+
+function hide_name_dive(){
+    this.style.display = 'none';
+}
 
 
 /**
