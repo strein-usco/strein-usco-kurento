@@ -422,9 +422,10 @@ function messageChatFrom(message, socketId){
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'right';
-        div.style.margin = '5px';
+        div.style.margin = '9px 7px 0px 7px';
         div.style.padding = '5px';
         div.style.borderRadius = '7px';
+        div.style.opacity = '0.9';
 
         /*if (event.data.checkmark_id) {
             connection.send({
@@ -438,15 +439,16 @@ function messageChatFrom(message, socketId){
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'left';
-        div.style.margin = '5px';
+        div.style.margin = '9px 7px 0px 7px';
         div.style.padding = '5px';
         div.style.borderRadius = '7px';
+        div.style.opacity = '0.9';
     }
 
     conversationPanel.appendChild(div);
 
-    //conversationPanel.scrollTop = conversationPanel.clientHeight;
-    //conversationPanel.scrollTop = conversationPanel.scrollHeight - conversationPanel.scrollTop;
+    conversationPanel.scrollTop = conversationPanel.clientHeight;
+    conversationPanel.scrollTop = conversationPanel.scrollHeight - conversationPanel.scrollTop;
 }
 
 function muteUser(){
@@ -528,6 +530,7 @@ function createVideoForParticipant(participant, sender_name) {
 $('#txt-chat-message').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {
+        event.preventDefault(); 
         var message = {
             id: 'messageChatFrom',
             room: room,

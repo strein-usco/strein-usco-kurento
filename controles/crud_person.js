@@ -113,7 +113,7 @@ function sendMail(id, email, password) {
             to: email, // list of receivers
             subject: 'Usuario STREIN ✔', // Subject line
             text: 'Hello world?', // plain text body
-            html: '<br><h3>ESTIMADO USUARIO</h3><h3>Por medio de la presente se le informa sus datos de ingreso, los cuales son:</h3>Usuario: <label>'+ email +'</label><br>Contraseña: <label>'+ password +'</label><br><h4>Una vez ingrese, se sugiere realizar el cambio de la constraseña por una de fácil recordación para usted.<br>Gracias por su atención.<br><b>SISTEMA DE TELECONFERENCIA - STREIN.</b><br><a target="_blank">https://strein-usco.herokuapp.com</a></h4>',
+            html: '<br><h3>ESTIMADO USUARIO</h3><h3>Por medio de la presente se le informa sus datos de ingreso, los cuales son:</h3>Usuario: <label>'+ email +'</label><br>Contraseña: <label>'+ password +'</label><br><h4>Una vez ingrese, se sugiere realizar el cambio de la constraseña por una de fácil recordación para usted.<br>Gracias por su atención.<br><b>SISTEMA DE TELECONFERENCIA - STREIN.</b><br><a target="_blank">https://gtst.usco.edu.co:8081/</a></h4>',
         };
 
         // send mail with defined transport object

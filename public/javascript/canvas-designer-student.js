@@ -9,15 +9,15 @@ window.onload = function(){
         type: "POST",
         url: "/data-user",
         success: function(result) {
-        	params = {
-        		open: false,
-        		publicRoomIdentifier: "dashboard",
-        		sessionid: room,
-        		userFullName: result.nombres,
+            params = {
+                open: false,
+                publicRoomIdentifier: "dashboard",
+                sessionid: room,
+                userFullName: result.nombres,
                 my_id: result.my_id
-        	}
+            }
 
-    		window.params = params;
+            window.params = params;
         },
         error: function(error) {
             console.log("error");

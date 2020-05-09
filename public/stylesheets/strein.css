@@ -111,6 +111,8 @@ nav{
   top: 64px;
   width: 16.6666666667%;
   height: calc(100vh - 170px) !important;
+  overflow-y: auto; 
+
 }
 
 .arrow{
@@ -242,6 +244,36 @@ img.status{
     float: left; 
 }
 
+textarea{
+  resize: none;
+  overflow: hidden;
+}
+
+#txt-chat-message:focus {
+  border-color: #4E6470;
+  outline: 0;
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(78, 100, 112, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(78, 100, 112, .6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(78, 100, 112, .6);
+}
+
+#txt-chat-message{
+  background:#fff;
+  margin-top: 12px;
+  margin-left: 5px;
+  font-size:16px;
+  height: 34px;
+  display: block;
+  position: relative!important;
+  width: 100%;
+  padding: 3% 5%;
+  border: 1px solid #a9a9a9;
+  border-top-left-radius: 20px 20px;
+  border-top-right-radius: 20px 20px; 
+  border-bottom-right-radius: 20px 20px;
+  border-bottom-left-radius: 20px 20px;
+}
+
 .emojionearea.emojionearea-inline {
     background:#fff;
     margin-top: 12px;
@@ -315,6 +347,7 @@ img.status{
     width: 100%;
     border-bottom: 1px solid #121010;
     padding-bottom: 1px;
+    border-radius: 5px;
 }
 
 #other-videos video{

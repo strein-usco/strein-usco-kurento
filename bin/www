@@ -38,7 +38,7 @@ var recordsCounter = 0;
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      as_uri: "https://localhost:3000/",
+      as_uri: "https://localhost:8081/",
       ws_uri: "ws://localhost:8888/kurento"
   }
 });
@@ -64,7 +64,7 @@ var noPresenterMessage = 'No active presenter. Try again later...';
 /*
  * Server startup
  */
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8081');
 app.set('port', port);
 app.set('options',options);
 
