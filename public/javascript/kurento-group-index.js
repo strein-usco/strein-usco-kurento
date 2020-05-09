@@ -31,6 +31,7 @@ var user_name;
 var localVideoCurrentId;
 var localVideo;
 var sessionId;
+var acum = 0;
 var localVideo1 =  document.getElementById('main-video');
 document.getElementById('mute_user').onclick = muteUser;
 document.getElementById('block_user').onclick = blockUser;
@@ -43,6 +44,34 @@ var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
     var roomlong = str.substring(str.lastIndexOf("/") + 1, str.lenght);
     var room = roomlong.split("&&")[1];*/
 
+$.ajax({
+    type: "POST",
+    url: "/control5/getAllfiles",
+    dataType: "json",
+    data: { id_course: id_course },
+    success: function(result) {
+        var max = result.Allfiles.length; //max de archivos  
+        //En el boton atrás se establece en name el max valor de páginas
+        document.getElementById("adelante").setAttribute("name", max);
+        for (var r = 0; r < result.facefiles.length; r++) {
+            idiv = "overlay" + r;
+            document.getElementById(idiv).setAttribute("name", acum);
+            acum = result.amount[r] - 1 + acum;
+            document.getElementById(idiv).setAttribute("value", acum);
+            acum++
+            idiv2 = "ima_div" + r;
+            // se agrega en src la info en base64 del archivo
+            //document.getElementById(idiv2).setAttribute("src", "data:image/png;base64," + result.facefiles[r]);
+            document.getElementById(idiv2).setAttribute("src", "");
+        }
+        for (var m = 0; m < result.Allfiles.length; m++) {
+            $(".Main_container_files").append('<img type="hidden" id="hiddendiv' + m + '" src="data:image/png;base64,' + result.Allfiles[m] + '" class="imageCourse"/>');
+        }
+    },
+    error: function(error) {
+        console.log(error);
+    }
+});
 
 var participants = {};
 localVideo1.onloadedmetadata = function(event){
