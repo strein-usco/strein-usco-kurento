@@ -9,7 +9,9 @@ var localVideo;
 var localCanvas;
 var localCanvasCurrentId;
 var sessionId;
-var id_course = document.getElementById("id_CourProf").getAttribute("value")
+var id_course = document.getElementById("id_CourProf").getAttribute("value");
+var videoConstraint = document.getElementById('share-screen').value;
+(videoConstraint == "true") ? videoConstraint = true : videoConstraint = false;
 //var name_video = document.getElementById('name_video').value;
 var str = document.URL
 var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
@@ -53,7 +55,11 @@ socket.on("message", function (message) {
             break;
         case "startRecording":
             console.log("Starting recording");
-            joinRoom('tutors-board')
+            if(videoConstraint){
+                joinRoom2('tutors-board')
+            }else{
+                joinRoom('tutors-board')
+            }
             break;
         case "stopRecording":
             console.log("Stopped recording");
@@ -102,11 +108,10 @@ function joinRoom(name) {
 // capura el flujo se está transmitiendo (recurso para ser visto)
 
     var localVideo3 =  document.getElementById('c1');
-    videoConstraint = false;
     if(adapter.browserDetails.browser === 'firefox'){
-       (videoConstraint) ? stream2 = localCanvas.captureStream() : stream2 = localVideo3.mozCaptureStream();
+        stream2 = localVideo3.mozCaptureStream();
     }else{
-       (videoConstraint) ? stream2 = localCanvas.captureStream() : stream2 = localVideo3.captureStream();
+        stream2 = localVideo3.captureStream();
     }
 
     //se toma le flujo de video
@@ -132,6 +137,61 @@ function joinRoom(name) {
     };
     sendMessage(data);
     //startRecording();
+}
+
+
+function joinRoom2(name) {
+    streamTrack2 = window.MediaStream1.getAudioTracks()[0];
+
+    //se toma le flujo de video
+
+    var displayMediaStreamConstraints = {
+        video: true // currently you need to set {true} on Chrome
+    };
+
+    if (navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices.getDisplayMedia(displayMediaStreamConstraints).then(function(stream){
+            window.MediaStream2 = stream;
+            streamVideo2 = stream.getVideoTracks()[0];
+    
+            //mix entre los flujos de video y audio
+            newStream2 = new MediaStream([streamVideo2, streamTrack2]);
+
+            document.getElementById('screen-viewer').srcObject = newStream2;
+            var data = {
+                id: "joinRoom",
+                roomName: room,
+                name: name,
+            };
+            sendMessage(data);
+            
+        }).catch(function(e) {
+            alert('getUserMedia() error: ' + e.name + ' desc: ' + e.message);
+        }); 
+    } else {
+        navigator.getDisplayMedia(displayMediaStreamConstraints).then(function(stream){
+            window.MediaStream2 = stream;
+            streamVideo2 = stream.getVideoTracks()[0];
+            
+            //mix entre los flujos de video y audio
+            newStream2 = new MediaStream([streamVideo2, streamTrack2]);
+
+            document.getElementById('screen-viewer').srcObject = newStream2;
+            var data = {
+                id: "joinRoom",
+                roomName: room,
+                name: name,
+            };
+            sendMessage(data);            
+        }).catch(function(e) {
+            alert('getUserMedia() error: ' + e.name + ' desc: ' + e.message);
+        }); 
+    }
+    //startRecording();
+}
+
+function getMediaScreen(constraints){   
+
 }
 
 /**
