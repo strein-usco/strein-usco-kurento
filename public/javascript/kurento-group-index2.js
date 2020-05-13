@@ -11,7 +11,7 @@ function controlStreamVideo(){
 
 function controlStreamAudio(){
     window.MediaStream1.getAudioTracks()[0].enabled =
-    !(window.MediaStream.getAudioTracks()[0].enabled);
+    !(window.MediaStream1.getAudioTracks()[0].enabled);
 
     if(!window.MediaStream1.getAudioTracks()[0].enabled){
         document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";

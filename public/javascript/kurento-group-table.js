@@ -109,7 +109,7 @@ function joinRoom(name) {
 
     var localVideo3 =  document.getElementById('c1');
     if(adapter.browserDetails.browser === 'firefox'){
-        stream2 = localVideo3.mozCaptureStream();
+        stream2 = localVideo3.moscrezCaptureStream();
     }else{
         stream2 = localVideo3.captureStream();
     }
@@ -130,6 +130,7 @@ function joinRoom(name) {
     newStream2 = new MediaStream([streamVideo2, streamTrack2]);
 
     document.getElementById('screen-viewer').srcObject = newStream2;
+    document.getElementById('screen-viewer').style.display = "none";
     var data = {
         id: "joinRoom",
         roomName: room,
@@ -158,6 +159,8 @@ function joinRoom2(name) {
             newStream2 = new MediaStream([streamVideo2, streamTrack2]);
 
             document.getElementById('screen-viewer').srcObject = newStream2;
+            document.getElementById('screen-viewer').style.display = "none";
+            
             var data = {
                 id: "joinRoom",
                 roomName: room,
@@ -177,6 +180,8 @@ function joinRoom2(name) {
             newStream2 = new MediaStream([streamVideo2, streamTrack2]);
 
             document.getElementById('screen-viewer').srcObject = newStream2;
+            document.getElementById('screen-viewer').style.display = "none";
+
             var data = {
                 id: "joinRoom",
                 roomName: room,

@@ -25,6 +25,70 @@ function controlStreamAudio(){
 }
 
 $(document).ready(function() {
+
+/**
+ * Created by eak on 9/15/15.
+ */
+
+/**
+ * @param id
+ * @constructor
+ */
+function Participant(id) {
+    this.id = id;
+    this.rtcPeer = null;
+    this.iceCandidateQueue = [];
+}
+
+/**
+ *
+ * @param error
+ * @param offerSdp
+ * @returns {*}
+ */
+Participant.prototype.offerToReceiveVideo = function (error, offerSdp) {
+    if (error) {
+        return console.error("sdp offer error");
+    }
+    var msg = {
+        id: "receiveVideoFrom",
+        sender: this.id,
+        sdpOffer: offerSdp
+    };
+    console.log('Invoking SDP offer callback function ' + msg.sender);
+    sendMessage(msg);
+};
+
+/**
+ * Message to send to server on Ice Candidate.
+ * candidate contains 3 items that must be sent for it to work
+ * in Internet Explorer/Safari.
+ * @param candidate
+ */
+Participant.prototype.onIceCandidate = function (candidate) {
+    //console.log(this.id + " Local candidate" + JSON.stringify(candidate));
+
+    var message = {
+        id: 'onIceCandidate',
+        candidate : {
+            candidate : candidate.candidate,
+            sdpMid: candidate.sdpMid,
+            sdpMLineIndex: candidate.sdpMLineIndex
+        },
+        sender: this.id
+    };
+    sendMessage(message);
+};
+
+/**
+ * Dispose of a participant that has left the room
+ */
+Participant.prototype.dispose = function () {
+    console.log('Disposing participant ' + this.id);
+    this.rtcPeer.dispose();
+    this.rtcPeer = null;
+};
+
 //$('#myModal31').css('visibility', 'visible');
 var socket = io.connect();
 var user_name;
@@ -326,8 +390,6 @@ function onExistingParticipants(message) {
 
         // Set localVideo to new object if on IE/Safari
         localVideo = document.getElementById("main-video");
-            localVideo.style.width = '80px';
-
 
         // initial main video to local first
         localVideoCurrentId = sessionId;
@@ -496,9 +558,6 @@ function createVideoForParticipant(participant, sender_name) {
     var new_div = document.createElement('div');
     var new_divId = "divvideo-" + participant.id;
     new_div.id = new_divId;
-    new_div.style.width = '80px';
-    new_div.style.margin = '0px';
-    new_div.style.padding = '0px';
 
     var over_video = document.createElement('div');
     var over_videoId = "overvideo-" + participant.id;
@@ -526,22 +585,23 @@ function createVideoForParticipant(participant, sender_name) {
     var video = document.createElement('video');
     video.setAttribute('name', sender_name);
     video.onmouseover = show_name_dive;
-    video.style.width = '80px';
-    video.style.margin = '0px';
-    video.style.padding = '0px';
-    video.style.zIndex = '0px';
-
 
     video.autoplay = true;
     //video.onmuted = true;
     video.id = videoId;
-    video.poster = "img/webrtc.png";
     new_div.appendChild(over_video);
     new_div.appendChild(video);
     document.getElementById("other-videos").appendChild(new_div);
     //document.getElementById("other-videos").appendChild(video);
     // return video element
     return document.getElementById(videoId);
+
+
+    /*if(show_name_dive === "tutor"){
+        over_video.style.display = 'none';
+        p_name..style.display = 'none';
+    }*/
+
 }
 
 /*function disableElements(functionName){
@@ -641,6 +701,14 @@ $('#txt-chat-message').keypress(function(event) {
     }
 });
 
+/*$("#txt-chat-message").keydown(function(event){
+    $('#key-press').show().find('span').html(event.extra.userFullName.slice(0,25) + '... está escribiendo');
+});
+
+$("#txt-chat-message").keyup(function(event){
+    $('#key-press').hide().find('span').html('');
+});*/
+
 document.querySelector('button#record').onclick = function() {
     var resp = confirm("¿Desea detener la transmisión?");
     if(resp == true){
@@ -661,69 +729,5 @@ document.querySelector('button#record').onclick = function() {
         });
     }
 }
-
-
-/**
- * Created by eak on 9/15/15.
- */
-
-/**
- * @param id
- * @constructor
- */
-function Participant(id) {
-    this.id = id;
-    this.rtcPeer = null;
-    this.iceCandidateQueue = [];
-}
-
-/**
- *
- * @param error
- * @param offerSdp
- * @returns {*}
- */
-Participant.prototype.offerToReceiveVideo = function (error, offerSdp) {
-    if (error) {
-        return console.error("sdp offer error");
-    }
-    var msg = {
-        id: "receiveVideoFrom",
-        sender: this.id,
-        sdpOffer: offerSdp
-    };
-    console.log('Invoking SDP offer callback function ' + msg.sender);
-    sendMessage(msg);
-};
-
-/**
- * Message to send to server on Ice Candidate.
- * candidate contains 3 items that must be sent for it to work
- * in Internet Explorer/Safari.
- * @param candidate
- */
-Participant.prototype.onIceCandidate = function (candidate) {
-    //console.log(this.id + " Local candidate" + JSON.stringify(candidate));
-
-    var message = {
-        id: 'onIceCandidate',
-        candidate : {
-            candidate : candidate.candidate,
-            sdpMid: candidate.sdpMid,
-            sdpMLineIndex: candidate.sdpMLineIndex
-        },
-        sender: this.id
-    };
-    sendMessage(message);
-};
-
-/**
- * Dispose of a participant that has left the room
- */
-Participant.prototype.dispose = function () {
-    console.log('Disposing participant ' + this.id);
-    this.rtcPeer.dispose();
-    this.rtcPeer = null;
-};
 
 });

@@ -102,31 +102,9 @@
         <div class="row no-margin chat">
 
           <ul id="tabs" class="tabs">
-            <li class="tab col s3" title="Estudiantes Conectados"><a href="#test1"><i class="material-icons">supervisor_account</i></a></li>
-            <li class="tab col s9" title="Chat"><a class="active" href="#test2" ><i class="material-icons">chat</i></a></li>
+            <li class="tab col s12" title="Chat"><a class="active" href="#test2" ><i class="material-icons">chat</i></a></li>
           </ul>
 
-          <div id="test1" class="col s12 no-padding">
-            <div class="row no-padding no-margin">
-              <div class="col s12 m12 l12 no-padding no-margin"> 
-                <ul class="collapsible no-margin">   
-                  <li class="active">
-                    <div class="collapsible-body list no-padding no-margin">
-                      <table class="no-margin no-padding">
-                        <% for(var i=0; i<students.length; i++) {%>
-                          <tr id="tr<%=students[i].id_student%>">
-                            <td id="status<%=students[i].id_student%>" class=""><img class="status" id="img<%=students[i].id_student%>" src="/images/circle2.png"></td>
-                            <td class="word" id="name<%=students[i].id_student%>" name="<%= students[i].name_student %>" title="<%= students[i].name_student %>"><%= students[i].name_student %></td>
-                            <td title="Videollamada"><img name="<%=[i]%>" class="muted"  id="vid<%=students[i].id_student%>" src=""></td>
-                          </tr>
-                        <% } %>    
-                      </table>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
           <div id="test2" class="col s12 no-padding">
             <div class="row no-margin">
               <div class="col s12 m12 l12 no-padding"> 
@@ -176,7 +154,7 @@
             <video id="main-video" playsinline autoplay muted="" preload="true">
             </video>
             <div class="col s2 m2 l1 no-padding"  id="web-cam2">
-              <a href="#" id="hide" title="Ocultar videocam"><i class="material-icons black-text">visibility_off</i></a>
+              <a href="#" id="hide" title="Ocultar videocam"><i class="tiny material-icons black-text">visibility_off</i></a>
               <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()">></button>
             </div>
             <div id="other-videos"></div>
@@ -245,9 +223,9 @@
 
           <div class="no-margin no-padding file-tab">
 
-            <a title="Ocultar/Mostrar Archivos" id="trigger" class="card-create-course"><i class="material-icons small yellowusco-text">archive</i></a>
-            <a title="Ocultar/Mostrar Opciones del Tablero" id="trigger2" class="card-create-course"><i class="material-icons small grayusco-text">palette</i></a>
-            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small redusco-text">switch_camera</i></a>
+            <a title="Ocultar/Mostrar Archivos" id="trigger" class="card-create-course"><i class="material-icons small yellowusco-text grayusco lighten-5">archive</i></a>
+            <a title="Ocultar/Mostrar Opciones del Tablero" id="trigger2" class="card-create-course"><i class="material-icons small redusco-text">palette</i></a>
+            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small grayusco-text">switch_camera</i></a>
           
           </div>
     
