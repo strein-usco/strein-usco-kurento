@@ -615,6 +615,7 @@ $('#txt-chat-message').keypress(function(event) {
         var message = {
             id: 'messageChatFrom',
             room: room,
+            id_course: id_course,
             sender: socket.id,
             sender_name: user_name,
             text : this.value,

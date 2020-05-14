@@ -154,10 +154,10 @@ io.on('connection', function (socket) {
                 break;*/
             case 'messageChatFrom':
                 //console.log("messageChatFrom");
-                messageChatFrom(message, socket);
+                messageChatFrom(message, socket, true);
                 break;
             case 'userWritting':
-                messageChatFrom(message, socket);
+                messageChatFrom(message, socket, false);
                 break;
             case 'muteUser':
                 //console.log("messageChatFrom");
@@ -338,16 +338,16 @@ function join(socket, room, callback) {
             mediaProfile: 'WEBM',
             uri: "file://" + __basedir + "/UploadedFiles/" + room.course + "/" +room.name + "-" + recordsCounter + ".webm"
         };
-        if(room.name == 'tutors-board'){
+        if(userSession.name == 'tutors-board'){
             recordsCounter++; 
         
-        console.log(recorderParams1.uri);
+            console.log(recorderParams1.uri);
 
-        room.pipeline.create('RecorderEndpoint', recorderParams1, function(error, recorderEndpoint){
-            userSession.outgoingMedia.recorderEndpoint = recorderEndpoint;
-            outgoingMedia.connect(recorderEndpoint);
-            userSession.outgoingMedia.recorderEndpoint.record();
-        });
+            room.pipeline.create('RecorderEndpoint', recorderParams1, function(error, recorderEndpoint){
+                userSession.outgoingMedia.recorderEndpoint = recorderEndpoint;
+                outgoingMedia.connect(recorderEndpoint);
+                userSession.outgoingMedia.recorderEndpoint.record();
+            });
 
         }
 
@@ -686,24 +686,38 @@ function stopRecord(socket) {
 }
 
 
-function messageChatFrom(message, socket){
-  var userSession = userRegistry.getById(socket.id);
-    if (!userSession) {
-      return;
-  }
+async function messageChatFrom(message, socket, value){
+    try{
+        var userSession = userRegistry.getById(socket.id);
+        if (!userSession) {
+          return;
+        }
 
-  var room = rooms[userSession.roomName];
+        var room = rooms[userSession.roomName];
 
-  if(!room){
-      return;
-  }
+        if(!room){
+          return;
+        }
 
-  var usersInRoom = room.participants;
+        var usersInRoom = room.participants;
+        if(value){
+          let newmessage = new messageChat({
+            id_class: room.name,
+            id_course: message.id_course,
+            userFullNameMsg: message.sender_name,
+            userchatMessage: message.text
+          });
 
-  // notify existing user
-  for (var i in usersInRoom) {
-      usersInRoom[i].sendMessage(message);
-  }
+          await newmessage.save();
+        }
+
+        // notify existing user
+        for (var i in usersInRoom) {
+          usersInRoom[i].sendMessage(message);
+        }
+    }catch(err){
+        console.log(err)
+    }
             
 }
 
