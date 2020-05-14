@@ -510,7 +510,7 @@ function WebRtcPeer(mode, options, callback) {
                 navigator.getUserMedia(constraints, function (stream) {
                     if(localCanvas){
                         // capura el flujo se está transmitiendo (recurso para ser visto)
-                        streamCanvas = document.getElementById("c1");
+                        streamCanvas = document.getElementById("screen-viewer");
                         if(adapter.browserDetails.browser === 'firefox'){
                             stream = streamCanvas.mozCaptureStream();
                         }else{

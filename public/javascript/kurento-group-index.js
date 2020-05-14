@@ -200,6 +200,9 @@ socket.on("message", function (message) {
             //console.log("messageChatFrom");
             messageChatFrom(message, socket.id);
             break;
+        case 'userWritting':
+            userWritting(message);
+            break;
         case "startRecording":
             console.log("Starting recording");
             break;
@@ -482,11 +485,7 @@ function onReceiveVideoAnswer(message) {
  * Start recording video
  */
 function startRecording(){
-    /*var data = {
-        id: "startRecording"
-    };
-    sendMessage(data);*/
-    console.log("La cámara está encendida ! ------------------------------------------------------")
+
     var data = {
         id: "startRecording"
     };
@@ -514,15 +513,15 @@ function messageChatFrom(message, socketId){
     div.className = 'message';
 
     if (message.sender != socketId) {
-        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br>' + message.text;
+        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word;">' + message.text + '</p>';
         div.style.background = '#4E6470';
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'right';
-        div.style.margin = '9px 7px 0px 7px';
+        div.style.margin = '9px 7px 5px 7px';
         div.style.padding = '5px';
         div.style.borderRadius = '7px';
-        div.style.opacity = '0.9';
+        div.style.opacity = '0.8';
 
         /*if (event.data.checkmark_id) {
             connection.send({
@@ -531,15 +530,15 @@ function messageChatFrom(message, socketId){
             });
         }*/
     } else {
-        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br>' + message.text;;
+        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word;">' + message.text + '</p>';
         div.style.background = '#8d191d';
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'left';
-        div.style.margin = '9px 7px 0px 7px';
+        div.style.margin = '9px 7px 5px 7px';
         div.style.padding = '5px';
         div.style.borderRadius = '7px';
-        div.style.opacity = '0.9';
+        div.style.opacity = '0.8';
     }
 
     conversationPanel.appendChild(div);
@@ -548,6 +547,15 @@ function messageChatFrom(message, socketId){
     conversationPanel.scrollTop = conversationPanel.scrollHeight - conversationPanel.scrollTop;
 }
 
+function userWritting(message){
+    
+    if (message.show) {
+        $('#key-press').show().find('span').html(message.sender_name.slice(0,25) + ' está escribiendo');
+    } else {
+        $('#key-press').hide().find('span').html('');
+    }
+
+}
 
 /**
  * Create video DOM element
@@ -566,7 +574,7 @@ function createVideoForParticipant(participant, sender_name) {
     over_video.style.float = 'left';
     over_video.style.margin = '0px';
     over_video.style.padding = '0px';
-    over_video.style.background = '#C3C3C3';
+    over_video.style.background = '#3c3c3c';
     over_video.style.opacity = '0.6';
     over_video.style.zIndex = '100';
     over_video.style.wordWrap = 'break-word';
@@ -595,12 +603,6 @@ function createVideoForParticipant(participant, sender_name) {
     //document.getElementById("other-videos").appendChild(video);
     // return video element
     return document.getElementById(videoId);
-
-
-    /*if(show_name_dive === "tutor"){
-        over_video.style.display = 'none';
-        p_name..style.display = 'none';
-    }*/
 
 }
 
@@ -684,11 +686,14 @@ window.onclick = function(event) {
   }
 }
 
-
 $('#txt-chat-message').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {
         event.preventDefault(); 
+        if (this.value.length === 0 || !this.value.trim()) {
+            return;
+        }
+
         var message = {
             id: 'messageChatFrom',
             room: room,
@@ -701,13 +706,27 @@ $('#txt-chat-message').keypress(function(event) {
     }
 });
 
-/*$("#txt-chat-message").keydown(function(event){
-    $('#key-press').show().find('span').html(event.extra.userFullName.slice(0,25) + '... está escribiendo');
+$("#txt-chat-message").keydown(function(event){
+    var message = {
+        id: 'userWritting',
+        room: room,
+        sender: socket.id,
+        sender_name: user_name,
+        show: true,
+    };
+    sendMessage(message);
 });
 
 $("#txt-chat-message").keyup(function(event){
-    $('#key-press').hide().find('span').html('');
-});*/
+    var message = {
+        id: 'userWritting',
+        room: room,
+        sender: socket.id,
+        sender_name: user_name,
+        show: false,
+    };
+    sendMessage(message);
+});
 
 document.querySelector('button#record').onclick = function() {
     var resp = confirm("¿Desea detener la transmisión?");

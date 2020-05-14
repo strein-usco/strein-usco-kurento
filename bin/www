@@ -156,6 +156,9 @@ io.on('connection', function (socket) {
                 //console.log("messageChatFrom");
                 messageChatFrom(message, socket);
                 break;
+            case 'userWritting':
+                messageChatFrom(message, socket);
+                break;
             case 'muteUser':
                 //console.log("messageChatFrom");
                 muteUser(message, socket);
@@ -337,7 +340,6 @@ function join(socket, room, callback) {
         };
         if(room.name == 'tutors-board'){
             recordsCounter++; 
-        }
         
         console.log(recorderParams1.uri);
 
@@ -346,6 +348,8 @@ function join(socket, room, callback) {
             outgoingMedia.connect(recorderEndpoint);
             userSession.outgoingMedia.recorderEndpoint.record();
         });
+
+        }
 
         callback(null, userSession.id);
     });

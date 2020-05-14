@@ -102,8 +102,32 @@
         <div class="row no-margin chat">
 
           <ul id="tabs" class="tabs">
+            <!--li class="tab col s3"  title="Estudiantes"><a href="#test1"><i class="material-icons">supervisor_account</i></a></li>
+            <li class="tab col s9" title="Chat"><a class="active" href="#test2" ><i class="material-icons">chat</i></a></li-->
             <li class="tab col s12" title="Chat"><a class="active" href="#test2" ><i class="material-icons">chat</i></a></li>
           </ul>
+
+          <!--div id="test1" class="col s12 no-padding">
+            <div class="row no-padding no-margin">
+              <div class="col s12 m12 l12 no-padding no-margin"> 
+                <ul class="collapsible no-margin">   
+                  <li class="active">
+                    <div class="collapsible-body list no-padding no-margin">
+                      <table class="no-margin no-padding">
+                        <% for(var i=0; i<students.length; i++) {%>
+                          <tr id="tr<%=students[i].id_student%>">
+                            <td id="status<%=students[i].id_student%>" class=""><img class="status" id="img<%=students[i].id_student%>" src="/images/circle2.png"></td>
+                            <td class="word" id="name<%=students[i].id_student%>" name="<%= students[i].name_student %>" title="<%= students[i].name_student %>"><%= students[i].name_student %></td>
+                            <td title="Videollamada"><img name="<%=[i]%>" class="muted"  id="vid<%=students[i].id_student%>" src=""></td>
+                          </tr>
+                        <% } %>    
+                      </table>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div-->
 
           <div id="test2" class="col s12 no-padding">
             <div class="row no-margin">
@@ -114,15 +138,16 @@
 
                       <div id="div_chat">
                         <% for(var i=0; i<messagesChat.length; i++) {%>
-                        <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 5px; padding: 5px; border-radius: 7px;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><img class="checkmark" title="Received" src=""><br><%=messagesChat[i].userchatMessage%></div>
+                        <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 5px; padding: 5px; border-radius: 7px;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word;"><%=messagesChat[i].userchatMessage%></p></div>
                         <% } %>
-                        <div id="key-press">
-                            <span style="vertical-align: middle;"></span>
-                            <img src="https://www.webrtc-experiment.com/images/key-press.gif">
-                        </div>
+                        
                       </div>
 
                       <div id="sendmessage">
+                        <div id="key-press">
+                          <img src="/images/keydown.webp">
+                          <span style="vertical-align: middle;"></span>  
+                        </div>
                         <textarea id="txt-chat-message" tabindex="0" dir="ltr"  placeholder="Enviar mensaje"></textarea>
                       </div>
                       <!--img id="btn-attach-file" src="/images/adjuntar.png" title="Adjuntar archivo">
