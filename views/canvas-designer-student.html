@@ -132,7 +132,7 @@
 
                       <div id="div_chat">
                         <% for(var i=0; i<messagesChat.length; i++) {%>
-                        <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 5px; padding: 5px; border-radius: 7px;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg%>:</b><br><p style="word-wrap: break-word;"><%=messagesChat[i].userchatMessage%></p></div>
+                        <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 5px; padding: 5px; border-radius: 7px;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg%>:</b><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
                         <% } %>
                         <div id="key-press">
                           <img src="/images/keydown.webp">
@@ -140,11 +140,11 @@
                         </div>
                       </div>
 
-                      <div id="sendmessage1">
+                      <div id="sendmessage">
                         <textarea id="txt-chat-message" placeholder="Enviar mensaje"></textarea> 
                       </div>
-                      <button id="hand" title="Inquietud" class="white" value=""></button>
-                      <!--img id="btn-attach-file" src="/images/adjuntar.png" title="Adjuntar archivo">
+                      <!--button id="hand" title="Inquietud" class="white" value=""></button>
+                      <img id="btn-attach-file" src="/images/adjuntar.png" title="Adjuntar archivo">
                       <img id="btn-share-screen" src="/images/screen.png" title="Compartir pantalla"-->
                       
                     </div>
@@ -174,8 +174,9 @@
             <video id="main-video" controls playsinline autoplay></video>
             <audio autoplay="" id="localAudio" muted></audio>
 
-            <div class="col s2 m2 l1 no-padding"  id="web-cam2">
+            <div class="col s2 m2 l1 no-padding"  id="web-cam4">
               <a href="#" id="hide" title="Ocultar videocam"><i class="tiny material-icons black-text">visibility_off</i></a>
+              <a href="#" id="hand" title="Pregunta"><i class="tiny material-icons black-text">pan_tool</i></a>
               <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()">></button>
             </div>
             <div id="other-videos"></div>
@@ -183,7 +184,7 @@
 
           <div class="no-margin no-padding file-tab">
 
-            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small grayusco-text">switch_camera</i></a>
+            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small redusco-text">switch_camera</i></a>
           
           </div>
 

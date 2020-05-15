@@ -97,8 +97,8 @@ var localVideo;
 var sessionId;
 var acum = 0;
 var localVideo1 =  document.getElementById('main-video');
-document.getElementById('mute_user').onclick = muteUser;
-document.getElementById('block_user').onclick = blockUser;
+//document.getElementById('mute_user').onclick = muteUser;
+//document.getElementById('block_user').onclick = blockUser;
 var id_course = document.getElementById("id_CourProf").getAttribute("value");
 //var name_video = document.getElementById('name_video').value;
 var str = document.URL
@@ -513,14 +513,14 @@ function messageChatFrom(message, socketId){
     div.className = 'message';
 
     if (message.sender != socketId) {
-        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word;">' + message.text + '</p>';
+        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
         div.style.background = '#4E6470';
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'right';
         div.style.margin = '9px 7px 5px 7px';
         div.style.padding = '5px';
-        div.style.borderRadius = '7px';
+        div.style.borderRadius = '10px 0px 10px 10px';
         div.style.opacity = '0.8';
 
         /*if (event.data.checkmark_id) {
@@ -530,14 +530,14 @@ function messageChatFrom(message, socketId){
             });
         }*/
     } else {
-        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word;">' + message.text + '</p>';
+        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
         div.style.background = '#8d191d';
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'left';
         div.style.margin = '9px 7px 5px 7px';
         div.style.padding = '5px';
-        div.style.borderRadius = '7px';
+        div.style.borderRadius = '0px 10px 10px 10px';
         div.style.opacity = '0.8';
     }
 
@@ -566,26 +566,33 @@ function createVideoForParticipant(participant, sender_name) {
     var new_div = document.createElement('div');
     var new_divId = "divvideo-" + participant.id;
     new_div.id = new_divId;
+    new_div.style.width = '50%';
+    new_div.style.height = '15%';
+    new_div.style.float = 'left';
+    new_div.style.display = 'inline-block'
 
     var over_video = document.createElement('div');
     var over_videoId = "overvideo-" + participant.id;
     over_video.id = over_videoId;
     over_video.style.position = 'absolute';
     over_video.style.float = 'left';
-    over_video.style.margin = '0px';
-    over_video.style.padding = '0px';
-    over_video.style.background = '#3c3c3c';
+    over_video.style.padding = '5px';
+    over_video.style.background = '#c3c3c3';
     over_video.style.opacity = '0.6';
+    over_video.style.marginTop = '15px';
     over_video.style.zIndex = '100';
     over_video.style.wordWrap = 'break-word';
     over_video.style.display = 'none';
-    over_video.style.cursor = 'pointer'
+    over_video.style.cursor = 'pointer';
+    over_video.style.marginLeft = '6px';
     over_video.onmousedown = showCameraOptions;
     over_video.onmouseout = hide_name_dive;
 
     var p_name = document.createElement('p');
     var node = document.createTextNode(sender_name);
     p_name.style.fontSize = '12px';
+    p_name.style.color = '#8d191d';
+    p_name.style.fontWeight = '900';
     p_name.appendChild(node);
     over_video.appendChild(p_name);
 
@@ -646,13 +653,11 @@ function show_name_dive(){
     var over_video = document.getElementById('over'+this.id);
     //over_video.setAttribute('width', this.offsetWidth + 'px')
     //over_video.setAttribute('height', this.offsetHeight + 'px')
-    over_video.style.width = this.offsetWidth + 'px';
-    over_video.style.height = this.offsetHeight + 'px';
-    over_video.style.display = 'block';
-
-
-
-    document.getElementById("over" + this.id).style.display = 'block'
+    over_video.style.width = '38%';
+    over_video.style.height = '17.4%';
+    over_video.style.borderRadius = '5px';
+    
+    document.getElementById("over" + this.id).style.display = 'inline-block';
     console.log("pasó por encima")
 }
 
@@ -661,13 +666,13 @@ function hide_name_dive(){
 }
 
 function showCameraOptions(){
-    $('#myModal31').css('visibility', 'visible');
+    $('#web-cam3').css('visibility', 'visible');
     document.getElementById('p_name_user').innerHTML = document.getElementById(this.id.slice(4)).getAttribute('name');
-    document.getElementById('mute_user').setAttribute('name', this.id.slice(4));
-    document.getElementById('block_user').setAttribute('name', this.id.slice(4));
+    //document.getElementById('mute_user').setAttribute('name', this.id.slice(4));
+    //document.getElementById('block_user').setAttribute('name', this.id.slice(4));
 }
 
-function muteUser(){
+/*function muteUser(){
     var msg = {
         id: "muteUser",
         userId: this.name.slice(6)  //id del usuario a silenciar
@@ -677,12 +682,12 @@ function muteUser(){
 
 function blockUser(){
     //block_user
-}
+}*/
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
- if (event.target == document.getElementById('myModal31')) {
-    $('#myModal31').css('visibility', 'hidden');
+ if (event.target == document.getElementById('web-cam3')) {
+    $('#web-cam3').css('visibility', 'hidden');
   }
 }
 

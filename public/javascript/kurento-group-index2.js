@@ -484,14 +484,14 @@ function messageChatFrom(message, socketId){
     div.className = 'message';
 
     if (message.sender != socketId) {
-        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word;">' + message.text + '</p>';
+        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
         div.style.background = '#4E6470';
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'right';
         div.style.margin = '9px 7px 5px 7px';
         div.style.padding = '5px';
-        div.style.borderRadius = '7px';
+        div.style.borderRadius = '10px 0px 10px 10px';
         div.style.opacity = '0.8';
 
         /*if (event.data.checkmark_id) {
@@ -501,14 +501,14 @@ function messageChatFrom(message, socketId){
             });
         }*/
     } else {
-        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word;">' + message.text + '</p>';
+        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
         div.style.background = '#8d191d';
         div.style.color = 'white';
         div.style.width = '80%';
         div.style.float = 'left';
         div.style.margin = '9px 7px 5px 7px';
         div.style.padding = '5px';
-        div.style.borderRadius = '7px';
+        div.style.borderRadius = '0px 10px 10px 10px';
         div.style.opacity = '0.8';
     }
 
@@ -557,28 +557,32 @@ function createVideoForParticipant(participant, sender_name) {
     var new_div = document.createElement('div');
     var new_divId = "divvideo-" + participant.id;
     new_div.id = new_divId;
-    new_div.style.width = '80px';
-    new_div.style.margin = '0px';
-    new_div.style.padding = '0px';
+    new_div.style.width = '50%';
+    new_div.style.height = '15%';
+    new_div.style.float = 'left';
+    new_div.style.display = 'inline-block'
 
     var over_video = document.createElement('div');
     var over_videoId = "overvideo-" + participant.id;
     over_video.id = over_videoId;
     over_video.style.position = 'absolute';
     over_video.style.float = 'left';
-    over_video.style.margin = '0px';
-    over_video.style.padding = '0px';
-    over_video.style.background = '#C3C3C3';
+    over_video.style.padding = '5px';
+    over_video.style.background = '#c3c3c3';
     over_video.style.opacity = '0.6';
+    over_video.style.marginTop = '15px';
     over_video.style.zIndex = '100';
     over_video.style.wordWrap = 'break-word';
     over_video.style.display = 'none';
-    over_video.style.cursor = 'pointer'
+    over_video.style.cursor = 'pointer';
+    over_video.style.marginLeft = '6px';
     over_video.onmouseout = hide_name_dive;
 
     var p_name = document.createElement('p');
     var node = document.createTextNode(sender_name);
     p_name.style.fontSize = '12px';
+    p_name.style.color = '#8d191d';
+    p_name.style.fontWeight = '900';
     p_name.appendChild(node);
     over_video.appendChild(p_name);
 
@@ -586,12 +590,7 @@ function createVideoForParticipant(participant, sender_name) {
     var video = document.createElement('video');
     video.setAttribute('name', sender_name);
     video.onmouseover = show_name_dive;
-    video.style.width = '80px';
-    video.style.margin = '0px';
-    video.style.padding = '0px';
-    video.style.zIndex = '0px';
-
-
+    
     video.autoplay = true;
     video.id = videoId;
     video.poster = "img/webrtc.png";
@@ -649,13 +648,26 @@ $("#txt-chat-message").keyup(function(event){
 
 function show_name_dive(){
     var over_video = document.getElementById('over'+this.id);
-    over_video.style.width = this.offsetWidth + 'px';
-    over_video.style.height = this.offsetHeight + 'px';
-    over_video.style.display = 'block';
+    over_video.style.width = '38%';
+    over_video.style.height = '17.4%';
+    over_video.style.borderRadius = '5px';
+    over_video.style.display = 'inline-block';
 }
 
 function hide_name_dive(){
     this.style.display = 'none';
 }
+
+$("#hide").on('click', function() {
+    $("#element").hide();
+    $("#camera").show();
+    return false;
+});
+
+$("#camera").on('click', function() {
+    $("#element").show();
+    $("#camera").hide();
+    return false;
+});
 
 });

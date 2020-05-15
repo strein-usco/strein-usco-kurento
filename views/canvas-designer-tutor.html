@@ -182,7 +182,11 @@
               <a href="#" id="hide" title="Ocultar videocam"><i class="tiny material-icons black-text">visibility_off</i></a>
               <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()">></button>
             </div>
-            <div id="other-videos"></div>
+            <div id="other-videos">
+              <div class="col s2 m2 l1 no-padding"  id="web-cam3" style="visibility: hidden;">
+                <button title="Stop video" id="stop-video2" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio2" onclick="controlStreamAudio()">></button>
+              </div>
+            </div>
             <video id="screen-viewer" playsinline autoplay muted="" preload="true" style="width: 100%"></video>
       
           </div>
@@ -248,9 +252,9 @@
 
           <div class="no-margin no-padding file-tab">
 
-            <a title="Ocultar/Mostrar Archivos" id="trigger" class="card-create-course"><i class="material-icons small yellowusco-text grayusco lighten-5">archive</i></a>
-            <a title="Ocultar/Mostrar Opciones del Tablero" id="trigger2" class="card-create-course"><i class="material-icons small redusco-text">palette</i></a>
-            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small grayusco-text">switch_camera</i></a>
+            <a title="Ocultar/Mostrar Archivos" id="trigger" class="card-create-course"><i class="material-icons small yellowusco-text" style="background-color: #eee;">archive</i></a>
+            <a title="Ocultar/Mostrar Opciones del Tablero" id="trigger2" class="card-create-course"><i class="material-icons small grayusco-text">palette</i></a>
+            <a href="#" id="camera" title="Mostrar videocam"><i class="material-icons small redusco-text">switch_camera</i></a>
           
           </div>
     
@@ -266,14 +270,14 @@
   <script src="/javascript/kurento-group-index.js"></script>
   <!--script src="/javascript/participants.js"></script-->
 
-  <div id="myModal31" class="myModal" style="display: block; opacity: 1; z-index: 9999; text-align: center;   visibility: hidden;
+  <!--div id="myModal31" class="myModal" style="display: block; opacity: 1; z-index: 9999; text-align: center;   visibility: hidden;
    position: fixed; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(255,255,255,0); /* Black w/ opacity */">
     <div id="container-modal" style="    background-color: #fefefe;  margin: auto;  padding: 20px;  border: 1px solid #888;  width: 20%; margin: auto;">
       <p style="text-align: center;" id="p_name_user"> Se aconseja </p>
       <a  title="Silenciar el mic" id="mute_user" style="cursor: pointer;"><i class="material-icons left-align redusco-text">mic_off</i></a>  
       <a title="Explusarlo de la sala" id="block_user" style="cursor: pointer;"><i class="material-icons left-align redusco-text">do_not_disturb_alt</i></a>
     </div>
-  </div>
+  </div-->
 
   </body>
 </html>
