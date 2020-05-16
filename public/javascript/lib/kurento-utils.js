@@ -367,16 +367,17 @@ function WebRtcPeer(mode, options, callback) {
         return pc.remoteDescription;
     };
     function setRemoteVideo() {
+        var canvas_element = document.getElementById('c1')
         if (remoteVideo) {
             //primera condición para estudiantes
-            if(remoteVideo.getAttribute('name') == 'tutors-board' && !document.getElementById('c1')){
+            if(remoteVideo.getAttribute('name') == 'tutors-board' && !canvas_element){
                 remoteVideo_div = document.getElementById('div' + remoteVideo.id);
                 remoteVideo_div.parentNode.removeChild(remoteVideo_div);
                 //remoteVideo.parentNode.removeChild(remoteVideo);
                 remoteVideo = document.getElementById('remoteVideo2');
             }
             //segunda condición para tutor
-            if(remoteVideo.getAttribute('name') == 'tutors-board' && document.getElementById('c1')){
+            if(remoteVideo.getAttribute('name') == 'tutors-board' && canvas_element){
                 remoteVideo_div = document.getElementById('div' + remoteVideo.id);
                 remoteVideo_div.parentNode.removeChild(remoteVideo_div);
                 //remoteVideo.parentNode.removeChild(remoteVideo);
@@ -389,6 +390,9 @@ function WebRtcPeer(mode, options, callback) {
                 console.log(pc.getRemoteStreams());
                 remoteVideo.srcObject = stream;
                 logger.debug('Remote stream:', stream);
+                if(canvas_element){
+                    document.getElementById("options" + remoteVideo.id).style.display = 'block';
+                }
             }
             if (typeof AdapterJS !== 'undefined' && AdapterJS.webrtcDetectedBrowser === 'IE' && AdapterJS.webrtcDetectedVersion >= 9) {
                 remoteVideo = attachMediaStream(remoteVideo, stream);

@@ -1,28 +1,3 @@
-function controlStreamVideo(){
-    window.MediaStream1.getVideoTracks()[0].enabled =
-    !(window.MediaStream1.getVideoTracks()[0].enabled);
-
-    if(!window.MediaStream1.getVideoTracks()[0].enabled){
-        document.getElementById('stop-video1').style.background = "url(/images/videocam_off.png) center no-repeat";
-    }else{
-        document.getElementById('stop-video1').style.background = "url(/images/videocam.png) center no-repeat";
-    }
-}
-
-function controlStreamAudio(){
-    window.MediaStream1.getAudioTracks()[0].enabled =
-    !(window.MediaStream1.getAudioTracks()[0].enabled);
-
-    if(!window.MediaStream1.getAudioTracks()[0].enabled){
-        document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
-    }else{
-        document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
-    }
-}
-
-/**
- * Created by eak on 9/14/15.
- */
 $(document).ready(function() {
 
 /**
@@ -94,6 +69,9 @@ var localVideoCurrentId;
 var localVideo;
 var sessionId;
 var id_course = $("#id_CourProf").attr("value");
+document.getElementById('stop-video1').onclick = controlStreamVideo;
+document.getElementById('stop-audio1').onclick = controlStreamAudio;
+document.getElementById('hand').onclick = hand_up;
 //var name_video = document.getElementById('name_video').value;
 /*var str = document.URL
 var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
@@ -172,9 +150,12 @@ socket.on("message", function (message) {
         case 'userWritting':
             userWritting(message);
             break;
-        case 'muteUser':
+        case 'hand_up':
+            show_hand_up(message, socket);
+            break;
+        case 'control_audio_user':
             //console.log("messageChatFrom");
-            muteUser();
+            control_audio_user(message);
             break;
         case "startRecording":
             console.log("Starting recording");
@@ -525,12 +506,48 @@ function userWritting(message){
     } else {
         $('#key-press').hide().find('span').html('');
     }
-
 }
 
-function muteUser(){
-    window.MediaStream1.getAudioTracks()[0].enabled = true;
-    document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
+function show_hand_up(message){
+    var hand = message.user_name + ' <img title="Inquietud" src="/images/hand.png"><br>'
+    $('#div_chat').append(hand);
+    M.toast({html:'Un estudiante ha levantado la mano', classes:'rounded'});  
+}
+
+function control_audio_user(message){
+    if(message.control == true){
+        window.MediaStream1.getAudioTracks()[0].enabled = true;
+        document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
+        //document.getElementById('stop-audio1').src = "../../images/microphone.png";
+    }else{
+        window.MediaStream1.getAudioTracks()[0].enabled = false;
+        document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";  
+        //document.getElementById('stop-audio1').src = "../../images/muted.png";
+    }
+}
+
+function controlStreamVideo(){
+    window.MediaStream1.getVideoTracks()[0].enabled =
+    !(window.MediaStream1.getVideoTracks()[0].enabled);
+
+    if(!window.MediaStream1.getVideoTracks()[0].enabled){
+        document.getElementById('stop-video1').style.background = "url(/images/videocam_off.png) center no-repeat";
+    }else{
+        document.getElementById('stop-video1').style.background = "url(/images/videocam.png) center no-repeat";
+    }
+}
+
+function controlStreamAudio(){
+    window.MediaStream1.getAudioTracks()[0].enabled =
+    !(window.MediaStream1.getAudioTracks()[0].enabled);
+
+    if(!window.MediaStream1.getAudioTracks()[0].enabled){
+        document.getElementById('stop-audio1').style.background = "url(/images/muted.png) center no-repeat";
+        sendMessage({id: "control_audio_user", control: false});
+    }else{
+        document.getElementById('stop-audio1').style.background = "url(/images/microphone.png) center no-repeat";
+        sendMessage({id: "control_audio_user", control: true});
+    }
 }
 
 
@@ -645,6 +662,10 @@ $("#txt-chat-message").keyup(function(event){
     };
     sendMessage(message);
 });
+
+function hand_up(){
+    sendMessage({id: 'hand_up', control: true, user_name: user_name});   
+}
 
 function show_name_dive(){
     var over_video = document.getElementById('over'+this.id);

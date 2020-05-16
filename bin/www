@@ -148,10 +148,9 @@ io.on('connection', function (socket) {
                 console.log(socket.id + ' leaveRoom');
                 leaveRoom(socket.id);
                 break;
-            /*case 'call':
-                console.log("Calling");
-                call(socket.id, message.to, message.from);
-                break;*/
+            case 'hand_up':
+                hand_up(message, socket);
+                break;
             case 'messageChatFrom':
                 //console.log("messageChatFrom");
                 messageChatFrom(message, socket, true);
@@ -159,9 +158,9 @@ io.on('connection', function (socket) {
             case 'userWritting':
                 messageChatFrom(message, socket, false);
                 break;
-            case 'muteUser':
+            case 'control_audio_user':
                 //console.log("messageChatFrom");
-                muteUser(message, socket);
+                control_audio_user(message, socket);
                 break;
             case "startRecording":
                 console.log("Starting recording");
@@ -717,27 +716,52 @@ async function messageChatFrom(message, socket, value){
         }
     }catch(err){
         console.log(err)
-    }
-            
+    }          
 }
 
-function muteUser(message, socket){
-    var userSessionTutor = userRegistry.getById(socket.id);
-    if (!userSessionTutor) {
-      return;
-    }
-    if (userSessionTutor.name != 'tutor') {
-      return;
-    }  
-
-    var userSession = userRegistry.getById(message.userId);
+function hand_up(message, socket){
+    var userSession = userRegistry.getById(socket.id);
     if (!userSession) {
       return;
     }
 
-    userSession.sendMessage({
-        id: 'muteUser'
-    });
+    var room = rooms[userSession.roomName];
+
+    if(!room){
+      return;
+    }
+
+    var usersInRoom = room.participants;
+
+    // notify existing user
+    for (var i in usersInRoom) {
+      usersInRoom[i].sendMessage(message);
+    }   
+}
+
+function control_audio_user(message, socket){
+    var userSession = userRegistry.getById(socket.id);
+    if (!userSession) {
+      return;
+    }
+
+    if (userSession.name != 'tutor') {
+        var userSessionTutor = userRegistry.getByName('tutor');
+        userSessionTutor.sendMessage({
+            id: 'control_audio_user',
+            control: message.control,
+            user_id: socket.id
+        });      
+    }else{
+        var userSession = userRegistry.getById(message.userId);
+        if (!userSession) {
+          return;
+        }
+        userSession.sendMessage({
+            id: 'control_audio_user',
+            control: message.control
+        });
+    }
 
 }
 
