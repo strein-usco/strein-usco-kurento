@@ -575,19 +575,17 @@ function createVideoForParticipant(participant, sender_name) {
     var new_divId = "divvideo-" + participant.id;
     new_div.id = new_divId;
     new_div.style.width = '50%';
-    new_div.style.height = '15%';
     new_div.style.float = 'left';
-    new_div.style.display = 'inline-block'
+    new_div.style.display = 'inline-block';
 
     var over_video = document.createElement('div');
     var over_videoId = "overvideo-" + participant.id;
     over_video.id = over_videoId;
     over_video.style.position = 'absolute';
-    over_video.style.float = 'left';
     over_video.style.padding = '5px';
     over_video.style.background = '#c3c3c3';
     over_video.style.opacity = '0.6';
-    over_video.style.marginTop = '15px';
+    over_video.style.marginTop = '7px';
     over_video.style.zIndex = '100';
     over_video.style.wordWrap = 'break-word';
     over_video.style.display = 'none';
@@ -600,6 +598,7 @@ function createVideoForParticipant(participant, sender_name) {
     p_name.style.fontSize = '12px';
     p_name.style.color = '#8d191d';
     p_name.style.fontWeight = '900';
+    p_name.style.padding = '0 3px';
     p_name.appendChild(node);
     over_video.appendChild(p_name);
 
@@ -669,10 +668,10 @@ function hand_up(){
 
 function show_name_dive(){
     var over_video = document.getElementById('over'+this.id);
-    over_video.style.width = '38%';
-    over_video.style.height = '17.4%';
+    over_video.style.display = 'block';
+    over_video.style.width = this.offsetWidth + 'px';
+    over_video.style.height = this.offsetHeight + 'px';
     over_video.style.borderRadius = '5px';
-    over_video.style.display = 'inline-block';
 }
 
 function hide_name_dive(){

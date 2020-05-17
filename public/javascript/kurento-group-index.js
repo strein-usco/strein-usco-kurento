@@ -554,10 +554,7 @@ function show_hand_up(message){
         var new_divId = "divvideo-" + participant_id;
         new_div.id = new_divId;
         new_div.style.width = '50%';
-        //new_div.style.height = '15%';
         new_div.style.float = 'left';
-        new_div.style.borderRadius = '0px 7px 7px 0px';
-        new_div.style.position = "absolute";
         new_div.style.display = 'inline-block';
         document.getElementById("other-videos").appendChild(new_div);
 
@@ -565,7 +562,6 @@ function show_hand_up(message){
         var videoId = "video-" + participant_id;
         video.id = videoId;
         video.setAttribute('name', sender_name);
-        video.style.margin = '0px';
         video.style.float = 'left';
         video.autoplay = true;
         video.onmouseover = show_camera_options;
@@ -573,33 +569,27 @@ function show_hand_up(message){
 
         var div_options = document.createElement('div');
         var div_optionsID = "optionsvideo-" + participant_id;
-        //div_options.style.position = 'absolute';
+        div_options.style.position = 'absolute';
         div_options.id = div_optionsID;
-        div_options.style.float = 'left';
-        div_options.style.padding = '0px';
         div_options.style.background = '#c3c3c3';
         div_options.style.opacity = '0.6';
-        div_options.style.marginTop = '0px';
-        //div_options.style.zIndex = '100';
-        div_options.style.marginLeft = '0px';
-        div_options.style.width = '15px';
-        div_options.style.height = '35px';
+        div_options.style.marginTop = '7px';
+        div_options.style.zIndex = '900';
+        div_options.style.width = '18px';
+        div_options.style.height = '5%';
+        div_options.style.left = '40%';
+        div_options.style.borderRadius = '0px 7px 7px 0px';
         div_options.style.display = 'none';
         new_div.appendChild(div_options);
 
         var image_option2 = document.createElement('img');
-        //image_option1.style.position = "absolute";
-        //image_option1.style.width = '20px';
-        //image_option1.style.height = '30px';
         image_option2.id = 'mic' + participant_id;
         image_option2.onclick = control_audio_user;
         image_option2.src = "../../images/microphone.png";
         image_option2.style.float = "left";
-        image_option2.style.marginLeft = "left";
-        image_option2.style.marginTop = "left";
+        image_option2.style.marginLeft = "1px";
+        image_option2.style.marginTop = "5px";
         image_option2.style.cursor = "pointer";
-        image_option2.style.border = "none";
-        image_option2.style.float = "left";
         image_option2.title = "Silenciar";
         image_option2.name = "true";
         div_options.appendChild(image_option2);
@@ -609,17 +599,14 @@ function show_hand_up(message){
         over_video.id = over_videoId;
         over_video.style.position = 'absolute';
         over_video.style.padding = '5px';
-        over_video.style.padding = '0px';
         over_video.style.background = '#c3c3c3';
         over_video.style.opacity = '0.6';
-        //over_video.style.marginTop = '15px';
-        over_video.style.marginTop = '0px';
+        over_video.style.marginTop = '7px';
         over_video.style.zIndex = '100';
         over_video.style.wordWrap = 'break-word';
         over_video.style.display = 'none';
         over_video.style.cursor = 'pointer';
-        //over_video.style.marginLeft = '6px';
-        over_video.style.marginLeft = '0px';
+        over_video.style.marginLeft = '6px';
         over_video.onmouseout = hide_camera_options;
         new_div.appendChild(over_video);
 
@@ -629,6 +616,7 @@ function show_hand_up(message){
         p_name.style.fontSize = '12px';
         p_name.style.color = '#8d191d';
         p_name.style.fontWeight = '900';
+        p_name.style.padding = '0 3px';
         p_name.appendChild(node);
         over_video.appendChild(p_name);
 
@@ -640,15 +628,11 @@ function show_hand_up(message){
     }
 
     function show_camera_options(){
-        var element1 = document.getElementById('options' + this.id).style.display = "block";
         var over_video = document.getElementById('over'+this.id);
         over_video.style.display = 'block';
-        //over_video.style.width = '38%';
-        //over_video.style.height = '17.4%';
         over_video.style.width = this.offsetWidth + 'px';
         over_video.style.height = this.offsetHeight + 'px';
         over_video.style.borderRadius = '5px';
-        //document.getElementById("over" + this.id).style.display = 'inline-block';
     }
 
     function control_audio_user(){
@@ -709,11 +693,11 @@ function show_hand_up(message){
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    /*window.onclick = function(event) {
      if (event.target == document.getElementById('web-cam3')) {
         $('#web-cam3').css('visibility', 'hidden');
       }
-    }
+    }*/
 
     $('#txt-chat-message').keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -730,6 +714,7 @@ function show_hand_up(message){
                 sender: socket.id,
                 sender_name: user_name,
                 text : this.value,
+                tutor: true,
             };
             sendMessage(message);
             this.value = "";

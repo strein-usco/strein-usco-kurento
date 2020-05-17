@@ -98,7 +98,7 @@
 
     <div class="row no-margin body">
 
-      <div class="col s3 m3 l2 no-padding border-right">
+      <div class="col s12 m3 l2 no-padding border-right">
         <div class="row no-margin chat">
 
           <ul id="tabs" class="tabs">
@@ -138,7 +138,11 @@
 
                       <div id="div_chat">
                         <% for(var i=0; i<messagesChat.length; i++) {%>
-                        <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 5px; padding: 5px; border-radius: 7px;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word;"><%=messagesChat[i].userchatMessage%></p></div>
+                          <% if(messagesChat[i].userFullNameMsg) {%>
+                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
+                          <% } else {%>
+                            <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
+                          <% } %>  
                         <% } %>
                         
                       </div>
@@ -163,7 +167,7 @@
         </div>
       </div>
 
-      <div class="col s9 m9 l10 no-padding canvas">
+      <div class="col s12 m9 l10 no-padding canvas">
         <div class="row no-margin canvas" id="c2">
 
           <canvas id="c1"></canvas>

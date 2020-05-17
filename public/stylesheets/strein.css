@@ -109,15 +109,15 @@ nav{
   border-top: 0.2px solid #c3c3c3;
 }
 
-.cam {
+.cam{
   position: absolute; 
   z-index: 9999;
   right: 0;
   top: 64px;
   width: 16.6666666667%;
-  height: calc(100vh - 170px) !important;
+  height: calc(100vh - 64px) !important;
   overflow-y: auto; 
-
+  border-left: 1px dashed #4E6470;   
 }
 
 .arrow{
@@ -134,7 +134,7 @@ nav{
   bottom: 20px;
   z-index: 99999;
   height: 80px;
-  width: calc(100% - 16.6666666667%) !important;
+  width: 83.3333333333% !important;
   box-shadow: 0 -5px 5px -3px black;
   background-color: #fff; 
   overflow-y: auto;
@@ -151,12 +151,12 @@ nav{
 
 .tablero{
   position: absolute; 
-  left: 16.6666666667%;
   top: 64px;
   z-index: 99999;
   height: calc(100vh - 170px) !important;
   width: 5% !important;
   overflow-y: auto; 
+  overflow-x:hidden;
 }
 
 /*paginación*/
@@ -354,7 +354,7 @@ textarea{
 
 #other-videos video{
   width: 75%;
-  margin-top: 15px;
+  margin-top: 7px;
   margin-left: 6px;
   border-radius: 5px;
 
@@ -369,20 +369,7 @@ textarea{
   background-color: #c3c3c3;
   opacity:0.6;
   width: 25px;
-  height: 15%;
-  border-radius: 0px 7px 7px 0px;
-}
-
-/*stop-audio-video-student*/
-#web-cam3 {
-  position: absolute;
-  z-index: 9999;
-  left: 40%;
-  margin-top: 15px;
-  background-color: #c3c3c3;
-  opacity:0.6;
-  width: 22px;
-  height: 10%;
+  height: 12%;
   border-radius: 0px 7px 7px 0px;
 }
 
@@ -395,7 +382,7 @@ textarea{
   background-color: #c3c3c3;
   opacity:0.6;
   width: 25px;
-  height: 18%;
+  height: 15%;
   border-radius: 0px 7px 7px 0px;
 }
 

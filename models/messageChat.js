@@ -5,6 +5,8 @@ let messageSchema = new Schema({
     id: { type: String },
     id_course: { type: String },
     id_class: { type: String },
+    id_user:  { type: String },
+    tutor:  { type: String },
     userFullNameMsg: { type: String },
     userchatMessage: { type: String },
     created_at: {

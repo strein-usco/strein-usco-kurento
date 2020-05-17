@@ -699,10 +699,13 @@ async function messageChatFrom(message, socket, value){
         }
 
         var usersInRoom = room.participants;
+        (message.tutor)? value = true : value = false;
         if(value){
           let newmessage = new messageChat({
             id_class: room.name,
             id_course: message.id_course,
+            id_user: socket.id,
+            tutor: value,
             userFullNameMsg: message.sender_name,
             userchatMessage: message.text
           });
