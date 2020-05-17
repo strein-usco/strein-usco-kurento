@@ -700,7 +700,7 @@ async function messageChatFrom(message, socket, value){
 
         var usersInRoom = room.participants;
         (message.tutor)? value = true : value = false;
-        if(value){
+        if(message.text){
           let newmessage = new messageChat({
             id_class: room.name,
             id_course: message.id_course,
@@ -709,7 +709,7 @@ async function messageChatFrom(message, socket, value){
             userFullNameMsg: message.sender_name,
             userchatMessage: message.text
           });
-
+          console.log(newmessage)
           await newmessage.save();
         }
 

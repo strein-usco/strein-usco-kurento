@@ -132,10 +132,12 @@
 
                       <div id="div_chat">
                         <% for(var i=0; i<messagesChat.length; i++) {%>
-                          <% if(messagesChat[i].userFullNameMsg) {%>
-                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
-                          <% } else {%>
+                          <% if(messagesChat[i].tutor == "true") {%>
+                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %><i class="tiny material-icons">star</i>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
+                          <% } else if(messagesChat[i].userFullNameMsg == myName) {%>
                             <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
+                          <% } else{%>
+                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p></div>
                           <% } %>  
                         <% } %>
                         <div id="key-press">

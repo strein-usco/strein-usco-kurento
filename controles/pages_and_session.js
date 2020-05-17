@@ -576,7 +576,7 @@ exports.joinCourseStudent = function(req, res) {
                                     //        res.render('course-student-exponent', {courses:courses, course:course,video:video, nameFiles: nameFiles, messagesChat: messagesChat, students: students});            
                                     //    });
                                     //}else{
-                                        res.render('canvas-designer-student', {courses:courses, course:course,video:video, messagesChat: messagesChat, students: students});            
+                                        res.render('canvas-designer-student', {myName:  req.session.user.nombres, courses:courses, course:course,video:video, messagesChat: messagesChat, students: students});            
                                     //}
                                 });
                             });     
