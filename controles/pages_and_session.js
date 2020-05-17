@@ -567,7 +567,7 @@ exports.joinCourseStudent = function(req, res) {
             Joins.find({id_student: req.session.user._id}, (err, courses) =>{
                 VideoClasses.findById(id_class, (err, video)=>{
                     if(course){
-                        Joins.findOne({id_course: id_course, id_student: req.session.user._id, exponent: "positive"}, (err, join)=>{
+                        Joins.findOne({id_course: id_course, id_student: req.session.user._id}, (err, join)=>{
                             MessageChat.find({ id_class: id_class}, (err, messagesChat) => {
                                 Joins.find({ id_course: id_course}, 'name_student',(err, students) => {
                                     //if(join){
@@ -576,7 +576,7 @@ exports.joinCourseStudent = function(req, res) {
                                     //        res.render('course-student-exponent', {courses:courses, course:course,video:video, nameFiles: nameFiles, messagesChat: messagesChat, students: students});            
                                     //    });
                                     //}else{
-                                        res.render('canvas-designer-student', {myName:  req.session.user.nombres, courses:courses, course:course,video:video, messagesChat: messagesChat, students: students});            
+                                        res.render('canvas-designer-student', {myColor: join.color, myName:  req.session.user.nombres, courses:courses, course:course,video:video, messagesChat: messagesChat, students: students});            
                                     //}
                                 });
                             });     

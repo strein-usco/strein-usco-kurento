@@ -7,8 +7,10 @@ let messageSchema = new Schema({
     id_class: { type: String },
     id_user:  { type: String },
     tutor:  { type: String },
+    colorMessage: { type: String },
     userFullNameMsg: { type: String },
     userchatMessage: { type: String },
+    dateMessage: { type: String },
     created_at: {
     	type: Date,
     	default: Date.now

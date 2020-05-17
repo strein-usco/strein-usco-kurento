@@ -15,6 +15,7 @@ let joinsSchema = new Schema({
 	name_tutor: { type: String },
     type: { type: String },
 	exponent: {type:String},
+    color: {type:String},
     circle: {type:String},
     title: {type:String},
   

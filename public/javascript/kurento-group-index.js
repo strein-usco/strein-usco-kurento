@@ -492,9 +492,12 @@ function leaveRoom(){
     function messageChatFrom(message, socketId){
         var div = document.createElement('div');
         div.className = 'message';
+        if(!message.color){
+            message.color = '#000000'
+        }
 
         if (message.sender != socketId) {
-            div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
+            div.innerHTML = '<b style="color: ' + message.color + '">' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;>' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
             div.style.background = '#4E6470';
             div.style.color = 'white';
             div.style.width = '80%';
@@ -511,7 +514,7 @@ function leaveRoom(){
                 });
             }*/
         } else {
-            div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
+            div.innerHTML = '<b style=" color: ' + message.color + '">' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
             div.style.background = '#8d191d';
             div.style.color = 'white';
             div.style.width = '80%';
@@ -715,6 +718,7 @@ function show_hand_up(message){
                 sender_name: user_name,
                 text : this.value,
                 tutor: true,
+                color: '#ffffff'
             };
             sendMessage(message);
             this.value = "";

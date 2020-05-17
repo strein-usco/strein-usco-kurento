@@ -69,6 +69,7 @@ var localVideoCurrentId;
 var localVideo;
 var sessionId;
 var id_course = $("#id_CourProf").attr("value");
+var my_color = document.getElementById("myColor").value;
 document.getElementById('stop-video1').onclick = controlStreamVideo;
 document.getElementById('stop-audio1').onclick = controlStreamAudio;
 document.getElementById('hand').onclick = hand_up;
@@ -463,9 +464,12 @@ var conversationPanel = document.getElementById('div_chat');
 function messageChatFrom(message, socketId){
     var div = document.createElement('div');
     div.className = 'message';
+    if(!message.color){
+        message.color = '#ffffff'
+    }
 
     if (message.sender != socketId) {
-        div.innerHTML = '<b>' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
+        div.innerHTML = '<b style="color: ' + message.color + '">' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
         div.style.background = '#4E6470';
         div.style.color = 'white';
         div.style.width = '80%';
@@ -482,7 +486,7 @@ function messageChatFrom(message, socketId){
             });
         }*/
     } else {
-        div.innerHTML = '<b>' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p>';
+        div.innerHTML = '<b style=" color: ' + message.color + '">' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
         div.style.background = '#8d191d';
         div.style.color = 'white';
         div.style.width = '80%';
@@ -634,7 +638,10 @@ $('#txt-chat-message').keypress(function(event) {
             sender: socket.id,
             sender_name: user_name,
             text : this.value,
+            color: my_color
         };
+        console.log("El mensaje es: ");
+        console.log(message)
         sendMessage(message);
         this.value = "";
     }

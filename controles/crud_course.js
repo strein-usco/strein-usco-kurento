@@ -348,7 +348,8 @@ exports.create_join = function(req, res) {
                             type: course.type,
                             id_tutor: course.id_tutor,
                             name_tutor: course.name_tutor,
-                            exponent: "negative"
+                            exponent: "negative",
+                            color: selectColorRGB()
                         });
                         join.save();
                         res.status(200).send(true);
@@ -356,8 +357,14 @@ exports.create_join = function(req, res) {
                 });
             });
         }else{res.status(406).send(false);}
-    });
-  
+    }); 
+}
+
+function selectColorRGB(){
+    list_color= ['#ffcdd2', '#ef9a9a', "#e57373", '#ef5350', '#f44336', '#e53935', '#f48fb1', '#ec407a', '#ce93d8', '#ba68c8', '#9c27b0', '#2196f3', '#1976d2', '#0d47a1', '#2962ff', '#4db6ac', '#009688', '#00695c', '#004d40', '#006064', '#01579b', '#0288d1', '#0097a7', '#00796b', '#03a9f4', '#00bcd4', '#009688', '#4db6ac', '#4dd0e1', '#0091ea', '#1b5e20', '#43a047', '#81c784', '#aed581', '#8bc34a', '#689f38', '#dce775', '#cddc39', '#afb42b', '#827717', '#69f0ae', '#00e676', '#00c853', '#b2ff59', '#76ff03', '#64dd17', '#aeea00', '#c6ff00', '#eeff41', '#fbc02d', '#f9a825', '#f57f17', '#ffff00', '#ffea00', '#d84315' , '#6d4c41', '#5d4037', '#212121', '#424242', '#616161', '#607d8b', '#455a64'  ]
+    random_num = (Math.random()*61)+1;
+    color = list_color[random_num | 0];
+    return color;
 }
 
 /** 
