@@ -569,7 +569,7 @@ function show_hand_up(message){
 
         var div_options = document.createElement('div');
         var div_optionsID = "optionsvideo-" + participant_id;
-        div_options.style.position = 'absolute';
+        div_options.style.float = 'left';
         div_options.id = div_optionsID;
         div_options.style.background = '#c3c3c3';
         div_options.style.opacity = '0.6';
