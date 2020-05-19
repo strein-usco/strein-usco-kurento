@@ -497,7 +497,7 @@ function leaveRoom(){
         }
 
         if (message.sender != socketId) {
-            div.innerHTML = '<b style="color: ' + message.color + '">' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;>' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
+            div.innerHTML = '<b style="color: ' + message.color + '">' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
             div.style.background = '#4E6470';
             div.style.color = 'white';
             div.style.width = '80%';
