@@ -92,6 +92,13 @@ nav{
   z-index: 9999;
 }
 
+#toast-container {
+  min-width: 10%;
+  top: 50%;
+  right: 50%;
+  transform: translateX(50%) translateY(50%);
+}
+
 /*layout*/
 
 .body, .chat, .canvas{
@@ -102,11 +109,10 @@ nav{
   width: 100%;
   height: calc(100vh - 64px); 
   display: block;
-  border-top: 0.2px solid #c3c3c3;
 }
 
-.canvas{
-  border-top: 0.2px solid #c3c3c3;
+nav{
+  border-bottom: 0.1px solid #c3c3c3;
 }
 
 .cam{
@@ -134,7 +140,7 @@ nav{
   bottom: 20px;
   z-index: 99999;
   height: 80px;
-  width: 83.3333333333% !important;
+  width: 66.7% !important;
   box-shadow: 0 -5px 5px -3px black;
   background-color: #fff; 
   overflow-y: auto;
@@ -146,7 +152,7 @@ nav{
   z-index: 99999;
   height: 30px;
   left: 18%;
-  width: calc(100% - 80%) !important;
+  width: calc(100% - 70%) !important;
 }
 
 .tablero{
@@ -154,7 +160,7 @@ nav{
   top: 64px;
   z-index: 99999;
   height: calc(100vh - 170px) !important;
-  width: 5% !important;
+  width: 8% !important;
   overflow-y: auto; 
   overflow-x:hidden;
 }
@@ -174,7 +180,7 @@ nav{
   width: 35%;
 }
 
-.adelante{
+.adelante, .atras{
   margin-left: 5%;
 }
 
@@ -437,6 +443,7 @@ textarea{
   margin-left: 2px;
   margin-top: 5px;
   border: none;
+  cursor: pointer;
 }
 
 #stop-audio1, #stop-audio{
@@ -588,19 +595,20 @@ i#small{
 .containerCourse {
   background-color: #8D191D;
   float: left;
-  padding: 0;
-  width: 1.5%;
-  height: 15%;
+  width: 1.2%;
+  height: 14%;
   margin-top: 1%;
-  margin-left: 1%;
-  margin-right: 10%;
+  margin-left: 2%;
+  margin-right: 12%;
   position: relative;
+  display: inline-block;
 }
 
 .imageCourse {
   height: 1px;
   word-wrap: break-word;
-  width: 120px;
+  width: 1px;
+  line-height: 1;
 }
 
 .overlayCourse {
@@ -623,7 +631,7 @@ i#small{
   position: absolute;
   text-align: center;
   color: black;
-  top: 50%;
+  top: 53%;
   bottom: 0;
   left: 60%;
   right: 0;
@@ -704,13 +712,9 @@ i#small{
   z-index: 9999;
 }
 
-@media only screen and (max-width : 900px) {
+@media only screen and (max-width : 950px) {
   nav .brand-logo {
       font-size: 16px;
-  }
-
-  .containerCourse {
-    width: 2%; 
   }
 
   .fixed-action{
@@ -718,264 +722,8 @@ i#small{
     bottom: 2%;
   }
 
-  #c1{
-    width: 100% !important;
-  }
-
-  .body, .chat, .canvas, #c1{
-    height: calc(100vh - 64px) !important;
-  }
-
-  .cam {
-    position: absolute; 
-    z-index: 9999;
-    right: 0;
-    top: 56px;
-    height: calc(100vh - 112px) !important;
-    width: 16.6666666667%;
-  }
-
-  .arrow{
-    position: absolute; 
-    top: 64px;
-    z-index: 9999;
-    height: 32px;
-    width: 50%;
-    left: 40%;
-
-  }
-
-  .file{
-    width: calc(100% - 25%) !important;
-    bottom: 18px;
-  }
-
-  .file-tab{
-    height: 30px;
-    left: 26%;
-    width: 40% !important;
-    bottom: 0%;
-  }
-
-  .tablero{
-    left: 26%;
-    top: 64px;
-    height: calc(100vh - 170px) !important;
-    width: 8% !important;
-  }
-
-  #web-cam2, #in_call{
-    width: 42%;
-    height: 80px;
-  }
-
-  #stop-video1, #stop-video{
-    height: 20px;
-    width: 20px;
-    margin-top: 50%;
-    margin-left: 10%;
-  }
-
-  #stop-audio1, #stop-audio{
-    height: 30px;
-    width: 10px;
-    margin-top: 12%;
-    margin-left: 15%;
-  }
-
-  #hung_up{
-    height: 20px;
-    width: 10px;
-  }
-
-  #hide{
-    margin-top: 1px;
-    height: 10px;
-    width: 10px;
-    margin-bottom: 2%;
-    margin-left: 1.5px;
-  }
-
   .containerCourse {
-    padding: 0;
-    width: 3%;
-    height: 15%;
-    margin-top: 3%;
-    margin-left: 6%;
-    margin-right: 35%;
-  }
-
-  .imageCourse {
-    height: 10px;
-    width: 200px;
-  }
-
-  .overlayCourse {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 120px;
-    height: 60px;
-  }
-
-  .textCourse {
-    top: 50%;
-    bottom: 0;
-    left: 60%;
-    right: 0;
-    width: 100px;
-    height: 60px;
-  } 
-
-  .video{
-    width: 100%;
-  }
-
-  .canvas-container, .lower-canvas, .upper-canvas{
-    width: 100% !important;
-  }
-
-  .ventana_flotante{
-    left: 30%;
-  }
-
-}
-
-@media only screen and (max-width : 800px) {
-  nav .brand-logo {
-      font-size: 16px;
-  }
-
-  .containerCourse {
-    width: 2%; 
-  }
-
-  .fixed-action{
-    right: 4%;
-    bottom: 2%;
-  }
-
-  #c1{
-    width: 100% !important;
-  }
-
-  .body, .chat, .canvas, #c1{
-    height: calc(100vh - 64px) !important;
-  }
-
-  .cam {
-    position: absolute; 
-    z-index: 9999;
-    right: 0;
-    top: 56px;
-    height: calc(100vh - 112px) !important;
-    width: 16.6666666667%;
-  }
-
-  .arrow{
-    position: absolute; 
-    top: 64px;
-    z-index: 9999;
-    height: 32px;
-    width: 50%;
-    left: 40%;
-
-  }
-
-  .file{
-    width: calc(100% - 25%) !important;
-    bottom: 18px;
-  }
-
-  .file-tab{
-    height: 30px;
-    left: 26%;
-    width: 40% !important;
-    bottom: 0%;
-  }
-
-  .tablero{
-    left: 26%;
-    top: 64px;
-    height: calc(100vh - 170px) !important;
-    width: 8% !important;
-  }
-
-  #web-cam2, #in_call{
-    width: 42%;
-    height: 80px;
-  }
-
-  #stop-video1, #stop-video{
-    height: 20px;
-    width: 20px;
-    margin-top: 50%;
-    margin-left: 10%;
-  }
-
-  #stop-audio1, #stop-audio{
-    height: 30px;
-    width: 10px;
-    margin-top: 12%;
-    margin-left: 15%;
-  }
-
-  #hung_up{
-    height: 20px;
-    width: 10px;
-  }
-
-  #hide{
-    margin-top: 1px;
-    height: 10px;
-    width: 10px;
-    margin-bottom: 2%;
-    margin-left: 1.5px;
-  }
-
-  .containerCourse {
-    padding: 0;
-    width: 3%;
-    height: 15%;
-    margin-top: 3%;
-    margin-left: 6%;
-    margin-right: 35%;
-  }
-
-  .imageCourse {
-    height: 10px;
-    width: 200px;
-  }
-
-  .overlayCourse {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 120px;
-    height: 60px;
-  }
-
-  .textCourse {
-    top: 50%;
-    bottom: 0;
-    left: 60%;
-    right: 0;
-    width: 100px;
-    height: 60px;
-  } 
-
-  .video{
-    width: 100%;
-  }
-
-  .canvas-container, .lower-canvas, .upper-canvas{
-    width: 100% !important;
-  }
-
-  .ventana_flotante{
-    left: 30%;
+    margin-right: 15%;
   }
 
 }
@@ -984,10 +732,16 @@ i#small{
 
   nav .brand-logo {
       font-size: 16px;
+      height: 46px;
+      line-height: 45px;
   }
 
-  .containerCourse {
-    width: 2%; 
+  nav .sidenav-trigger, nav{
+    height: 46px;
+  }
+
+  .sidenav{
+    z-index: 999999999;
   }
 
   .fixed-action{
@@ -995,130 +749,132 @@ i#small{
     bottom: 2%;
   }
 
-  #c1{
-    width: 100% !important;
+  .btn-floating.btn-large {
+    width: 40px;
+    height: 40px;
   }
 
-  .body, .chat, .canvas, #c1{
-    height: calc(100vh - 64px) !important;
+  .btn-floating.btn-large i {
+    line-height: 0;
+    height: 10px;
+}
+
+  .containerCourse {
+    width: 3%;
+    height: 10%;
+    margin-top: 4%;
+    float: left;
+    margin-left: 2%;
+    margin-right: 45%;
   }
 
-  .cam {
-    position: absolute; 
-    z-index: 9999;
-    right: 0;
-    top: 56px;
-    height: calc(100vh - 112px) !important;
-    width: 16.6666666667%;
+  i.small, nav i.material-icons{
+    font-size: 1.6rem;
+  }
+
+  .material-icons{
+    font-size: 1.3rem;
+  }
+
+  #namechat, #handchat{
+    font-size: 10px;
+  }
+
+  #txt-chat-message {
+    margin-left: 1px;
+    height: 24px;
+    margin-top: 15px;
+  }
+
+  #div_chat{
+    height: calc(100vh - 190px);
+  }
+
+  #sendmessage{
+    height:48px;
+  }
+
+  .tablero, .cam, .arrow{
+    top: 46px;
+  } 
+
+  .tablero{
+    width: 9% !important;
   }
 
   .arrow{
-    position: absolute; 
-    top: 64px;
-    z-index: 9999;
-    height: 32px;
-    width: 50%;
-    left: 40%;
-
-  }
-
-  .file{
-    width: calc(100% - 25%) !important;
-    bottom: 18px;
-  }
+    left: 35%;
+    width: 60%;
+  } 
 
   .file-tab{
-    height: 30px;
-    left: 26%;
-    width: 40% !important;
     bottom: 0%;
   }
 
-  .tablero{
-    left: 26%;
-    top: 64px;
-    height: calc(100vh - 170px) !important;
-    width: 10% !important;
+  .file{
+    bottom: 32px;
+  }
+  
+  .cam, .body, .chat, .canvas, #c1, .canvas-container, .lower-canvas, .upper-canvas{
+    height: calc(100vh - 96px) !important;
   }
 
-  #web-cam2, #in_call{
-    width: 42%;
-    height: 80px;
+  .video1{
+    width: 95%;
+    margin-left: 1px;
+  }
+
+  /*camaras*/
+
+  #main-video {
+    margin-left: 5%;
+    width: 90%;
+  }
+
+  #other-videos video{
+    width: 80%;
+    margin-left:4px;
+  }
+
+  #web-cam2 {
+    right: 5%;
+    width: 18px;
+    height: 9%;
+  }
+
+  #web-cam4 {
+    right: 8%;
+    width: 18px;
+    height: 9%;
   }
 
   #stop-video1, #stop-video{
-    height: 20px;
-    width: 20px;
-    margin-top: 50%;
-    margin-left: 10%;
-  }
+    margin-left: 2px;
+    margin-top: 8px;
+   }
 
   #stop-audio1, #stop-audio{
-    height: 30px;
-    width: 10px;
-    margin-top: 12%;
-    margin-left: 15%;
-  }
-
-  #hung_up{
-    height: 20px;
-    width: 10px;
+    height: 16px;
+    width: 0;
+    margin-left: 2px;
+    margin-top: 3px;
   }
 
   #hide{
+    margin-left: 2px;
     margin-top: 1px;
-    height: 10px;
-    width: 10px;
-    margin-bottom: 2%;
-    margin-left: 1.5px;
   }
 
-  #eraser-mode,  #drawing-mode,  #textbox, #selecting-mode,  #fitImage,  #drawing-color,  #drawing-mode-selector, #rang, #drawing-line-width, #after{
-    margin-left: -1.5%;
+  #hand{
+    margin-left: 1px;
+    margin-top: 6px;
   }
 
-  .containerCourse {
-    padding: 0;
-    width: 3%;
-    height: 15%;
-    margin-top: 3%;
-    margin-left: 6%;
-    margin-right: 35%;
-  }
+  /* Tablero*/
 
-  .imageCourse {
-    height: 10px;
-    width: 200px;
-  }
-
-  .overlayCourse {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 120px;
-    height: 60px;
-  }
-
-  .textCourse {
-    top: 50%;
-    bottom: 0;
-    left: 60%;
-    right: 0;
-    width: 100px;
-    height: 60px;
-  } 
-
-  .video{
-    width: 100%;
-  }
-
-  .canvas-container, .lower-canvas, .upper-canvas{
-    width: 100% !important;
-  }
-
-  .ventana_flotante{
-    left: 30%;
+  #after, #drawing-line-width, #eraser-mode, #drawing-mode, #textbox, #selecting-mode, #fitImage, #drawing-color,#drawing-mode-selector {
+    width: 30px;
+    height: 30px;
   }
 
 }

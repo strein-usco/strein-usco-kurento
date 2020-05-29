@@ -58,7 +58,7 @@
   <nav class="transparent" role="navigation">
     <div class="nav-wrapper">
       <a class="brand-logo redusco-text text-darken-4" value="<%= course.name_course %>"><i class="material-icons logo"><img src="/images/icono0.gif"></i><%= name %></a>
-      <a data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons redusco-text">apps</i></a>
+      <a data-target="mobile-demo" class="sidenav-trigger right"><i class="large material-icons redusco-text">apps</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="/tutor-account" class="redusco-text" title="Inicio"><i class="material-icons">account_balance</i></a></li>
         <li><a id="account" class="redusco-text" href="/tutor-account/dataTutor" title="Cambiar Contraseña"><i class="material-icons left-align">vpn_key</i></a></li>
@@ -98,7 +98,7 @@
 
     <div class="row no-margin body">
 
-      <div class="col s12 m3 l2 no-padding border-right">
+      <div class="col s2 m3 l2 no-padding border-right">
         <div class="row no-margin chat">
 
           <ul id="tabs" class="tabs">
@@ -139,9 +139,9 @@
                       <div id="div_chat">
                         <% for(var i=0; i<messagesChat.length; i++) {%>
                           <% if(messagesChat[i].tutor == "true") {%>
-                            <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %><i class="tiny material-icons">star</i>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
+                            <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 0px 10px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><!--i style="margin:0px 2px 0px 1px;" class="tiny material-icons">stars</i--><b id="namechat" style="text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
                           <% } else {%>
-                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b style=" color: <%=messagesChat[i].colorMessage %>;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
+                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b id="namechat" style=" color: <%=messagesChat[i].colorMessage %>;text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
                           <% } %>  
                         <% } %>
                         
@@ -167,16 +167,16 @@
         </div>
       </div>
 
-      <div class="col s12 m9 l10 no-padding canvas">
+      <div class="col s10 m9 l10 no-padding canvas">
         <div class="row no-margin canvas" id="c2">
 
           <canvas id="c1"></canvas>
 
-          <div id="request_call" class="ventana_flotante">
+          <!--div id="request_call" class="ventana_flotante">
             <a class="btn-floating pulse" id="call"><i class="material-icons white black-text">videocam</i></a>
             <p id="p1"></p><br>
             <a class="btn-floating" id="hung_up1" title="Colgar"><i class="material-icons small white-text redusco">call_end</i></a>
-          </div>
+          </div-->
 
           <div class="row no-margin cam" id="element">
 
@@ -184,7 +184,7 @@
             </video>
             <div class="col s2 m2 l1 no-padding"  id="web-cam2">
               <a href="#" id="hide" title="Ocultar videocam"><i class="tiny material-icons black-text">visibility_off</i></a>
-              <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()">></button>
+              <button title="Stop video" id="stop-video1" onclick="controlStreamVideo()"></button><button title="Stop audio" id="stop-audio1" onclick="controlStreamAudio()"></button>
             </div>
             <div id="other-videos">
               <!--div class="col s2 m2 l1 no-padding"  id="web-cam3" style="visibility: hidden;">

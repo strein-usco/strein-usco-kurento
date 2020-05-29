@@ -469,7 +469,7 @@ function messageChatFrom(message, socketId){
     }
 
     if (message.sender != socketId) {
-        div.innerHTML = '<b style="color: ' + message.color + '">' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
+        div.innerHTML = '<b id="namechat" style="color: ' + message.color + '; text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"">' + (message.sender_name || message.sender) + ':</b><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
         div.style.background = '#4E6470';
         div.style.color = 'white';
         div.style.width = '80%';
@@ -486,7 +486,7 @@ function messageChatFrom(message, socketId){
             });
         }*/
     } else {
-        div.innerHTML = '<b style=" color: ' + message.color + '">' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
+        div.innerHTML = '<b id="namechat" style=" color: ' + message.color + '; text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"">' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
         div.style.background = '#8d191d';
         div.style.color = 'white';
         div.style.width = '80%';
@@ -513,9 +513,9 @@ function userWritting(message){
 }
 
 function show_hand_up(message){
-    var hand = message.user_name + ' <img title="Inquietud" src="/images/hand.png"><br>'
+    var hand = '<div id="handchat" style="margin-left: 9px; margin-top: 42%; color: green;">' + message.user_name + ' <img style="width: 25px; height: 25px;" title="Pregunta" src="/images/hand.png"><br></div>'
     $('#div_chat').append(hand);
-    M.toast({html:'Un estudiante ha levantado la mano', classes:'rounded'});  
+    //M.toast({html:'Un estudiante ha levantado la mano', classes:'rounded'});  
 }
 
 function control_audio_user(message){

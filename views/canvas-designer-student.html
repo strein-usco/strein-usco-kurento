@@ -94,7 +94,7 @@
 
     <div class="row no-margin body">
 
-      <div class="col s3 m3 l2 no-padding border-right">
+      <div class="col s2 m3 l2 no-padding border-right">
         <div class="row no-margin chat">
 
           <ul id="tabs" class="tabs">
@@ -134,11 +134,11 @@
                       <div id="div_chat">
                         <% for(var i=0; i<messagesChat.length; i++) {%>
                           <% if(messagesChat[i].tutor == "true") {%>
-                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b><%=messagesChat[i].userFullNameMsg %><i class="tiny material-icons">star</i>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
+                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><!--i style="margin:0px 2px 0px 1px;" class="tiny material-icons">stars</i--><b id="namechat" style="text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
                           <% } else if(messagesChat[i].userFullNameMsg == myName) {%>
-                            <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b style=" color: <%=messagesChat[i].colorMessage %>;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
+                            <div style=" background-color: #8d191d; color: white; width: 80%; float: left; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 0px 10px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b id="namechat" style=" color: <%=messagesChat[i].colorMessage %>;text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
                           <% } else{%>
-                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b style=" color: <%=messagesChat[i].colorMessage %>;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
+                            <div style=" background-color: #4E6470; color: white; width: 80%; float: right; margin: 9px 7px 5px 7px; padding: 5px; border-radius: 10px 0px 10px 10px; opacity: 0.8;" class="<%=messagesChat[i].userFullNameMsg%>" title="<%=messagesChat[i].userFullNameMsg%>"><b id="namechat" style=" color: <%=messagesChat[i].colorMessage %>;text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;"><%=messagesChat[i].userFullNameMsg %>:</b><!--img class="checkmark" title="Received" src=""--><br><p style="word-wrap: break-word; margin: 0;"><%=messagesChat[i].userchatMessage%></p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;"><%=messagesChat[i].dateMessage%></p></div>
                           <% } %>  
                         <% } %>
                         <div id="key-press">
@@ -164,7 +164,7 @@
         </div>
       </div>
 
-      <div class="col s9 m9 l10 no-padding canvas">
+      <div class="col s10 m9 l10 no-padding canvas">
         <div class="row no-margin canvas" id="c3">
 
           <video id="remoteVideo2" class="video1" autoplay="true" playsinline="" loop="loop" preload="true"></video>
