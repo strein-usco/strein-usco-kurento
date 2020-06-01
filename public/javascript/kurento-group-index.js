@@ -246,7 +246,7 @@ function joinRoom(name) {
     document.getElementById('roomName').value = roomName;*/
 
     var data = {
-        id: "joinRoom",
+        id: "createRoom",
         roomName: room,
         name: name,
         course: id_course
@@ -430,6 +430,8 @@ function leaveRoom(){
      */
     function onParticipantLeft(message) {
         var participant = participants[message.sessionId];
+        var toastHTML = "<span> " + document.getElementById('video-' + participant.id).getAttribute("name") + " se ha ido<span>"
+        M.toast({html: toastHTML});
         participant.dispose();
         delete participants[message.sessionId];
 

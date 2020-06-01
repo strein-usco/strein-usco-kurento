@@ -132,10 +132,19 @@ io.on('connection', function (socket) {
                 console.log('registering ' + socket.id);
                 register(socket, message.name, function(){});
                 break;
+            case 'createRoom':
+                await register(socket, message.name, function(){});
+                console.log('registering ' + socket.id);
+                console.log(socket.id + ' joinRoom : ' + message.roomName);
+                createRoom(socket, message.roomName, message.name, message.course, function () {});
+                break;
             case 'joinRoom':
                 await register(socket, message.name, function(){});
                 console.log('registering ' + socket.id);
                 console.log(socket.id + ' joinRoom : ' + message.roomName);
+                joinRoom(socket, message.roomName, message.name, message.course, function () {});
+                break;
+            case 'joinRoomAgain':
                 joinRoom(socket, message.roomName, message.name, message.course, function () {});
                 break;
             case 'receiveVideoFrom':
@@ -199,12 +208,14 @@ function register(socket, name, callback){
 }
 
 /**
- * Gets and joins room
+ * Gets and create room
  * @param socket
  * @param roomName
+ * @param name
+ * @param course
  * @param callback
  */
-function joinRoom(socket, roomName, name, course, callback) {
+function createRoom(socket, roomName, name, course, callback) {
     getRoom(roomName, course, function (error, room) {
         if (error) {
             callback(error)
@@ -213,6 +224,37 @@ function joinRoom(socket, roomName, name, course, callback) {
             //console.log('join success : ' + user.id);
         });
     });
+}
+
+
+/**
+ * Gets and joins room
+ * @param socket
+ * @param roomName
+ * @param name
+ * @param course
+ * @param callback
+ */
+function joinRoom(socket, roomName, name, course, callback) {
+    console.log("room name " + roomName);
+    console.log("----------------------------------------------------------- " )
+    var userSessionTutor = userRegistry.getUserByRoomAndName(roomName, 'tutor');
+    console.log(userSessionTutor)
+    if(!userSessionTutor){
+        var userSession = userRegistry.getById(socket.id);
+        userSession.sendMessage({
+            id: 'tutorNoOnline'
+        }); 
+    }else{
+        getRoom(roomName, course, function (error, room) {
+            if (error) {
+                callback(error)
+            }
+            join(socket, room, function (error, user) {
+                //console.log('join success : ' + user.id);
+            });
+        });
+    }
 }
 
 /**
@@ -511,10 +553,6 @@ function receiveVideoFrom(socket, senderId, sdpOffer, callback) {
  */
 function getEndpointForUser(userSession, sender, callback) {
     // request for self media
-    console.log("-----------------1-1-1-1-1-------------------");
-    console.log(userSession);
-    console.log("------------------22222222-------------------")
-    console.log(sender);
     if (userSession.id === sender.id) {
         callback(null, userSession.outgoingMedia);
         return;
@@ -644,8 +682,9 @@ function startRecord(socket) {
     }*/
 
     var userSession = userRegistry.getByName('tutors-board');
-    if(userSession){
-        userSession.sendMessage({
+    var userSessionTutor = userRegistry.getUserByRoomAndName(userSession.roomName, 'tutors-board');
+    if(userSessionTutor){
+        userSessionTutor.sendMessage({
             id: 'startRecording'
         });
     }
@@ -765,14 +804,16 @@ function control_audio_user(message, socket){
     if (!userSession) {
       return;
     }
-
+    //estudiante hace visible control del audio al tutor
     if (userSession.name != 'tutor') {
-        var userSessionTutor = userRegistry.getByName('tutor');
+        //var userSessionTutor = userRegistry.getByName('tutor');
+        var userSessionTutor = userRegistry.getUserByRoomAndName(userSession.roomName, 'tutor');
         userSessionTutor.sendMessage({
             id: 'control_audio_user',
             control: message.control,
             user_id: socket.id
-        });      
+        });  
+    //Tutor apaga o enceinde mic del estudiante    
     }else{
         var userSession = userRegistry.getById(message.userId);
         if (!userSession) {

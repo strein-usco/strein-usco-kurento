@@ -48,4 +48,15 @@ UserRegistry.prototype.getUsersByRoom = function (room) {
     return usersInRoomList;
 };
 
+UserRegistry.prototype.getUserByRoomAndName = function (room, name) {
+    var userList = this.usersByName;
+    var usersInRoomList = [];
+    for (var i in userList) {
+        if (userList[i].roomName === room &&  userList[i].name == name) {
+            usersInRoomList.push(userList[i]);
+        }
+    }
+    return usersInRoomList[0];
+};
+
 module.exports = UserRegistry;

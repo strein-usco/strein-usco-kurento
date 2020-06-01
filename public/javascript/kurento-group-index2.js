@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    document.getElementById('myModal').style.visibility = 'visible';
 
 /**
  * Created by eak on 9/15/15.
@@ -121,9 +122,10 @@ socket.on("message", function (message) {
             //disableElements("register");
             console.log(message.data);
             break;
-        /*case "incomingCall":
-            incomingCall(message);
-            break;*/
+        case "tutorNoOnline":
+            tutorNoOnline()
+            console.log('professor is not here');
+            break;
         case "callResponse":
             console.log(message);
             console.log(message.message);
@@ -226,6 +228,21 @@ function joinRoom(name) {
     };
     sendMessage(data);
 
+}
+
+
+function tutorNoOnline(){
+    //$('#myModal').css('visibility', 'visible');
+    //$('#myModal2').css('visibility', 'hidden');
+    document.getElementById('myModal').style.display = 'block';
+    var data = {
+        id: "joinRoomAgain",
+        roomName: room,
+        name: name,
+    };
+    setTimeout(function() {
+        sendMessage(data);
+    }, 6000);
 }
 
 /**
@@ -387,6 +404,9 @@ function receiveVideoFrom(sender, sender_name) {
         }
         this.generateOffer(participant.offerToReceiveVideo.bind(participant));
     });
+    if(sender_name == 'tutor'){
+        document.getElementById('myModal').style.display = 'none';
+    }
 }
 
 /**
@@ -403,7 +423,12 @@ function onNewParticipant(message) {
  */
 function onParticipantLeft(message) {
     var participant = participants[message.sessionId];
+    var toastHTML = "<span> " + document.getElementById('video-' + participant.id).getAttribute("name") + " se ha ido<span>"
+    M.toast({html: toastHTML});
     participant.dispose();
+    if(document.getElementById('video-' + participant.id).getAttribute("name") ==  'tutor'){
+        document.getElementById('myModal').style.display = 'block';
+    }
     delete participants[message.sessionId];
 
     console.log("video-" + participant.id);
