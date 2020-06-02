@@ -14,6 +14,7 @@ let moment = require('moment');
 let configs = require('../config/configs');
 
 let session_room = require('./../models/sessionRoom'),
+    VideoClassNum = require('./../models/videoClassNum'),
     VideoClasses = require('./../models/videoclass'),
     MessageChat = require('./../models/messageChat'),
     mongoose = require('./../config/conexion'),
@@ -331,6 +332,7 @@ exports.getStartCourseTutor = function(req, res) {
                                             if (err) throw err;
                                         });
                                         name_video = video._id + '-' + video.num;
+                                        createNewVideo(video._id , video.num, course._id)
                                         //name_video = video._id;
                                         //res.render('page-course', { id_tutor:req.session.user._id, nameFiles: nameFiles, course: course._id,name:course.name_course, students: accepted, id_class: video._id, shareScreen: shareScreen, name_video: name_video});
                                         res.render('canvas-designer-tutor', { id_tutor:req.session.user._id, nameFiles: nameFiles, course: course._id,name:course.name_course, students: accepted, id_class: video._id, shareScreen: shareScreen, name_video: name_video, messagesChat: messagesChat});
@@ -350,6 +352,33 @@ exports.getStartCourseTutor = function(req, res) {
     } else {
         res.redirect('/logueo');
     }
+}
+
+async function createNewVideo(video_id, video_num, course_id){
+    var date_message = dateMessage();
+    let newvideoclass = new VideoClassNum({
+        video_id: video_id,
+        video_num: video_num,
+        course_id: course_id,
+        dateMessage: date_message
+      });
+  await newvideoclass.save();
+}
+
+function dateMessage(){
+    var hora12 = ' a.m.';
+    var d = new Date();
+    var hour = d.getHours();
+    hour_list = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    if(hour>12){
+        hora12 = ' p.m.' 
+    }
+    var minutes =  d.getMinutes()
+    if(minutes<10){
+        minutes = '0' + minutes;
+    }
+    var hora = hour_list[hour] + ':' +minutes+hora12;
+    return hora;
 }
 
 //pagina para subir archivos al servidor

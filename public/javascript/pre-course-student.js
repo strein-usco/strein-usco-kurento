@@ -221,8 +221,8 @@ function move_to_tap4(id_video){
         data: {id_video: id_video},
         success: function(result) {
             var table_html = '<table class="table striped" data-sorting="true"> <thead> <tr> <th class="center">VIDEO CLASE</th><th></tr></thead>'
-            for (var r = 0; r < result; r++) {
-                table_html = table_html + '<tr> <td class="center"><a style="color: black;">video part-'+r+'</a><br></td><td><a style="cursor:pointer" id="' + id_video + '&&' + r + '" onclick="play_video(this.id)" title="reproducir"><i class="material-icons redusco-text">play_circle_outline</i></a></td></tr>';
+            for (var r = 0; r < result.length; r++) {
+                table_html = table_html + '<tr> <td class="center"><a style="color: black;">video part-' + result[r].video_num + '</a><br></td><td><a style="cursor:pointer" id="' + id_video + '&&' + result[r].video_num  + '" onclick="play_video(this.id)" title="reproducir"><i class="material-icons redusco-text">play_circle_outline</i></a></td></tr>';
             }  
             table_html = table_html + '</table>';    
             $("#table_video").html("").append(table_html);

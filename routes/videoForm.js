@@ -41,6 +41,9 @@ router.post('/pushVideo', Controller4.pushVideo);
 /**  FUNC. PARA USUARIOS) envia el numero de videos grabados en una clase */
 router.post('/num_videos', Controller4.num_videos);
 
+/**  FUNC. PARA PROFESORES) Elimina un video específico de una clase. */
+router.post('/delete_video_num', Controller4.delete_video_num);
+
 /**  (FUNC. PARA USUARIOS) para reproducir videos */
 router.get('/video/:id', Controller4.video);
 

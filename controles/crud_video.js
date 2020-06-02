@@ -24,12 +24,13 @@ let router = express.Router();
 var fs = require('fs');
 
 let VideoClasses = require('./../models/videoclass'),
-mongoose = require('./../config/conexion'),
-Persona = require('./../models/persona'),
-Correos = require('./../models/correos'),
-Course = require('./../models/courses'),
-Joined = require('./../models/joined'),
-File = require('./../models/files');
+    VideoClassNum = require('./../models/videoClassNum'),
+    mongoose = require('./../config/conexion'),
+    Persona = require('./../models/persona'),
+    Correos = require('./../models/correos'),
+    Course = require('./../models/courses'),
+    Joined = require('./../models/joined'),
+    File = require('./../models/files');
 
 
 /** 
@@ -279,13 +280,46 @@ exports.pushVideo = (req, res)=>{
  * @param res.send  {string} Envio del numero de video o "false" si el parametro req.body.id_video no corresponde a ningun id en la base de datos.
 */
 exports.num_videos = (req, res)=>{
-    VideoClasses.findById(req.body.id_video, (err, video) => {
+    //VideoClasses.findById(req.body.id_video, (err, video) => {
+    //Joined.find({id_course: req.body.id_course},'id_student name_student email_student',(err, joins)=>{
+    VideoClassNum.find({video_id: req.body.id_video}, 'video_num', (err, video) => {
         if (err) throw err;
         if(video){
-            res.status(200).send(video.num);
+            res.status(200).send(video);
         }else{res.status(406).send(false);}
     });
 }
+
+
+/** 
+ * FUNCIÓN PARA PROFESOR -
+ * Elimina un video específico de una clase.
+ * @class delete_video_num
+ * @param req {Object} Solicitud con parametros (body y files).
+ * @param req.files {Object} Datos tipo blob con la informacion del video-
+ * @param req.body {Object} Conjunto de datos transmitidos (The JSON payload).
+ * @param req.body.id_video {strin} Id de la videoclase en solicitud.
+ * @param res {Object} La respuesta en un objeto tipo JSON.
+ * @param res.status  {number} Estado de la respuesta (200 - OK).
+ * @param res.send  {string} Envio del numero de video o "false" si el parametro req.body.id_video no corresponde a ningun id en la base de datos.
+*/
+exports.delete_video_num = (req, res)=>{
+    VideoClassNum.findById(req.body.id_video_num, (err, video)=>{
+        if(video){
+            path = __basedir + '/UploadedFiles/' + video.course_id + "/" + video.video_id + "-" + video.video_num + ".webm";
+            if (fs.existsSync(path)) {
+                fs.unlink(path, (err) => {
+                    if (err) throw err;
+                });
+            }
+            VideoClassNum.deleteOne({ _id: video._id }, function(err) {
+                if (err) return handleError(err);
+            });    
+        }
+    });
+    res.status(200).send("exito")
+}
+
 
 // (FUNC. PARA USUARIOS)funcion para cargar un video
 /** 

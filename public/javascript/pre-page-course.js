@@ -266,6 +266,31 @@ function play_video(id_video){
 
 }
 
+
+/** 
+ * Elimina un video específico de una clase.
+ * @class delete_video_num
+ * @param id_video_num {Object} id del video específico por borrar.
+*/
+function delete_video_num(id_video_num){
+    var r = confirm("¿Está seguro de que desea eliminar el video part-" + document.getElementById(id_video_num).name.split("&&").pop());
+    console.log(document.getElementById(id_video_num).name.split("&&")[0].slice(3))
+    if (r == true) {
+        $.ajax({ 
+            type: "POST",
+            url: "/control4/delete_video_num",
+            data: {id_video_num: id_video_num},
+            success: function(result) {
+                document.getElementById('tr' + id_video_num).innerHTML = "";
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }    
+}
+
+
 function move_to_tap4(id_video){
     document.getElementsByClassName("tab col s3")[0].setAttribute("class","tab col s3 videoClase")
     var element4 = document.getElementById("tabs"), htmlText;
@@ -278,10 +303,10 @@ function move_to_tap4(id_video){
         success: function(result) {
             //$("#tr_first_video").html("")
             /// ciclo for, en result está el numero de video correspondientes a la clase id_video
-            var table_html = '<table class="table striped" data-sorting="true"> <thead> <tr> <th class="center">VIDEO CLASE</th><th></th></tr></thead>'
-            for (var r = 0; r < result; r++) {
+            var table_html = '<table class="table striped" data-sorting="true"> <thead> <tr> <th class="center">VIDEO CLASE</th><th></th><th></th></tr></thead>'
+            for (var r = 0; r < result.length; r++) {
                 //$("#table_video")[0].append('<tr><td><a style="color: black; cursor: pointer;">video part-'+r+'</a><br></td><td><a id="" onclick="delete_video(this.id)"><i class="material-icons redusco-text card-create-course">delete_forever</i></a></td></tr>');
-                table_html = table_html + '<tr> <td class="center"><a style="color: black;">video part-'+r+'</a><br></td><td><a style="cursor:pointer" id="' + id_video + '&&' + r + '" onclick="play_video(this.id)" title="reproducir"><i class="material-icons redusco-text">play_circle_outline</i></a></td></tr>';
+                table_html = table_html + '<tr id="tr' + result[r]._id  + '"> <td class="center"><a style="color: black;">video part-' + result[r].video_num + '</a><br></td><td><a style="cursor:pointer" id="' + id_video + '&&' + result[r].video_num + '" onclick="play_video(this.id)" title="reproducir"><i class="material-icons redusco-text">play_circle_outline</i></a></td><td><a style="cursor:pointer" id="' + result[r]._id + '" name="del' + id_video + '&&' + result[r].video_num + '"  onclick="delete_video_num(this.id)" title="Borrar video"><i class="material-icons redusco-text">delete</i></a></td></tr>';
             }  
             table_html = table_html + '</table>';    
             $("#table_video").html("").append(table_html);
