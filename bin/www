@@ -136,7 +136,7 @@ io.on('connection', function (socket) {
                 await register(socket, message.name, function(){});
                 console.log('registering ' + socket.id);
                 console.log(socket.id + ' joinRoom : ' + message.roomName);
-                createRoom(socket, message.roomName, message.name, message.course, function () {});
+                createRoom(socket, message.roomName, message.name, message.course, message.name_video, function () {});
                 break;
             case 'joinRoom':
                 await register(socket, message.name, function(){});
@@ -215,12 +215,12 @@ function register(socket, name, callback){
  * @param course
  * @param callback
  */
-function createRoom(socket, roomName, name, course, callback) {
+function createRoom(socket, roomName, name, course, name_video, callback) {
     getRoom(roomName, course, function (error, room) {
         if (error) {
             callback(error)
         }
-        join(socket, room, function (error, user) {
+        join(socket, room, name_video, function (error, user) {
             //console.log('join success : ' + user.id);
         });
     });
@@ -236,8 +236,6 @@ function createRoom(socket, roomName, name, course, callback) {
  * @param callback
  */
 function joinRoom(socket, roomName, name, course, callback) {
-    console.log("room name " + roomName);
-    console.log("----------------------------------------------------------- " )
     var userSessionTutor = userRegistry.getUserByRoomAndName(roomName, 'tutor');
     console.log(userSessionTutor)
     if(!userSessionTutor){
@@ -250,7 +248,7 @@ function joinRoom(socket, roomName, name, course, callback) {
             if (error) {
                 callback(error)
             }
-            join(socket, room, function (error, user) {
+            join(socket, room, false, function (error, user) {
                 //console.log('join success : ' + user.id);
             });
         });
@@ -302,7 +300,7 @@ function getRoom(roomName, course, callback) {
  * @param room
  * @param callback
  */
-function join(socket, room, callback) {
+function join(socket, room, name_video, callback) {
     // create user session
     var userSession = userRegistry.getById(socket.id);
     userSession.setRoomName(room.name);
@@ -377,7 +375,7 @@ function join(socket, room, callback) {
         //default mediaProfile is .webm which does have sound but lacks IE support
         var recorderParams1 = {
             mediaProfile: 'WEBM',
-            uri: "file://" + __basedir + "/UploadedFiles/" + room.course + "/" +room.name + "-" + recordsCounter + ".webm"
+            uri: "file://" + __basedir + "/UploadedFiles/" + room.course + "/" +name_video  + ".webm"
         };
         if(userSession.name == 'tutors-board'){
             recordsCounter++; 

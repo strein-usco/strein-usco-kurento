@@ -76,7 +76,7 @@ var sessionId;
 var id_course = document.getElementById("id_CourProf").getAttribute("value");
 var videoConstraint = document.getElementById('share-screen').value;
 (videoConstraint == "true") ? videoConstraint = true : videoConstraint = false;
-//var name_video = document.getElementById('name_video').value;
+var name_video = document.getElementById('name_video').value;
 var str = document.URL
 var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
 
@@ -196,9 +196,10 @@ function joinRoom(name) {
     document.getElementById('screen-viewer').style.display = "none";
     
     var data = {
-        id: "joinRoom",
+        id: "createRoom",
         roomName: room,
         name: name,
+        name_video: name_video
     };
     sendMessage(data);
     //startRecording();

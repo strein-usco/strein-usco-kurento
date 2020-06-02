@@ -249,7 +249,8 @@ function joinRoom(name) {
         id: "createRoom",
         roomName: room,
         name: name,
-        course: id_course
+        course: id_course,
+        name_video: name_video
     };
     sendMessage(data);
     //startRecording();
