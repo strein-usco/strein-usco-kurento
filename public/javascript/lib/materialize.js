@@ -5088,7 +5088,7 @@ $jscomp.polyfill = function (e, r, p, m) {
 
   var _defaults = {
     html: '',
-    displayLength: 1000,
+    displayLength: 2500,
     inDuration: 300,
     outDuration: 375,
     classes: '',

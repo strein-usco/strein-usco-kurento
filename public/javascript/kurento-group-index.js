@@ -430,8 +430,13 @@ function leaveRoom(){
      */
     function onParticipantLeft(message) {
         var participant = participants[message.sessionId];
-        var toastHTML = "<span> " + document.getElementById('video-' + participant.id).getAttribute("name") + " se ha ido<span>"
-        M.toast({html: toastHTML});
+        var nametoast = document.getElementById('video-' + participant.id).getAttribute("name")
+        var toastHTML = "<span> " + nametoast + " se ha ido<span>"
+        if ( nametoast == "tutor") {
+            M.toast({html: toastHTML, classes: 'rounded green'});
+        } else{
+            M.toast({html: toastHTML, classes: 'rounded redusco'});
+        }
         participant.dispose();
         delete participants[message.sessionId];
 
@@ -542,9 +547,10 @@ function leaveRoom(){
     }
 
 function show_hand_up(message){
-    var hand = '<div style="margin-left: 9px; margin-top: 42%; color: green;">' + message.user_name + ' <img style="width: 25px; height: 25px;" title="Pregunta" src="/images/hand.png"><br></div>'
+    var nameHand = message.user_name;
+    var hand = '<div style="margin-left: 9px; margin-top: 5%; color: green;">' + nameHand + ' <img style="width: 25px; height: 25px;" title="Pregunta" src="/images/hand.png"><br></div>'
     $('#div_chat').append(hand);
-    M.toast({html:'Un estudiante ha levantado la mano', classes:'rounded redusco'});  
+    M.toast({html: nameHand + ' ha levantado la mano', classes:'rounded redusco'});  
 }
 
     /**
