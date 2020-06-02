@@ -224,7 +224,7 @@ function joinRoom2(name) {
             newStream2 = new MediaStream([streamVideo2, streamTrack2]);
 
             document.getElementById('screen-viewer').srcObject = newStream2;
-            document.getElementById('screen-viewer').style.display = "none";
+            //document.getElementById('screen-viewer').style.display = "none";
             
             var data = {
                 id: "joinRoom",
@@ -245,7 +245,7 @@ function joinRoom2(name) {
             newStream2 = new MediaStream([streamVideo2, streamTrack2]);
 
             document.getElementById('screen-viewer').srcObject = newStream2;
-            document.getElementById('screen-viewer').style.display = "none";
+            //document.getElementById('screen-viewer').style.display = "none";
 
             var data = {
                 id: "joinRoom",

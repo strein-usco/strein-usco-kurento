@@ -87,9 +87,9 @@ nav{
 
 .fixed-action{
   position: fixed;
-  right: 1.5%;
-  bottom: 3%;
-  z-index: 9999;
+  right: 1%;
+  bottom: 1.5%;
+  z-index: 99999999999;
 }
 
 #toast-container {
@@ -138,7 +138,7 @@ nav{
 .file{
   position: absolute; 
   bottom: 20px;
-  z-index: 99999;
+  z-index: 9999999;
   height: 80px;
   width: 66.7% !important;
   box-shadow: 0 -5px 5px -3px black;
@@ -149,7 +149,7 @@ nav{
 .file-tab{
   position: absolute; 
   bottom: 1%;
-  z-index: 99999;
+  z-index: 9999999;
   height: 30px;
   left: 18%;
   width: calc(100% - 70%) !important;
@@ -163,6 +163,14 @@ nav{
   width: 8% !important;
   overflow-y: auto; 
   overflow-x:hidden;
+}
+
+#screen-viewer{
+  position: absolute; 
+  bottom: 0;
+  right: 0;
+  z-index: 9999999;
+  width: 15% !important;
 }
 
 /*paginación*/

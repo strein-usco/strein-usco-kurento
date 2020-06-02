@@ -775,5 +775,4 @@ function show_hand_up(message){
             });
         }
     }
-
 });
