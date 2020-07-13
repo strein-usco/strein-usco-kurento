@@ -118,11 +118,8 @@ socket.on("message", function (message) {
             break;
         case "startRecording":
             console.log("Starting recording");
-            if(videoConstraint){
-                joinRoom2('tutors-board')
-            }else{
-                joinRoom('tutors-board')
-            }
+            //document.getElementById('myModal').style.display = "block";
+            document.getElementById('myModal').style.visibility = "visible";
             break;
         case "stopRecording":
             console.log("Stopped recording");
@@ -157,22 +154,30 @@ function sendMessage(data) {
 }
 
 /**
+ * Fucntion triggered from an event handler taht is triggered by an user's action
+ * @param
+ */
+document.getElementById('typeStreamClient').addEventListener('click', function() { 
+    document.getElementById('myModal').style.visibility = "hidden";
+    // Se comparte pantalla o no
+    if(videoConstraint){
+        joinRoom2('tutors-board')
+    }else{
+        joinRoom('tutors-board')
+    }
+} );
+
+/**
  * Check if roomName exists, use DOM roomName otherwise, then join room
- * @param roomName
+ * @param name
  */
 function joinRoom(name) {
-    //disableElements('joinRoom');
-
-    // Check if roomName was given or if it's joining via roomName input field
-    /*if(typeof roomName == 'undefined'){
-        roomName = document.getElementById('roomName').value;
-    }
-    document.getElementById('roomName').value = roomName;*/
-// capura el flujo se está transmitiendo (recurso para ser visto)
-
+    // capura el flujo se está transmitiendo (recurso para ser visto)
     var localVideo3 =  document.getElementById('c1');
     if(adapter.browserDetails.browser === 'firefox'){
-        stream2 = localVideo3.moscrezCaptureStream();
+        //stream2 = localVideo3.moscrezCaptureStream();
+        stream2 = localVideo3.captureStream();
+        //stream2 = localVideo3.moscCaptureStream();   
     }else{
         stream2 = localVideo3.captureStream();
     }
@@ -180,12 +185,6 @@ function joinRoom(name) {
     //se toma le flujo de video
     streamVideo2 = stream2.getVideoTracks()[0];
     
-    //captura del flujo del audio
-    /*if(adapter.browserDetails.browser === 'firefox'){
-        stream3 = window.MediaStream.mozCaptureStream();
-    }else{
-        stream3 = window.MediaStream.captureStream();
-    }*/
     // Se toma el flujo de audio
     streamTrack2 = window.MediaStream1.getAudioTracks()[0];
 
@@ -202,10 +201,13 @@ function joinRoom(name) {
         name_video: name_video
     };
     sendMessage(data);
-    //startRecording();
 }
 
-
+/**
+ * Esta función es exclusiva para compartir pantalla
+ * Despliega el compartir pantalla en el VIDEO screen-viewer y envia mensaje con el id joinRoomse, then join room
+ * @param name
+ */
 function joinRoom2(name) {
     streamTrack2 = window.MediaStream1.getAudioTracks()[0];
 
@@ -224,12 +226,12 @@ function joinRoom2(name) {
             newStream2 = new MediaStream([streamVideo2, streamTrack2]);
 
             document.getElementById('screen-viewer').srcObject = newStream2;
-            //document.getElementById('screen-viewer').style.display = "none";
-            
+
             var data = {
                 id: "joinRoom",
                 roomName: room,
                 name: name,
+                name_video: name_video
             };
             sendMessage(data);
             
@@ -251,6 +253,7 @@ function joinRoom2(name) {
                 id: "joinRoom",
                 roomName: room,
                 name: name,
+                name_video: name_video
             };
             sendMessage(data);            
         }).catch(function(e) {
@@ -260,9 +263,6 @@ function joinRoom2(name) {
     //startRecording();
 }
 
-function getMediaScreen(constraints){   
-
-}
 
 /**
  * Request video from all existing participants
@@ -304,9 +304,6 @@ function onExistingParticipants(message) {
 
 
     localParticipant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-        /*if (error) {
-            return console.error(error);
-        }*/
 
         // Set localVideo to new object if on IE/Safari
         localVideo = document.getElementById("c1");
@@ -320,11 +317,6 @@ function onExistingParticipants(message) {
         this.generateOffer(localParticipant.offerToReceiveVideo.bind(localParticipant));
     });
 
-    // get access to video from all the participants
-    /*console.log(message.data);
-    for (var i in message.data) {
-        receiveVideoFrom(message.data[i], message.data2[i]);
-    }*/
 }
 
 

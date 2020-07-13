@@ -277,7 +277,6 @@ exports.getCourseInfo = function(req, res) {
                     Joins.find({ id_course: course._id}, (err, joins) => {
                         VideoClasses.find({id_course: course._id}, (err, classes)=>{
                             File.find({ from_course_id: course._id}, (err, files) => {
-                                //req.session.user.id_course = req.params.id;
                                 res.render('pre-page-course', {courses:courses, course: course, joins: joins, classes: classes, files: files, root: path.join(__dirname, '../views') });
                             });
                         });
@@ -314,7 +313,6 @@ exports.getStartCourseTutor = function(req, res) {
     if (!req.session.user) {
         res.redirect('/logueo');
     } else if (req.session.user.tipo == "tutor") {
-        //var id_course = req.params.id.split("-")[0];
         var id_videoclass = req.params.id;
         var shareScreen;
         VideoClasses.findOne({_id: id_videoclass, id_tutor: req.session.user._id}, (err, video)=>{
@@ -333,11 +331,8 @@ exports.getStartCourseTutor = function(req, res) {
                                         });
                                         name_video = video._id + '-' + video.num;
                                         createNewVideo(video._id , video.num, course._id)
-                                        //name_video = video._id;
-                                        //res.render('page-course', { id_tutor:req.session.user._id, nameFiles: nameFiles, course: course._id,name:course.name_course, students: accepted, id_class: video._id, shareScreen: shareScreen, name_video: name_video});
                                         res.render('canvas-designer-tutor', { id_tutor:req.session.user._id, nameFiles: nameFiles, course: course._id,name:course.name_course, students: accepted, id_class: video._id, shareScreen: shareScreen, name_video: name_video, messagesChat: messagesChat});
-                                        //res.render('Scalable-Broadcast');
-                                        //res.render('video-broadcasting');
+
                                     });
                                 });
                             });
@@ -443,7 +438,6 @@ exports.getAccount = function(req, res) {
                 res.render('data_tutor', { per: per,courses:courses });
             });
         });
-
     } else if (req.session.user.tipo == "estudiante") {
         Joins.find({id_student: req.session.user._id}, (err, courses) =>{
             Persona.findOne({ _id: req.session.user._id }, function(err, per) {
@@ -555,6 +549,7 @@ exports.getStudentAcountInfo = function(req, res) {
 	                    VideoClasses.find({id_course:  course.id_course, private: "false"}, (err, videos)=>{
 	                        req.session.user.id_join = req.params.id;
 	                        //if(course.exponent == "positive"){
+                                //Html para cargar archivos desde un estudiante
 	                        //    res.render('pre-course-student2', { idcourse: course.id_course, professorName: course.created_by_name, nameFiles: nameFiles, name:course.name_course, videos: videos, courses: courses, id_user: req.session.user._id});
 	                        //}else{
 	                            res.render('pre-course-student', { idcourse: course.id_course, professorName: course.created_by_name, nameFiles: nameFiles, name:course.name_course, videos: videos, courses: courses, id_user: req.session.user._id});

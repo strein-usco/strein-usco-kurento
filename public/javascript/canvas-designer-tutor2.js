@@ -1,319 +1,250 @@
 $(document).ready(function() {
 
-/**
- * Created by eak on 9/15/15.
- */
+    /**
+     * Created by eak on 9/15/15.
+     */
 
-/**
- * @param id
- * @constructor
- */
-function Participant(id) {
-    this.id = id;
-    this.rtcPeer = null;
-    this.iceCandidateQueue = [];
-}
-
-/**
- *
- * @param error
- * @param offerSdp
- * @returns {*}
- */
-Participant.prototype.offerToReceiveVideo = function (error, offerSdp) {
-    if (error) {
-        return console.error("sdp offer error");
+    /**
+     * @param id
+     * @constructor
+     */
+    function Participant(id) {
+        this.id = id;
+        this.rtcPeer = null;
+        this.iceCandidateQueue = [];
     }
-    var msg = {
-        id: "receiveVideoFrom",
-        sender: this.id,
-        sdpOffer: offerSdp
-    };
-    console.log('Invoking SDP offer callback function ' + msg.sender);
-    sendMessage(msg);
-};
 
-/**
- * Message to send to server on Ice Candidate.
- * candidate contains 3 items that must be sent for it to work
- * in Internet Explorer/Safari.
- * @param candidate
- */
-Participant.prototype.onIceCandidate = function (candidate) {
-    //console.log(this.id + " Local candidate" + JSON.stringify(candidate));
-
-    var message = {
-        id: 'onIceCandidate',
-        candidate : {
-            candidate : candidate.candidate,
-            sdpMid: candidate.sdpMid,
-            sdpMLineIndex: candidate.sdpMLineIndex
-        },
-        sender: this.id
-    };
-    sendMessage(message);
-};
-
-/**
- * Dispose of a participant that has left the room
- */
-Participant.prototype.dispose = function () {
-    console.log('Disposing participant ' + this.id);
-    this.rtcPeer.dispose();
-    this.rtcPeer = null;
-};
-
-//$('#myModal31').css('visibility', 'visible');
-var socket = io.connect();
-var user_name;
-var localVideoCurrentId;
-var localVideo;
-var sessionId;
-var acum = 0;
-var localVideo1 =  document.getElementById('main-video');
-document.getElementById('stop-video1').onclick = controlStreamVideo;
-document.getElementById('stop-audio1').onclick = controlStreamAudio;
-var id_course = document.getElementById("id_CourProf").getAttribute("value");
-//var name_video = document.getElementById('name_video').value;
-var str = document.URL
-var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
-
-    /*var str = document.URL
-    var roomlong = str.substring(str.lastIndexOf("/") + 1, str.lenght);
-    var room = roomlong.split("&&")[1];*/
-
-$.ajax({
-    type: "POST",
-    url: "/control5/getAllfiles",
-    dataType: "json",
-    data: { id_course: id_course },
-    success: function(result) {
-        var max = result.Allfiles.length; //max de archivos  
-        //En el boton atrás se establece en name el max valor de páginas
-        document.getElementById("adelante").setAttribute("name", max);
-        for (var r = 0; r < result.facefiles.length; r++) {
-            idiv = "overlay" + r;
-            document.getElementById(idiv).setAttribute("name", acum);
-            acum = result.amount[r] - 1 + acum;
-            document.getElementById(idiv).setAttribute("value", acum);
-            acum++
-            idiv2 = "ima_div" + r;
-            // se agrega en src la info en base64 del archivo
-            //document.getElementById(idiv2).setAttribute("src", "data:image/png;base64," + result.facefiles[r]);
-            document.getElementById(idiv2).setAttribute("src", "");
+    /**
+     *
+     * @param error
+     * @param offerSdp
+     * @returns {*}
+     */
+    Participant.prototype.offerToReceiveVideo = function (error, offerSdp) {
+        if (error) {
+            return console.error("sdp offer error");
         }
-        for (var m = 0; m < result.Allfiles.length; m++) {
-            $(".Main_container_files").append('<img type="hidden" id="hiddendiv' + m + '" src="data:image/png;base64,' + result.Allfiles[m] + '" class="imageCourse"/>');
-        }
-    },
-    error: function(error) {
-        console.log(error);
-    }
-});
+        var msg = {
+            id: "receiveVideoFrom",
+            sender: this.id,
+            sdpOffer: offerSdp
+        };
+        console.log('Invoking SDP offer callback function ' + msg.sender);
+        sendMessage(msg);
+    };
 
-var participants = {};
-localVideo1.onloadedmetadata = function(event){
-    startRecording();
-}
+    /**
+     * Message to send to server on Ice Candidate.
+     * candidate contains 3 items that must be sent for it to work
+     * in Internet Explorer/Safari.
+     * @param candidate
+     */
+    Participant.prototype.onIceCandidate = function (candidate) {
+        //console.log(this.id + " Local candidate" + JSON.stringify(candidate));
 
-window.onbeforeunload = function () {
-    socket.disconnect();
-};
+        var message = {
+            id: 'onIceCandidate',
+            candidate : {
+                candidate : candidate.candidate,
+                sdpMid: candidate.sdpMid,
+                sdpMLineIndex: candidate.sdpMLineIndex
+            },
+            sender: this.id
+        };
+        sendMessage(message);
+    };
 
-socket.on("id", function (id) {
-    console.log("receive id : " + id);
-    sessionId = id;
+    /**
+     * Dispose of a participant that has left the room
+     */
+    Participant.prototype.dispose = function () {
+        console.log('Disposing participant ' + this.id);
+        this.rtcPeer.dispose();
+        this.rtcPeer = null;
+    };
+
+    //$('#myModal31').css('visibility', 'visible');
+    var socket = io.connect();
+    var user_name;
+    var localVideoCurrentId;
+    var localVideo;
+    var sessionId;
+    var acum = 0;
+    var localVideo1 =  document.getElementById('main-video');
+    document.getElementById('stop-video1').onclick = controlStreamVideo;
+    document.getElementById('stop-audio1').onclick = controlStreamAudio;
+    var id_course = document.getElementById("id_CourProf").getAttribute("value");
+    //var name_video = document.getElementById('name_video').value;
+    var str = document.URL
+    var room = str.substring(str.lastIndexOf("/") + 1, str.lenght);
+
+        /*var str = document.URL
+        var roomlong = str.substring(str.lastIndexOf("/") + 1, str.lenght);
+        var room = roomlong.split("&&")[1];*/
 
     $.ajax({
-        async: false,
         type: "POST",
-        url: "/data-user",
+        url: "/control5/getAllfiles",
+        dataType: "json",
+        data: { id_course: id_course },
         success: function(result) {
-            user_name = result.nombres;
-            //joinRoom(result.nombres)
-            joinRoom('tutor')
-            //window.params = params;
+            var max = result.Allfiles.length; //max de archivos  
+            //En el boton atrás se establece en name el max valor de páginas
+            document.getElementById("adelante").setAttribute("name", max);
+            for (var r = 0; r < result.facefiles.length; r++) {
+                idiv = "overlay" + r;
+                document.getElementById(idiv).setAttribute("name", acum);
+                acum = result.amount[r] - 1 + acum;
+                document.getElementById(idiv).setAttribute("value", acum);
+                acum++
+                idiv2 = "ima_div" + r;
+                // se agrega en src la info en base64 del archivo
+                //document.getElementById(idiv2).setAttribute("src", "data:image/png;base64," + result.facefiles[r]);
+                document.getElementById(idiv2).setAttribute("src", "");
+            }
+            for (var m = 0; m < result.Allfiles.length; m++) {
+                $(".Main_container_files").append('<img type="hidden" id="hiddendiv' + m + '" src="data:image/png;base64,' + result.Allfiles[m] + '" class="imageCourse"/>');
+            }
         },
         error: function(error) {
-            console.log("error");
+            console.log(error);
         }
     });
-});
 
-// message handler
-socket.on("message", function (message) {
-    switch (message.id) {
-        case "registered":
-            //disableElements("register");
-            console.log(message.data);
-            break;
-        /*case "incomingCall":
-            incomingCall(message);
-            break;
-        case "callResponse":
-            console.log(message);
-            console.log(message.message);
-            break;*/
-        case "existingParticipants":
-            //console.log("existingParticipants : " + message.data);
-            onExistingParticipants(message);
-            break;
-        case "newParticipantArrived":
-            //console.log("newParticipantArrived : " + message.new_user_id);
-            onNewParticipant(message);
-            break;
-        case "participantLeft":
-            //console.log("participantLeft : " + message.sessionId);
-            onParticipantLeft(message);
-            break;
-        case "receiveVideoAnswer":
-            //console.log("receiveVideoAnswer from : " + message.sessionId);
-            onReceiveVideoAnswer(message);
-            break;
-        case 'control_audio_user':
-            //console.log("messageChatFrom");
-            control_audio_user_switched(message);
-            break;
-        case 'hand_up':
-            show_hand_up(message, socket);
-            break;
-        case 'messageChatFrom':
-            //console.log("messageChatFrom");
-            messageChatFrom(message, socket.id);
-            break;
-        case 'userWritting':
-            userWritting(message);
-            break;
-        case "startRecording":
-            console.log("Starting recording");
-            break;
-        case "stopRecording":
-            console.log("Stopped recording");
-            break;
-        case "iceCandidate":
-            //console.log("iceCandidate from : " + message.sessionId);
-            var participant = participants[message.sessionId];
-            if (participant != null) {
-                //console.log(message.candidate);
-                participant.rtcPeer.addIceCandidate(message.candidate, function (error) {
-                    if (error) {
-                        if (message.sessionId === sessionId) {
-                            console.error("Error adding candidate to self : " + error);
-                        } else {
-                            console.error("Error adding candidate : " + error);
-                        }
-                    }
-                });
-            } else {
-                console.error('still does not establish rtc peer for : ' + message.sessionId);
+    var participants = {};
+    localVideo1.onloadedmetadata = function(event){
+        startRecording();
+    }
+
+    window.onbeforeunload = function () {
+        socket.disconnect();
+    };
+
+    socket.on("id", function (id) {
+        console.log("receive id : " + id);
+        sessionId = id;
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/data-user",
+            success: function(result) {
+                user_name = result.nombres;
+                joinRoom('tutor')
+            },
+            error: function(error) {
+                console.log("error");
             }
-            break;
-        default:
-            console.error("Unrecognized message: ", message);
-    }
-});
+        });
+    });
 
-/**
- * Send message to server
- * @param data
- */
-function sendMessage(data) {
-    socket.emit("message", data);
-}
-
-/**
- * Register to server
- */
-/*function register() {
-    var data = {
-        id: "register",
-        name: document.getElementById('userName').value
-    };
-    sendMessage(data);
-}*/
-
-/**
- * Check if roomName exists, use DOM roomName otherwise, then join room
- * @param roomName
- */
-function joinRoom(name) {
-    //disableElements('joinRoom');
-
-    // Check if roomName was given or if it's joining via roomName input field
-    /*if(typeof roomName == 'undefined'){
-        roomName = document.getElementById('roomName').value;
-    }
-    document.getElementById('roomName').value = roomName;*/
-
-    var data = {
-        id: "createRoom",
-        roomName: room,
-        name: name,
-        course: id_course,
-        name_video: name_video
-    };
-    sendMessage(data);
-    //startRecording();
-}
-
-/**
- * Invite other user to a conference call
- */
-/*function call() {
-    // Not currently in a room
-    //disableElements("call");
-    var message = {
-        id : 'call',
-        from : document.getElementById('userName').value,
-        to : document.getElementById('otherUserName').value
-    };
-    sendMessage(message);
-}*/
-
-/**
- * Tell room you're leaving and remove all video elements
- */
-function leaveRoom(){
-
-    //disableElements("leaveRoom");
-    var message = {
-        id: "leaveRoom"
-    };
-
-    participants[sessionId].rtcPeer.dispose();
-    sendMessage(message);
-    participants = {};
-
-    var myNode = document.getElementById("other-videos");
-    while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
-    }
-}
-
-/**
- * Javascript Confirm to see if user accepts invite
- * @param message
- */
-/*function incomingCall(message) {
-    var joinRoomMessage = message;
-    if (confirm('User ' + message.from
-            + ' is calling you. Do you accept the call?')) {
-        if(Object.keys(participants).length > 0){
-            leaveRoom();
+    // message handler
+    socket.on("message", function (message) {
+        switch (message.id) {
+            case "registered":
+                //disableElements("register");
+                console.log(message.data);
+                break;
+            case "existingParticipants":
+                //console.log("existingParticipants : " + message.data);
+                onExistingParticipants(message);
+                break;
+            case "newParticipantArrived":
+                //console.log("newParticipantArrived : " + message.new_user_id);
+                onNewParticipant(message);
+                break;
+            case "participantLeft":
+                //console.log("participantLeft : " + message.sessionId);
+                onParticipantLeft(message);
+                break;
+            case "receiveVideoAnswer":
+                //console.log("receiveVideoAnswer from : " + message.sessionId);
+                onReceiveVideoAnswer(message);
+                break;
+            case 'control_audio_user':
+                //console.log("messageChatFrom");
+                control_audio_user_switched(message);
+                break;
+            case 'hand_up':
+                show_hand_up(message, socket);
+                break;
+            case 'messageChatFrom':
+                //console.log("messageChatFrom");
+                messageChatFrom(message, socket.id);
+                break;
+            case 'userWritting':
+                userWritting(message);
+                break;
+            case "startRecording":
+                console.log("Starting recording");
+                break;
+            case "stopRecording":
+                console.log("Stopped recording");
+                break;
+            case "iceCandidate":
+                //console.log("iceCandidate from : " + message.sessionId);
+                var participant = participants[message.sessionId];
+                if (participant != null) {
+                    //console.log(message.candidate);
+                    participant.rtcPeer.addIceCandidate(message.candidate, function (error) {
+                        if (error) {
+                            if (message.sessionId === sessionId) {
+                                console.error("Error adding candidate to self : " + error);
+                            } else {
+                                console.error("Error adding candidate : " + error);
+                            }
+                        }
+                    });
+                } else {
+                    console.error('still does not establish rtc peer for : ' + message.sessionId);
+                }
+                break;
+            default:
+                console.error("Unrecognized message: ", message);
         }
-        console.log('message');
-        console.log(message);
-        joinRoom(joinRoomMessage.roomName);
-    } else {
-        var response = {
-            id : 'incomingCallResponse',
-            from : message.from,
-            callResponse : 'reject',
-            message : 'user declined'
-        };
-        sendMessage(response);
+    });
+
+    /**
+     * Send message to server
+     * @param data
+     */
+    function sendMessage(data) {
+        socket.emit("message", data);
     }
-}*/
+
+    /**
+     * Check if roomName exists, use DOM roomName otherwise, then join room
+     * @param roomName
+     */
+    function joinRoom(name) {
+        console.log('-------------------------------------------ENVIO DE JOIN ROOM ..................................')
+        var data = {
+            id: "createRoom",
+            roomName: room,
+            name: name,
+            course: id_course,
+            name_video: name_video
+        };
+        sendMessage(data);
+    }
+
+    /**
+     * Tell room you're leaving and remove all video elements
+     */
+    function leaveRoom(){
+        var message = {
+            id: "leaveRoom"
+        };
+
+        participants[sessionId].rtcPeer.dispose();
+        sendMessage(message);
+        participants = {};
+
+        var myNode = document.getElementById("other-videos");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
 
     /**
      * Request video from all existing participants
@@ -336,21 +267,6 @@ function leaveRoom(){
             }
         };
 
-        // Temasys constraints
-        /*var constraints = {
-         audio: true,
-             video: {
-                 mandatory: {
-                     minWidth: 32,
-                     maxWidth: 320,
-                     minHeight: 32,
-                     maxHeight: 320,
-                     maxFrameRate: 30,
-                     minFrameRate: 1
-                 }
-             }
-         };*/
-
         console.log(sessionId + " register in room " + message.roomName);
 
         // create video for current user to send to server
@@ -369,9 +285,6 @@ function leaveRoom(){
 
 
         localParticipant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-            /*if (error) {
-                return console.error(error);
-            }*/
 
             // Set localVideo to new object if on IE/Safari
             localVideo = document.getElementById("main-video");
@@ -492,7 +405,6 @@ function leaveRoom(){
     }
 
     var conversationPanel = document.getElementById('div_chat');
-    //conversationPanel.scrollTop = conversationPanel.clientHeight;
 
     /**
      * Reciveing messages from users in the same room 
@@ -515,12 +427,6 @@ function leaveRoom(){
             div.style.borderRadius = '10px 0px 10px 10px';
             div.style.opacity = '0.8';
 
-            /*if (event.data.checkmark_id) {
-                connection.send({
-                    checkmark: 'received',
-                    checkmark_id: event.data.checkmark_id
-                });
-            }*/
         } else {
             div.innerHTML = '<b id="namechat" style=" color: ' + message.color + '; text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 0.5px 0 #000, 0 -1px 0 #000, 0.5px 0.5px #000, -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000;">' + user_name + ':</b> <img class="checkmark" title="Received" src="https://www.webrtc-experiment.com/images/checkmark.png"><br><p style="word-wrap: break-word; margin: 0;">' + message.text + '</p><p style="word-wrap: break-word; margin: 0; font-size: 11px; float: right;">' + message.dateMessage + '</p>';
             div.style.background = '#8d191d';
@@ -704,12 +610,6 @@ function show_hand_up(message){
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    /*window.onclick = function(event) {
-     if (event.target == document.getElementById('web-cam3')) {
-        $('#web-cam3').css('visibility', 'hidden');
-      }
-    }*/
-
     $('#txt-chat-message').keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
