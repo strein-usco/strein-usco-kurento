@@ -275,7 +275,7 @@ nav .brand-logo {
 .myModal {
    display: block;
    opacity: 1;
-   z-index: 9999;
+   z-index: 999999999999;
    text-align: center;
    visibility: hidden;
    /*   display: none; /* Hidden by default */

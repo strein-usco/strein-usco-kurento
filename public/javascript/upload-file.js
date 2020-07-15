@@ -17,7 +17,7 @@ window.onload = function() {
         event.preventDefault();
         var files = evt.target.files;
         for (var i = 0, f; f = files[i]; i++) {
-            if (!f.type.match('image.*') && !f.type.match('application/pdf') && !f.name.split('.').pop().match('ppt')) {
+            if (!f.type.match('image.*') && !f.type.match('application/pdf')) {
                 alert("Este tipo de archivo no se puede cargar, solo imagenes y pdf"); //mandar aviso que el archivo no se puede cargar
                 continue;
             }

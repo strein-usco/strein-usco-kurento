@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="/stylesheets/include.css" type="text/css" rel="stylesheet" media="screen"/>
   <link href="/stylesheets/strein.css" type="text/css" rel="stylesheet" media="screen"/>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
   <!--  Scripts-->
   <script src="/javascript/lib/jquery.3.3.1.js"></script>
@@ -32,6 +33,11 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.11/fabric.min.js"></script>
+  <script>
+  $( function() {
+    $( "#screen-viewer" ).draggable({ containment: ".body"});
+  } );
+  </script>
 
 </head>
 
@@ -251,7 +257,7 @@
         </div>
       </div>
 
-      <video id="screen-viewer" playsinline autoplay muted="" preload="true"></video>
+      <video class="ui-widget-content" id="screen-viewer" playsinline autoplay muted="" preload="true"></video>
 
       <div class="fixed-action direction-top">
         <button id="record" title="Detener Grabación" class="btn-floating pulse btn-large redusco" name="Start Recording"><i class="large material-icons">video_call</i></button>                     
@@ -263,8 +269,8 @@
   <script src="/javascript/canvas-designer-tutor2.js"></script>
   <div id="myModal" class="myModal">
     <div id="container-modal" class="modal-content">
-      <h5>Condiciones para ingresar a la sala </h5> <br>
-      <button id='typeStreamClient'> Seguir</button>
+      <h5>Por favor permitir el acceso a la camara y al microfono para iniciar la transmisión</h5> <br>
+      <button id='typeStreamClient' class="btn redusco left-align yellowusco-text">CONTINUAR</button>
     </div>
   </div>
 
