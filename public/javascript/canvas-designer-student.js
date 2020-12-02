@@ -669,7 +669,8 @@ $('#txt-chat-message').keypress(function(event) {
             sender: socket.id,
             sender_name: user_name,
             text : this.value,
-            color: my_color
+            color: my_color,
+            dateMessage: dateMessage()
         };
         console.log("El mensaje es: ");
         console.log(message)
@@ -714,6 +715,22 @@ function show_name_dive(){
 
 function hide_name_dive(){
     this.style.display = 'none';
+}
+
+function dateMessage(){
+    var hora12 = ' a.m.';
+    var d = new Date();
+    var hour = d.getHours();
+    hour_list = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    if(hour>12){
+        hora12 = ' p.m.' 
+    }
+    var minutes =  d.getMinutes()
+    if(minutes<10){
+        minutes = '0' + minutes;
+    }
+    var hora = hour_list[hour] + ':' +minutes+hora12;
+    return hora;
 }
 
 $("#hide").on('click', function() {

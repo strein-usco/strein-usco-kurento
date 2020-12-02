@@ -663,7 +663,7 @@ async function messageChatFrom(message, socket, value){
         if(!room){
           return;
         }
-        var date_message = dateMessage();
+        //var date_message = dateMessage(); ------------
         var usersInRoom = room.participants;
         (message.tutor)? value = true : value = false;
         if(message.text){
@@ -675,11 +675,11 @@ async function messageChatFrom(message, socket, value){
             userFullNameMsg: message.sender_name,
             userchatMessage: message.text,
             colorMessage: message.color,
-            dateMessage: date_message
+            dateMessage: message.date_message
           });
           await newmessage.save();
         }
-        message.dateMessage = date_message;
+        //message.dateMessage = date_message; -----------
 
         // notify existing user
         for (var i in usersInRoom) {

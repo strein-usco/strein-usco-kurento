@@ -626,7 +626,9 @@ function show_hand_up(message){
                 sender_name: user_name,
                 text : this.value,
                 tutor: true,
-                color: '#ffffff'
+                color: '#ffffff',
+                dateMessage: dateMessage()
+
             };
             sendMessage(message);
             this.value = "";
@@ -654,6 +656,22 @@ function show_hand_up(message){
         };
         sendMessage(message);
     });
+
+    function dateMessage(){
+        var hora12 = ' a.m.';
+        var d = new Date();
+        var hour = d.getHours();
+        hour_list = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+        if(hour>12){
+            hora12 = ' p.m.' 
+        }
+        var minutes =  d.getMinutes()
+        if(minutes<10){
+            minutes = '0' + minutes;
+        }
+        var hora = hour_list[hour] + ':' +minutes+hora12;
+        return hora;
+}
 
     document.querySelector('button#record').onclick = function() {
         var resp = confirm("¿Desea detener la transmisión?");
