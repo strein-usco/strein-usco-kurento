@@ -736,13 +736,18 @@ function dateMessage(){
 $("#hide").on('click', function() {
     $("#element").hide();
     $("#camera").show();
+    document.getElementById("remoteVideo2").style.width = "1020px";
     return false;
 });
 
 $("#camera").on('click', function() {
     $("#element").show();
     $("#camera").hide();
+    document.getElementById("remoteVideo2").style.width = "858px";
     return false;
 });
+
+
+
 
 });

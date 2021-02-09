@@ -4,10 +4,9 @@
 }
 
 .video1{
-  width: 100%;
-  margin-top: 2px;
+  width: 858px;
   height: calc(100vh - 72px);
-  margin-left: -5px;
+  margin-left: 5px;
 }
 
 .canvas-container, .lower-canvas, .upper-canvas{
@@ -92,6 +91,16 @@ nav{
   z-index: 99999999999;
 }
 
+button.btn-floating {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.btn-floating.btn-large i{
+  line-height: 40px;
+  width: 21px;
+}
+
 #toast-container {
   min-width: 10%;
   top: 50%;
@@ -151,7 +160,7 @@ nav{
   bottom: 1%;
   z-index: 9999999;
   height: 30px;
-  left: 18%;
+  left: 17%;
   width: calc(100% - 70%) !important;
 }
 
@@ -160,17 +169,22 @@ nav{
   top: 64px;
   z-index: 99999;
   height: calc(100vh - 170px) !important;
-  width: 8% !important;
+  width: 52px !important;
   overflow-y: auto; 
   overflow-x:hidden;
 }
 
 #screen-viewer{
   position: absolute; 
-  bottom: 0;
-  right: 0;
+  top: 64px;
+  right: 16.6666666667%;
   z-index: 9999999;
-  width: 16.6666666667% !important;
+  width: 186px !important;
+}
+
+.ui-widget-content{
+  border: none !important;
+  background: transparent !important;
 }
 
 /*paginación*/
@@ -596,6 +610,15 @@ i#small{
   display: none; 
 }
 
+#camera2{
+  position: absolute; 
+  bottom: 1%;
+  z-index: 9999999;
+  height: 30px;
+  right: -173%;
+  width: 8% !important;
+}
+
 /* loading */
 .js .animate-box {
   opacity: 0; }
@@ -607,9 +630,11 @@ i#small{
   height: 14%;
   margin-top: 1%;
   margin-left: 2%;
-  margin-right: 12%;
+  margin-right: 13%;
+  margin-bottom: 6%;
   position: relative;
   display: inline-block;
+  z-index: 9999;
 }
 
 .imageCourse {
@@ -627,7 +652,9 @@ i#small{
   right: 0;
   width: 120px;
   height: 60px;
+  margin-left: 98%;
   transition: .5s;
+  border: 2px solid #dddddd;
 }
 
   .overlayCourse :hover{
@@ -641,10 +668,11 @@ i#small{
   color: black;
   top: 53%;
   bottom: 0;
-  left: 60%;
+  left: 56%;
   right: 0;
   width: 100px;
   height: 60px;
+  padding: 3%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
@@ -765,7 +793,7 @@ i#small{
   .btn-floating.btn-large i {
     line-height: 0;
     height: 10px;
-}
+  }
 
   .containerCourse {
     width: 3%;
@@ -774,6 +802,11 @@ i#small{
     float: left;
     margin-left: 2%;
     margin-right: 45%;
+  }
+
+  i.small {
+    font-size: 1.8rem;
+    margin-top: 1.2%;
   }
 
   i.small, nav i.material-icons{
